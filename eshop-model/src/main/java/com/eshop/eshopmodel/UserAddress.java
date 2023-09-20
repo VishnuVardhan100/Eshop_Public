@@ -5,6 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -43,6 +46,14 @@ public class UserAddress {
 	@Column(name="Pincode")
 	private String pincode;
 	
+	@ManyToOne
+	@JoinTable(
+			name="USER_USERADDRESS",
+			joinColumns= {@JoinColumn(name="ProductID",referencedColumnName="ProductID") },
+			inverseJoinColumns= { @JoinColumn(name="UserID", referencedColumnName="UserID") }
+			)
+	private User user;
+	
 	public UserAddress() {
 		
 	}
@@ -52,7 +63,8 @@ public class UserAddress {
 			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z0-9\\s]{5,20}$", message = "Alphabets, spaces and digits allowed. Between 5-20 characters") String street,
 			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z\\s]{3,15}$", message = "Alphabets, spaces and digits allowed. Between 3-15 characters") String city,
 			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z0-9\\s]{3,15}$", message = "Alphabets, spaces and digits allowed. Between 3-15 characters") String state,
-			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[0-9]{6}$", message = "Only Digits and must be exact 6 characters") String pincode) {
+			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[0-9]{6}$", message = "Only Digits and must be exact 6 characters") String pincode,
+			User user) {
 		super();
 		this.id = id;
 		this.houseNo = houseNo;
@@ -60,6 +72,7 @@ public class UserAddress {
 		this.city = city;
 		this.state = state;
 		this.pincode = pincode;
+		this.user = user;
 	}
 
 	public int getId() {
@@ -110,10 +123,18 @@ public class UserAddress {
 		this.pincode = pincode;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Override
 	public String toString() {
 		return "UserAddress [id=" + id + ", houseNo=" + houseNo + ", street=" + street + ", city=" + city + ", state="
-				+ state + ", pincode=" + pincode + "]";
-	}	
+				+ state + ", pincode=" + pincode + ", user=" + user + "]";
+	}
 
 }

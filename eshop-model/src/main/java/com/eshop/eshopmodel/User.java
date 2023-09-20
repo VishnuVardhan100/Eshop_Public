@@ -1,6 +1,7 @@
 package com.eshop.eshopmodel;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -13,9 +14,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -53,14 +52,9 @@ public class User {
 	@Column(name="CreatedDate")	
 	private Date createdDate;
 
-	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="user",fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JsonProperty(access = Access.WRITE_ONLY)
-	@JoinTable(
-			name="USER_USERADDRESS",
-			joinColumns= { @JoinColumn(name="UserID", referencedColumnName="UserID") },
-			inverseJoinColumns= {@JoinColumn(name="ProductID",referencedColumnName="ProductID") }
-			)
-	private UserAddress userAddress;
+	private List<UserAddress> userAddress;
 	
 	public User() {
 		
@@ -129,14 +123,14 @@ public class User {
 		this.createdDate = createdDate;
 	}
 
-	public UserAddress getUserAddress() {
+	public List<UserAddress> getUserAddress() {
 		return userAddress;
 	}
 
-	public void setUserAddress(UserAddress userAddress) {
+	public void setUserAddress(List<UserAddress> userAddress) {
 		this.userAddress = userAddress;
 	}
-	
+		
 	@Override
 	public String toString() {
 		return "User [ID=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
