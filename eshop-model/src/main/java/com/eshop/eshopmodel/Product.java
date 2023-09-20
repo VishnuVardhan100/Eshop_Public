@@ -1,9 +1,16 @@
 package com.eshop.eshopmodel;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,6 +27,10 @@ public class Product {
 	
 	@Column(name="ProductInventoryQuantity")
 	private long quantity;
+	
+	@ManyToMany(mappedBy="productsList")
+	@JsonProperty(access=Access.WRITE_ONLY)
+	private List<Order> ordersList = new ArrayList<Order>();	
 
 	public Product() {
 		

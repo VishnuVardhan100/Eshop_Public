@@ -5,8 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -47,11 +45,6 @@ public class UserAddress {
 	private String pincode;
 	
 	@ManyToOne
-	@JoinTable(
-			name="USER_USERADDRESS",
-			joinColumns= {@JoinColumn(name="ProductID",referencedColumnName="ProductID") },
-			inverseJoinColumns= { @JoinColumn(name="UserID", referencedColumnName="UserID") }
-			)
 	private User user;
 	
 	public UserAddress() {
