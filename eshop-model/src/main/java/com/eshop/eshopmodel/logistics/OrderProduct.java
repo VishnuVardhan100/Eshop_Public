@@ -1,8 +1,6 @@
-package com.eshop.eshopmodel.inventory;
+package com.eshop.eshopmodel.logistics;
 
 import org.springframework.validation.annotation.Validated;
-
-import com.eshop.eshopmodel.logistics.Order;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

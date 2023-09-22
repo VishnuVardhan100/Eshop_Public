@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.validation.annotation.Validated;
 
 import com.eshop.eshopmodel.consumer.User;
-import com.eshop.eshopmodel.inventory.OrderProduct;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

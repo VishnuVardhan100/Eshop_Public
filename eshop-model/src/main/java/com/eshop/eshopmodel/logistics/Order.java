@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.validation.annotation.Validated;
 
 import com.eshop.eshopmodel.consumer.User;
-import com.eshop.eshopmodel.inventory.OrderProduct;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
