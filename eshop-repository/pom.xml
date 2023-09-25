@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.eshop</groupId>
+		<artifactId>eshop-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../eshop-parent/pom.xml</relativePath>
+	</parent>
+	<artifactId>eshop-repository</artifactId>
+	<name>eshop-repository</name>
+	<description>Repository Module for Eshop project. Contains repo classes.
+		Depends on model and repository modules &amp; data related dependencies. </description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.eshop</groupId>
+			<artifactId>eshop-model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<configuration>
+							<target>
+								<copy
+									file="target/${project.artifactId}-${project.version}.jar"
+									tofile="${project.artifactId}.jar" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
