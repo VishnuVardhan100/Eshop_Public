@@ -2,6 +2,7 @@ package com.eshop.eshopservice.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.eshop.eshopmodel.consumer.User;
 import com.eshop.eshopmodel.consumer.UserAddress;
@@ -14,6 +15,7 @@ import com.eshop.eshopmodel.consumer.UserDTO;
  * 	UserAddress to UserAddressDTO and vice versa.
  */
 
+@Service
 public class UserCustomModelMapper {
 
 	@Autowired

@@ -16,13 +16,13 @@ import com.eshop.eshopmodel.consumer.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
 
-	@Query(value = "select u from User u where u.FirstName like =:firstname", nativeQuery = true)
+	@Query(value = "select u from CustomerUser u where u.FirstName like =:firstname", nativeQuery = true)
 	public List<User> retreiveUsersByFirstName(@Param("firstname") String firstname);
 
-	@Query(value = "select u from User u where u.LastName like =:lastname", nativeQuery = true)
+	@Query(value = "select u from CustomerUser u where u.LastName like =:lastname", nativeQuery = true)
 	public List<User> retreiveUsersByLastName(@Param("lastname") String lastname);
 
-	@Query(value = "select u from User u where u.Email like =:email", nativeQuery = true)
+	@Query(value = "select u from CustomerUser u where u.Email like =:email", nativeQuery = true)
 	public List<User> retreiveUsersByEmail(@Param("email") String email);
 	
 }
