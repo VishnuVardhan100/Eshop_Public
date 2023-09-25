@@ -17,6 +17,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -29,7 +30,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="Order")
+@Table(name="LogisticsOrder")
 @Validated
 public class Order {
 
@@ -50,7 +51,7 @@ public class Order {
 
 	@NotNull(message="Order cannot be placed without respective user")
 	@ManyToOne(cascade= {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
-	@Column(name="UserID")
+	@JoinColumn(name="UserID")
 	private User user;	
 
 	/**

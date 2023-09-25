@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
@@ -21,7 +22,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="OrderProduct")
+@Table(name="LogisiticsOrderProduct")
 @Validated
 public class OrderProduct{
 
@@ -40,7 +41,7 @@ public class OrderProduct{
 
 	@NotNull(message="Respective Order cannot be null")
 	@ManyToOne(cascade={CascadeType.MERGE, CascadeType.REFRESH})
-	@Column(name="OrderID")
+	@JoinColumn(name="OrderID")
 	private Order order;
 	
 	/**

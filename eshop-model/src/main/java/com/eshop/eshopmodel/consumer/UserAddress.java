@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -26,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name="UserAddress")
+@Table(name="ConsumerUserAddress")
 @Validated
 public class UserAddress {
 
@@ -62,7 +63,7 @@ public class UserAddress {
 	
 	@NotNull(message="User Address has to be for a respective user")
 	@ManyToOne(cascade={CascadeType.MERGE, CascadeType.REFRESH})
-	@Column(name="UserID")
+	@JoinColumn(name="UserID")
 	private User user;
 		
 	/**

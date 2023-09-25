@@ -9,6 +9,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
@@ -34,9 +35,9 @@ public class UserDTO {
 	@Email(message="Email must be valid")
 	private String email;
 
-	@NotBlank(message="Mobile Number Cannot be blank")
+	@NotNull(message="Mobile Number Cannot be blank")
 	@Pattern(regexp="^[6-9]{1}[0-9]{9}$", message="Must start with 6,7,8 or 9 and be 10 digits long")
-	private long mobileNumber;
+	private String mobileNumber;
 	
 	@Column(name="CreatedDate")
 	private Date createdDate;
