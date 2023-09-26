@@ -4,17 +4,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Exception with suitable message for User not found.
+ * Exception with suitable message for User issues.
  */
 
 @SuppressWarnings("serial")
 @ResponseStatus(value=HttpStatus.NOT_FOUND)
-public class UserNotFoundException extends Exception {
+public class UserException extends Exception {
 
 	/**
 	 * No argument constructor
 	 */
-	public UserNotFoundException() {
+	public UserException() {
 		super();
 	}
 
@@ -22,7 +22,7 @@ public class UserNotFoundException extends Exception {
 	 * Parameterized constructor. Used to set message shown to user.
 	 * @param message
 	 */
-	public UserNotFoundException(String message) {
+	public UserException(String message) {
 		super(message);
 	}
 

@@ -4,17 +4,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Exception with suitable message for Inventory Product not found.
+ * Exception with suitable message for Order issues.
  */
 
 @SuppressWarnings("serial")
 @ResponseStatus(value=HttpStatus.NOT_FOUND)
-public class InventoryProductNotFoundException extends Exception {
+public class OrderException extends Exception {
 
 	/**
 	 * No argument constructor
 	 */
-	public InventoryProductNotFoundException() {
+	public OrderException() {
 		super();
 	}
 
@@ -22,7 +22,7 @@ public class InventoryProductNotFoundException extends Exception {
 	 * Parameterized constructor. Sets message appropriate for invalid input.
 	 * @param message
 	 */
-	public InventoryProductNotFoundException(String message) {
+	public OrderException(String message) {
 		super(message);
 	}
 
