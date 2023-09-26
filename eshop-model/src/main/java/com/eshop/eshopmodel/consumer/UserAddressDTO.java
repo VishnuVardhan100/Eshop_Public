@@ -18,19 +18,19 @@ public class UserAddressDTO {
 	private int id;
 	
 	@NotBlank(message="Cannot be Blank")
-	@Pattern(regexp="^[0-9_-:\\s]{1,8}$", message="Digits allowed and special characters(_ , -) allowed. Between 1 to 8 characters")
+	@Pattern(regexp="^[-_:0-9 ]{1,8}$", message="Digits allowed and special characters(_ , -) allowed. Between 1 to 8 characters")
 	private String houseNo;
 	
 	@NotBlank(message="Cannot be Blank")
-	@Pattern(regexp="^[a-zA-Z0-9\\s]{5,20}$", message="Alphabets, spaces and digits allowed. Between 5-20 characters")
+	@Pattern(regexp="^[a-zA-Z0-9 ]{5,20}$", message="Alphabets, spaces and digits allowed. Between 5-20 characters")
 	private String street;
 	
 	@NotBlank(message="Cannot be Blank")
-	@Pattern(regexp="^[a-zA-Z\\s]{3,15}$", message="Alphabets, spaces and digits allowed. Between 3-15 characters")
+	@Pattern(regexp="^[a-zA-Z ]{3,15}$", message="Alphabets, spaces and digits allowed. Between 3-15 characters")
 	private String city;
 
 	@NotBlank(message="Cannot be Blank")
-	@Pattern(regexp="^[a-zA-Z0-9\\s]{3,15}$", message="Alphabets, spaces and digits allowed. Between 3-15 characters")
+	@Pattern(regexp="^[a-zA-Z0-9 ]{3,15}$", message="Alphabets, spaces and digits allowed. Between 3-15 characters")
 	private String state;
 	
 	@NotBlank(message="Cannot be Blank")

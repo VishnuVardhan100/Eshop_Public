@@ -16,13 +16,28 @@ import com.eshop.eshopmodel.consumer.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
 
-	@Query(value = "select u from CustomerUser u where u.FirstName like =:firstname", nativeQuery = true)
+	/**
+	 * Get users by first name
+	 * @param firstname
+	 * @return list of matching users
+	 */
+	@Query(value = "select * from Consumer_User u where u.First_Name like :firstname", nativeQuery = true)
 	public List<User> retreiveUsersByFirstName(@Param("firstname") String firstname);
 
-	@Query(value = "select u from CustomerUser u where u.LastName like =:lastname", nativeQuery = true)
+	/**
+	 * Get users by last name
+	 * @param lastname
+	 * @return list of matching users
+	 */
+	@Query(value = "select * from Consumer_User u where u.Last_Name like :lastname", nativeQuery = true)
 	public List<User> retreiveUsersByLastName(@Param("lastname") String lastname);
 
-	@Query(value = "select u from CustomerUser u where u.Email like =:email", nativeQuery = true)
+	/**
+	 * Get users by first name
+	 * @param email
+	 * @return list of matching users
+	 */
+	@Query(value = "select * from Consumer_User u where u.Email like :email", nativeQuery = true)
 	public List<User> retreiveUsersByEmail(@Param("email") String email);
 	
 }

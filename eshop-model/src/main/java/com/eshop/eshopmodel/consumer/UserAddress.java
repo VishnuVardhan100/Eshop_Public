@@ -37,22 +37,22 @@ public class UserAddress {
 	private int id;
 	
 	@NotBlank(message="Cannot be Blank")
-	@Pattern(regexp="^[0-9_-:\\s]{1,8}$", message="Digits allowed and special characters(_ , -) allowed. Between 1 to 8 characters")
+	@Pattern(regexp="^[-_:0-9 ]{1,8}$", message="Digits allowed and special characters(_ , -) allowed. Between 1 to 8 characters")
 	@Column(name="houseNo")
 	private String houseNo;
 	
 	@NotBlank(message="Cannot be Blank")
-	@Pattern(regexp="^[a-zA-Z0-9\\s]{5,20}$", message="Alphabets, spaces and digits allowed. Between 5-20 characters")
+	@Pattern(regexp="^[a-zA-Z0-9 ]{5,20}$", message="Alphabets, spaces and digits allowed. Between 5-20 characters")
 	@Column(name="Street")
 	private String street;
 	
 	@NotBlank(message="Cannot be Blank")
-	@Pattern(regexp="^[a-zA-Z\\s]{3,15}$", message="Alphabets, spaces and digits allowed. Between 3-15 characters")
+	@Pattern(regexp="^[a-zA-Z ]{3,15}$", message="Alphabets, spaces and digits allowed. Between 3-15 characters")
 	@Column(name="City")
 	private String city;
 
 	@NotBlank(message="Cannot be Blank")
-	@Pattern(regexp="^[a-zA-Z0-9\\s]{3,15}$", message="Alphabets, spaces and digits allowed. Between 3-15 characters")
+	@Pattern(regexp="^[a-zA-Z0-9 ]{3,15}$", message="Alphabets, spaces and digits allowed. Between 3-15 characters")
 	@Column(name="State")
 	private String state;
 	
@@ -77,10 +77,10 @@ public class UserAddress {
 	 * @param user
 	 */
 	public UserAddress(int id,
-			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[0-9_-:\\s]{1,8}$", message = "Digits allowed and special characters(_ , -) allowed. Between 1 to 8 characters") String houseNo,
-			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z0-9\\s]{5,20}$", message = "Alphabets, spaces and digits allowed. Between 5-20 characters") String street,
-			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z\\s]{3,15}$", message = "Alphabets, spaces and digits allowed. Between 3-15 characters") String city,
-			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z0-9\\s]{3,15}$", message = "Alphabets, spaces and digits allowed. Between 3-15 characters") String state,
+			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[-_:0-9 ]{1,8}$", message = "Digits allowed and special characters(_ , -) allowed. Between 1 to 8 characters") String houseNo,
+			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z0-9 ]{5,20}$", message = "Alphabets, spaces and digits allowed. Between 5-20 characters") String street,
+			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z ]{3,15}$", message = "Alphabets, spaces and digits allowed. Between 3-15 characters") String city,
+			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z0-9 ]{3,15}$", message = "Alphabets, spaces and digits allowed. Between 3-15 characters") String state,
 			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[0-9]{6}$", message = "Only Digits and must be exact 6 characters") String pincode,
 			@NotNull(message="User Address has to be for a respective user") User user) {
 		super();

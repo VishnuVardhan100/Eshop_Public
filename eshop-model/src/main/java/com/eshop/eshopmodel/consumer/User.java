@@ -13,8 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,12 +40,12 @@ public class User {
 	private int id;
 
 	@NotBlank(message="First Name cannot be Null")
-	@Pattern(regexp="^[a-zA-Z\\s]{3,20}$", message="For Last name, regular alphabet and spaces are allowed. Between 3-20 characters")
+	@Pattern(regexp="^[a-zA-Z ]{3,20}$", message="For Last name, regular alphabet and spaces are allowed. Between 3-20 characters")
 	@Column(name="FirstName")
 	private String firstName;
 
 	@NotBlank(message="Last Name cannot be Null")
-	@Pattern(regexp="^[a-zA-Z\\s]{3,20}$", message="For Last name, regular alphabet and spaces are allowed. Between 3-20 characters")
+	@Pattern(regexp="^[a-zA-Z ]{3,20}$", message="For Last name, regular alphabet and spaces are allowed. Between 3-20 characters")
 	@Column(name="LastName")
 	private String lastName;
 
@@ -75,9 +73,9 @@ public class User {
 	@Column(name="OrderID")	
 	private List<Order> ordersList = new ArrayList<Order>();
 	
-	@Enumerated(EnumType.STRING)
+	/*@Enumerated(EnumType.STRING)
 	@Column(name="UserSubscription")
-	private UserSubscription userSubscription;
+	private UserSubscription userSubscription;*/
 	
 	/**
 	 * No argument Constructor for user class
@@ -99,14 +97,14 @@ public class User {
 	 * @param userSubscription
 	 */
 	public User(int id,
-			@NotBlank(message = "First Name cannot be Null") @Pattern(regexp = "^[a-zA-Z\\s]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String firstName,
-			@NotBlank(message = "Last Name cannot be Null") @Pattern(regexp = "^[a-zA-Z\\s]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String lastName,
+			@NotBlank(message = "First Name cannot be Null") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String firstName,
+			@NotBlank(message = "Last Name cannot be Null") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String lastName,
 			@NotBlank(message = "Email Cannot be blank") @Email(message = "Email must be valid") String email,
 			@NotBlank(message = "Mobile Number Cannot be blank") @Pattern(regexp = "^[6-9]{1}[0-9]{9}$", message = "Must start with 6,7,8 or 9 and be 10 digits long") @Digits(fraction = 0, integer = 10) String mobileNumber,
 			Date createdDate, 
 			List<UserAddress> userAddresses, 
-			List<Order> ordersList,
-			UserSubscription userSubscription) {
+			List<Order> ordersList) {
+			/*UserSubscription userSubscription*/
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -116,7 +114,7 @@ public class User {
 		this.createdDate = createdDate;
 		this.userAddresses = userAddresses;
 		this.ordersList = ordersList;
-		this.userSubscription = userSubscription;
+		//this.userSubscription = userSubscription;
 	}
 
 	/**
@@ -242,17 +240,17 @@ public class User {
 	/**
 	 * @return User Subscription
 	 */
-	public UserSubscription getUserSubscription() {
+	/*public UserSubscription getUserSubscription() {
 		return userSubscription;
-	}
+	}*/
 
 	/**
 	 * set User Subscription
 	 * @param userSubscription
 	 */
-	public void setUserSubscription(UserSubscription userSubscription) {
-		this.userSubscription = userSubscription;
-	}
+	/*public void setUserSubscription(UserSubscription userSubscription) {
+		//this.userSubscription = userSubscription;
+	}*/
 
 	/**
 	 * Returns User ID, first name , last name, email, mobile number and created date
@@ -260,7 +258,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [ID=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", mobileNumber=" + mobileNumber + ", createdDate=" + createdDate + "]";
+				+ ", mobileNumber=" + mobileNumber + ", createdDate=" + createdDate /*+ ", userSubscription" + userSubscription*/ + "]";
 	}
 
 }

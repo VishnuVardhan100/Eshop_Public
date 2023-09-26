@@ -56,7 +56,7 @@ public class UserController {
 	 * @return user object if exists
 	 * @throws UserNotFoundException
 	 */
-	@GetMapping("/users/{userID}")
+	@GetMapping("/users/search/{userID}")
 	public ResponseEntity<UserDTO> getUserByID(@PathVariable(name="userID", required=true) int userID,
 			@RequestHeader(name="Accept-Language", required=false) Locale locale) throws UserException {
 		return new ResponseEntity<UserDTO> (userService.retrieveUserByID(userID, locale),HttpStatus.OK);
@@ -66,7 +66,7 @@ public class UserController {
 	 * Get all users
 	 * @return list of all users present
 	 */
-	@GetMapping("/users")
+	@GetMapping(path="/users/search")
 	public ResponseEntity<List<UserDTO>> getAllUsers() {
 		return new ResponseEntity<List<UserDTO>> (userService.retrieveAllUsers(), HttpStatus.OK);
 	}
@@ -76,7 +76,7 @@ public class UserController {
 	 * @param first name
 	 * @return list of users matching first name criteria
 	 */
-	@GetMapping("/users/search")
+	@GetMapping(path="/users/search", params={"firstName"})
 	public ResponseEntity<List<UserDTO>> getUsersByFirstName(@RequestParam(value="firstName", required=true) String firstName) {
 		return new ResponseEntity<List<UserDTO>> (userService.retrieveUsersByFirstName(firstName), HttpStatus.OK);
 	}
@@ -86,7 +86,7 @@ public class UserController {
 	 * @param lastName
 	 * @return list of users matching last name criteria
 	 */
-	@GetMapping("/users/search")
+	@GetMapping(path="/users/search", params={"lastName"})
 	public ResponseEntity<List<UserDTO>> getUsersByLastName(@RequestParam(value="lastName", required=true) String lastName) {
 		return new ResponseEntity<List<UserDTO>> (userService.retrieveUsersByLastName(lastName), HttpStatus.OK);
 	}
@@ -96,7 +96,7 @@ public class UserController {
 	 * @param email
 	 * @return list of users matching email criteria
 	 */
-	@GetMapping("/users/search")
+	@GetMapping(path="/users/search", params={"email"})
 	public ResponseEntity<List<UserDTO>> getUsersByEmail(@RequestParam(value="email", required=true) String email) {
 		return new ResponseEntity<List<UserDTO>> (userService.retrieveUsersByEmail(email), HttpStatus.OK);
 	}
@@ -134,7 +134,7 @@ public class UserController {
 	 * @throws UserAndUserAddressMismatchException
 	 * @throws InvalidInputException
 	 */
-	@PostMapping("/users/adresses")
+	@PostMapping("/users/addresses/create")
 	public ResponseEntity<UserAddressDTO> addUserAddress(@RequestBody(required=true) @Valid UserAddressDTO userAddressDTOObject) 
 			throws UserException, InvalidInputException {
 		return new ResponseEntity<UserAddressDTO>(userService.addUserAddress(userAddressDTOObject),HttpStatus.CREATED);
@@ -146,7 +146,7 @@ public class UserController {
 	 * @return list of added user addresses for required user
 	 * @throws UserNotFoundException
 	 */
-	@GetMapping("/users/addresses/{userID}")
+	@GetMapping("/users/addresses/search/{userID}")
 	public ResponseEntity<List<UserAddressDTO>> retrieveAllUserAddressesByUserID(@PathVariable(name="userID", required=true) int userID) 
 			throws UserException {
 		return new ResponseEntity<List<UserAddressDTO>> (userService.retrieveAllUserAddressesByUserID(userID), HttpStatus.OK);
@@ -174,7 +174,7 @@ public class UserController {
 	 * @throws UserException
 	 * @throws UserAddressException
 	 */
-	@DeleteMapping("/users/addresses")
+	@DeleteMapping(path="/users/addresses", params={"userID","userAddressID"})
 	public ResponseEntity<Object> deleteUserAddress (@RequestParam(name="userID", required=true) int userID, 
 			@RequestParam(name="userAddressID", required=true) int userAddressID) throws UserException, UserAddressException {
 		userService.deleteUserAddress(userID, userAddressID);
@@ -189,7 +189,7 @@ public class UserController {
 	 * @throws UserException
 	 * @throws UserAddressException
 	 */
-	@DeleteMapping("/users/addresses")
+	@DeleteMapping(path="/users/addresses", params={"userID","userAddressIDs"})
 	public ResponseEntity<Object> deleteAllUserAddresses(@RequestParam(name="userID", required=true) int userID, 
 			@RequestParam(name="userAddressIDs", required=true) List<Integer> userAddressIDs) throws UserException, UserAddressException {
 		return new ResponseEntity<Object> (HttpStatus.OK);
