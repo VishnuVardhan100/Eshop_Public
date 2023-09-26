@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -37,6 +38,7 @@ public class UserDTO {
 
 	@NotNull(message="Mobile Number Cannot be blank")
 	@Pattern(regexp="^[6-9]{1}[0-9]{9}$", message="Must start with 6,7,8 or 9 and be 10 digits long")
+	@Digits(fraction=0, integer=10)
 	private String mobileNumber;
 	
 	@Column(name="CreatedDate")

@@ -20,6 +20,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -57,6 +58,7 @@ public class User {
 
 	@NotBlank(message="Mobile Number Cannot be blank")
 	@Pattern(regexp="^[6-9]{1}[0-9]{9}$", message="Must start with 6,7,8 or 9 and be 10 digits long")
+	@Digits(fraction=0, integer=10)
 	@Column(name="MobileNumber")
 	private String mobileNumber;
 	
@@ -100,8 +102,10 @@ public class User {
 			@NotBlank(message = "First Name cannot be Null") @Pattern(regexp = "^[a-zA-Z\\s]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String firstName,
 			@NotBlank(message = "Last Name cannot be Null") @Pattern(regexp = "^[a-zA-Z\\s]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String lastName,
 			@NotBlank(message = "Email Cannot be blank") @Email(message = "Email must be valid") String email,
-			@NotBlank(message = "Mobile Number Cannot be blank") @Pattern(regexp = "^[6-9]{1}[0-9]{9}$", message = "Must start with 6,7,8 or 9 and be 10 digits long") String mobileNumber,
-			Date createdDate, List<UserAddress> userAddresses, List<Order> ordersList,
+			@NotBlank(message = "Mobile Number Cannot be blank") @Pattern(regexp = "^[6-9]{1}[0-9]{9}$", message = "Must start with 6,7,8 or 9 and be 10 digits long") @Digits(fraction = 0, integer = 10) String mobileNumber,
+			Date createdDate, 
+			List<UserAddress> userAddresses, 
+			List<Order> ordersList,
 			UserSubscription userSubscription) {
 		super();
 		this.id = id;

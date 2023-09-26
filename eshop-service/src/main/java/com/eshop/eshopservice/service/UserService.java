@@ -2,6 +2,7 @@ package com.eshop.eshopservice.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import com.eshop.eshopmodel.consumer.UserDTO;
 import com.eshop.eshoprepository.UserAddressRepository;
 import com.eshop.eshoprepository.UserRepository;
 import com.eshop.eshopservice.mapper.UserCustomModelMapper;
-import com.eshop.exception.UserNotFoundException;
+import com.eshop.exception.InvalidInputException;
+import com.eshop.exception.UserAddressException;
+import com.eshop.exception.UserException;
 
 /**
  * Service class for User related operations
@@ -30,52 +33,56 @@ public class UserService implements UserServiceInterface{
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private UserAddressRepository userAddressRepository;
-	
+
 	@Autowired
 	private UserCustomModelMapper userCustomModelMapper;
-	
+
 	/**
-	 * Connects to Repository to create user
-	 * @param userDTO Object from client
-	 * @return userDTO Object after successful user creation
+	 * Connects to Repository to create User
+	 * @param UserDTO Object from Client side
+	 * @param locale
+	 * @return User DTO Object after successful User creation
+	 * @throws UserNotFoundException
 	 */
 	@Override
-	public UserDTO createUser(UserDTO userDTOObject) throws UserNotFoundException{
+	public UserDTO createUser(UserDTO userDTOObject, Locale locale) throws InvalidInputException{
 		User userObject = userCustomModelMapper.mapUserDTOToUser(userDTOObject);
 		User userReturnObject = userRepository.save(userObject);
 		userObject = null;
-		
+
 		if(userReturnObject == null) {
-			throw new UserNotFoundException(messageSource.getMessage("InvalidInput", null, LocaleContextHolder.getLocale()));
+			throw new InvalidInputException(messageSource.getMessage("InvalidInput", null, locale));
 		}
-		
+
 		return userCustomModelMapper.mapUserToUserDTO(userReturnObject);
 	}
 
 	/**
 	 * Retrieve a user by their ID
-	 * @param user ID
+	 * @param integer user ID
+	 * @param locale
 	 * @return UserDTO object
+	 * @throws UserNotFoundException
 	 */
 	@Override
-	public UserDTO retrieveUserByID(int userId) throws UserNotFoundException {
-		Optional<User> userReturnObject = Optional.of(userRepository.findById(userId).
-				orElseThrow(() -> new UserNotFoundException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale()))));
+	public UserDTO retrieveUserByID(int userID, Locale locale) throws UserException {
+		Optional<User> userReturnObject = Optional.of(userRepository.findById(userID).
+				orElseThrow(() -> new UserException(messageSource.getMessage("UserNotFound", null, locale))));
 		return userCustomModelMapper.mapUserToUserDTO(userReturnObject.get());
 	}
 
 	/**
 	 * Retrieve all users
-	 * return list of all user DTOs
+	 * @return list of all user DTOs
 	 */
 	@Override
 	public List<UserDTO> retrieveAllUsers() {
 		List<User> allUsers = userRepository.findAll();
 		List<UserDTO> allReturnUserDTO = new ArrayList<UserDTO>(5);
-		
+
 		for(User user : allUsers) {
 			allReturnUserDTO.add(userCustomModelMapper.mapUserToUserDTO(user));
 		}
@@ -89,10 +96,10 @@ public class UserService implements UserServiceInterface{
 	 * @return list of matched user DTOs
 	 */
 	@Override
-	public List<UserDTO> retreiveUsersByFirstName(String firstName) {
+	public List<UserDTO> retrieveUsersByFirstName(String firstName) {
 		List<User> usersByFirstName = userRepository.retreiveUsersByFirstName("%" + firstName + "%");
 		List<UserDTO> allReturnUserDTO = new ArrayList<UserDTO>(5);
-		
+
 		for(User user : usersByFirstName) {
 			allReturnUserDTO.add(userCustomModelMapper.mapUserToUserDTO(user));
 		}
@@ -106,10 +113,10 @@ public class UserService implements UserServiceInterface{
 	 * @return list of matched user DTOs
 	 */
 	@Override
-	public List<UserDTO> retreiveUsersByLastName(String lastName) {
+	public List<UserDTO> retrieveUsersByLastName(String lastName) {
 		List<User> usersByLastName = userRepository.retreiveUsersByLastName("%" + lastName + "%");
 		List<UserDTO> allReturnUserDTO = new ArrayList<UserDTO>(5);
-		
+
 		for(User user : usersByLastName) {
 			allReturnUserDTO.add(userCustomModelMapper.mapUserToUserDTO(user));
 		}
@@ -123,71 +130,77 @@ public class UserService implements UserServiceInterface{
 	 * @return list of matched user DTOs
 	 */
 	@Override
-	public List<UserDTO> retreiveUsersByEmail(String email) {
+	public List<UserDTO> retrieveUsersByEmail(String email) {
 		List<User> usersByEmail = userRepository.retreiveUsersByEmail("%" + email + "%");
 		List<UserDTO> allReturnUserDTO = new ArrayList<UserDTO>(5);
-		
+
 		for(User user : usersByEmail) {
 			allReturnUserDTO.add(userCustomModelMapper.mapUserToUserDTO(user));
 		}
 		usersByEmail = null;
 		return allReturnUserDTO;
 	}
-	
+
 	/**
 	 * Update any user specific base info
 	 * @param userID to find if user exists
 	 * @param userDTO object to take user info from
 	 * @return updated instance of user as userDTO
+	 * @throws UserException
 	 */
 	@Override
-	public UserDTO updateUserInfo(int userID, UserDTO userDTOObject) throws UserNotFoundException {
+	public UserDTO updateUserInfo(int userID, UserDTO userDTOObject) throws UserException {
 		User userRetrieveObject = userRepository.findById(userID).
-				orElseThrow(() -> new UserNotFoundException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale())));
+				orElseThrow(() -> new UserException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale())));
 		User userObject = userCustomModelMapper.mapUserDTOToUser(userDTOObject);
 
 		userRetrieveObject.setFirstName(userObject.getFirstName());
 		userRetrieveObject.setLastName(userObject.getLastName());
 		userRetrieveObject.setEmail(userObject.getEmail());
 		userRetrieveObject.setMobileNumber(userObject.getMobileNumber());
-		
+
 		User userReturnObject = userRepository.save(userRetrieveObject);
 		userRetrieveObject = null;
 		userObject = null;
-		
+
 		return userCustomModelMapper.mapUserToUserDTO(userReturnObject);
 	}
 
 	/**
 	 * Delete the user based on userID
 	 * @param userID
+	 * @throws UserException
+	 * @throws IllegalArgumentException
 	 */
 	@Override
-	public void deleteUser(int userId) throws UserNotFoundException {
-		userRepository.findById(userId).
-				orElseThrow(() -> new UserNotFoundException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale())));
-		userRepository.deleteById(userId);
+	public void deleteUser(int userID) throws UserException, IllegalArgumentException {
+		if(!userRepository.existsById(userID)) {
+			throw new UserException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale()));
+		}
+		userRepository.deleteById(userID);
 	}
 
 	/**
 	 * Add a user address
 	 * @param userAddress DTO object
 	 * @return the added userAddress DTO object
+	 * @throws UserAddressException
+	 * @throws InvalidInputException
 	 */
 	@Override
-	public UserAddressDTO addUserAddress(UserAddressDTO userAddressDTOObject) throws UserNotFoundException {
-		
+	public UserAddressDTO addUserAddress(UserAddressDTO userAddressDTOObject) throws UserException, 
+		InvalidInputException {		
 		UserAddress userAddressObject = userCustomModelMapper.mapUserAddressDTOToUserAddress(userAddressDTOObject);
 		userRepository.findById(userAddressObject.getUser().getId()).
-				orElseThrow(() -> new UserNotFoundException(messageSource.getMessage("UserForUserAddressNotFound", null, LocaleContextHolder.getLocale())));
+				orElseThrow(() -> new UserException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale())));
 
 		UserAddress userAddressReturnObject = userAddressRepository.save(userAddressObject);
 		userAddressObject = null;
-		
+
 		if(userAddressReturnObject == null) {
-			throw new UserNotFoundException(messageSource.getMessage("InvalidInput", null, LocaleContextHolder.getLocale()));
+			throw new InvalidInputException(messageSource.getMessage("InvalidInput", null, LocaleContextHolder.getLocale()));
 		}
-		
+
 		return userCustomModelMapper.mapUserAddressToUserAddressDTO(userAddressReturnObject);
 	}
 
@@ -195,15 +208,16 @@ public class UserService implements UserServiceInterface{
 	 * Get all the added user addresses for a valid user
 	 * @param user Id of valid user
 	 * @return list of user address DTOs for said user
+	 * @throws UserException
 	 */
 	@Override
-	public List<UserAddressDTO> retrieveAllUserAddressesByUserID(int userID) throws UserNotFoundException {
+	public List<UserAddressDTO> retrieveAllUserAddressesByUserID(int userID) throws UserException {
 		User user = userRepository.findById(userID).
-				orElseThrow(() -> new UserNotFoundException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale())));
+				orElseThrow(() -> new UserException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale())));
 
 		List<UserAddress> allUserAddresses = user.getUserAddresses();
 		List<UserAddressDTO> allReturnUserAddressDTO = new ArrayList<UserAddressDTO>(5);
-		
+
 		for(UserAddress userAddress : allUserAddresses) {
 			allReturnUserAddressDTO.add(userCustomModelMapper.mapUserAddressToUserAddressDTO(userAddress));
 		}
@@ -216,21 +230,22 @@ public class UserService implements UserServiceInterface{
 	 * Update an existing user address for valid user
 	 * @param the userAddress DTO object
 	 * @return the updated userAddress DTO object
+	 * @throws UserAddresssException
 	 */
 	@Override
-	public UserAddressDTO updateUserAddressInfo(int userAddressID, UserAddressDTO userAddressDTOObject) throws UserNotFoundException {
-
+	public UserAddressDTO updateUserAddressInfo(int userAddressID, UserAddressDTO userAddressDTOObject) throws UserAddressException {
 		UserAddress userAddressObject = userCustomModelMapper.mapUserAddressDTOToUserAddress(userAddressDTOObject);
 		if(userAddressID != userAddressObject.getUser().getId()) {
-			throw new UserNotFoundException(messageSource.getMessage("UserAndUserAddressMismatch", null, LocaleContextHolder.getLocale()));
+			throw new UserAddressException(messageSource.getMessage("UserAndUserAddressMismatch", null, LocaleContextHolder.getLocale()));
 		}
 
-		userRepository.findById(userAddressObject.getUser().getId()).
-		orElseThrow(() -> new UserNotFoundException(messageSource.getMessage("UserForUserAddressNotFound", null, LocaleContextHolder.getLocale())));
-		
+		if(!userRepository.existsById(userAddressObject.getUser().getId())) {
+			throw new UserAddressException(messageSource.getMessage("UserForUserAddressNotFound", null, LocaleContextHolder.getLocale()));
+		}
+
 		UserAddress userAddressRetrieveObject = userAddressRepository.findById(userAddressID).
-				orElseThrow(() -> new UserNotFoundException(messageSource.getMessage("UserAddressNotFound", null, LocaleContextHolder.getLocale())));
-		
+				orElseThrow(() -> new UserAddressException(messageSource.getMessage("UserAddressNotFound", null, LocaleContextHolder.getLocale())));
+
 		userAddressRetrieveObject.setId(userAddressObject.getId());
 		userAddressRetrieveObject.setHouseNo(userAddressObject.getHouseNo());
 		userAddressRetrieveObject.setStreet(userAddressObject.getStreet());
@@ -238,29 +253,33 @@ public class UserService implements UserServiceInterface{
 		userAddressRetrieveObject.setState(userAddressObject.getState());
 		userAddressRetrieveObject.setPincode(userAddressObject.getPincode());
 		userAddressRetrieveObject.setUser(userAddressObject.getUser());
-		
+
 		UserAddress userAddressReturnObject = userAddressRepository.save(userAddressRetrieveObject);
 		userAddressRetrieveObject = null;
 		userAddressObject = null;
-		
+
 		return userCustomModelMapper.mapUserAddressToUserAddressDTO(userAddressReturnObject);
 	}
 
 	/**
 	 * Delete a user address by given user address ID
 	 * @param user address ID
+	 * @throws UserException
+	 * @throws UserAddressException
 	 */
 	@Override
-	public void deleteUserAddress(int userId, int userAddressId) throws UserNotFoundException {
+	public void deleteUserAddress(int userId, int userAddressId) throws UserException, UserAddressException {
 		User userObject = userRepository.findById(userId).
-		orElseThrow(() -> new UserNotFoundException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale())));
+		orElseThrow(() -> new UserException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale())));
 
 		UserAddress userAddressObject = userAddressRepository.findById(userAddressId).
-		orElseThrow(() -> new UserNotFoundException(messageSource.getMessage("UserAddressNotFound", null, LocaleContextHolder.getLocale())));
+		orElseThrow(() -> new UserAddressException(messageSource.getMessage("UserAddressNotFound", null, LocaleContextHolder.getLocale())));
 
 		if(userObject.getId() != userAddressObject.getUser().getId()) {
-			throw new UserNotFoundException(messageSource.getMessage("UserAndUserAddressMismatch", null, LocaleContextHolder.getLocale()));
+			throw new UserAddressException(messageSource.getMessage("UserAndUserAddressMismatch", null, LocaleContextHolder.getLocale()));
 		}
+		userObject = null;
+		userAddressObject = null;
 		userAddressRepository.deleteById(userAddressId);
 	}
 
@@ -268,22 +287,25 @@ public class UserService implements UserServiceInterface{
 	 * Delete a list of user addresses by their IDs
 	 * @param user ID for whom the user addresses need to be deleted
 	 * @param list of user address IDs
+	 * @throws UserException
+	 * @throws UserAddressException
 	 */
 	@Override
-	public void deleteAllUserAddresses(int userId, List<Integer> userAddressIDs) throws UserNotFoundException {
-		
-		User userObject = userRepository.findById(userId).
-		orElseThrow(() -> new UserNotFoundException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale())));
+	public void deleteAllUserAddresses(int userID, List<Integer> userAddressIDs) throws UserException, UserAddressException {
+		User userObject = userRepository.findById(userID).
+		orElseThrow(() -> new UserException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale())));
 
 		for(Integer userAddressID : userAddressIDs) {
 			UserAddress userAddressObject = userAddressRepository.findById(userAddressID).
-			orElseThrow(() -> new UserNotFoundException(messageSource.getMessage("UserAddressNotFound", null, LocaleContextHolder.getLocale())));
-			
+			orElseThrow(() -> new UserAddressException(messageSource.getMessage("UserAddressNotFound", null, LocaleContextHolder.getLocale())));
+
 			if(userObject.getId() != userAddressObject.getUser().getId()) {
-				throw new UserNotFoundException(messageSource.getMessage("UserAndUserAddressMismatch", null, LocaleContextHolder.getLocale()));
+				throw new UserAddressException(messageSource.getMessage("UserAndUserAddressMismatch", null, LocaleContextHolder.getLocale()));
 			}
+			userAddressObject = null;
 			userAddressRepository.deleteById(userAddressID);
-		}		
+		}
+		userObject = null;
 	}
-	
+
 }
