@@ -63,15 +63,6 @@ public class UserController {
 	}
 
 	/**
-	 * Get all users
-	 * @return list of all users present
-	 */
-	@GetMapping(path="/users/search")
-	public ResponseEntity<List<UserDTO>> getAllUsers() {
-		return new ResponseEntity<List<UserDTO>> (userService.retrieveAllUsers(), HttpStatus.OK);
-	}
-
-	/**
 	 * Get users based on first name
 	 * @param first name
 	 * @return list of users matching first name criteria
@@ -102,6 +93,15 @@ public class UserController {
 	}
 
 	/**
+	 * Get all users
+	 * @return list of all users present
+	 */
+	@GetMapping(path="/users/search")
+	public ResponseEntity<List<UserDTO>> getAllUsers() {
+		return new ResponseEntity<List<UserDTO>> (userService.retrieveAllUsers(), HttpStatus.OK);
+	}
+	
+	/**
 	 * Update user info
 	 * @param user ID to ientify user to update
 	 * @param userDTO Object
@@ -110,7 +110,7 @@ public class UserController {
 	 */
 	@PutMapping("/users/{userID}")
 	public ResponseEntity<UserDTO> updateUserInfo(@PathVariable(value="userID", required=true) int userID, 
-			@RequestBody(required=true) @Valid UserDTO userDTOObject) throws UserException {
+			@RequestBody(required=true) @Valid UserDTO userDTOObject) throws UserException, UserAddressException {
 		return new ResponseEntity<UserDTO> (userService.updateUserInfo(userID, userDTOObject),HttpStatus.OK);
 	}
 
@@ -161,9 +161,9 @@ public class UserController {
 	 * @throws UserAndUserAddressMismatchException
 	 */
 	@PutMapping("/users/addresses/{userID}")
-	public ResponseEntity<UserAddressDTO> updateUserAddressInfo(@PathVariable(name="userID", required=true) int userAddressID, 
-			@RequestBody(required=true) @Valid UserAddressDTO userAddressDTOObject) throws UserAddressException {
-		return new ResponseEntity<UserAddressDTO> (userService.updateUserAddressInfo(userAddressID, userAddressDTOObject), HttpStatus.OK);
+	public ResponseEntity<UserAddressDTO> updateUserAddressInfo(@PathVariable(name="userID", required=true) int userID, 
+			@RequestBody(required=true) @Valid UserAddressDTO userAddressDTOObject) throws UserException, UserAddressException {
+		return new ResponseEntity<UserAddressDTO> (userService.updateUserAddressInfo(userID, userAddressDTOObject), HttpStatus.OK);
 	}
 
 	/**

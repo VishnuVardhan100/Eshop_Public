@@ -15,15 +15,15 @@ public interface UserServiceInterface {
 
 	UserDTO retrieveUserByID(int userId, Locale locale) throws UserException;
 
-	List<UserDTO> retrieveAllUsers();
-
 	List<UserDTO> retrieveUsersByFirstName(String firstName);
 
 	List<UserDTO> retrieveUsersByLastName(String lastName);	
 
 	List<UserDTO> retrieveUsersByEmail(String email);
 
-	UserDTO updateUserInfo(int userID, UserDTO userDTO) throws UserException;
+	List<UserDTO> retrieveAllUsers();
+
+	UserDTO updateUserInfo(int userID, UserDTO userDTO) throws UserException, UserAddressException;
 
 	void deleteUser (int userID) throws UserException, IllegalArgumentException;
 
@@ -32,7 +32,7 @@ public interface UserServiceInterface {
 
 	List<UserAddressDTO> retrieveAllUserAddressesByUserID(int userID) throws UserException;
 
-	UserAddressDTO updateUserAddressInfo(int userAddressID, UserAddressDTO userAddressDTO) throws UserAddressException;
+	UserAddressDTO updateUserAddressInfo(int userID, UserAddressDTO userAddressDTO) throws UserException, UserAddressException;
 
 	void deleteUserAddress (int userId, int userAddressId) throws UserException, UserAddressException;
 
