@@ -30,47 +30,47 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="ConsumerUser")
+@Table(name="Consumer_User")
 @Validated
 public class User {
 
 	@jakarta.persistence.Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="UserID")
+	@Column(name="User_ID")
 	private int id;
 
-	@NotBlank(message="First Name cannot be Null")
+	@NotBlank(message="First Name cannot be blank")
 	@Pattern(regexp="^[a-zA-Z ]{3,20}$", message="For Last name, regular alphabet and spaces are allowed. Between 3-20 characters")
-	@Column(name="FirstName")
+	@Column(name="First_Name")
 	private String firstName;
 
-	@NotBlank(message="Last Name cannot be Null")
+	@NotBlank(message="Last Name cannot be blank")
 	@Pattern(regexp="^[a-zA-Z ]{3,20}$", message="For Last name, regular alphabet and spaces are allowed. Between 3-20 characters")
-	@Column(name="LastName")
+	@Column(name="Last_Name")
 	private String lastName;
 
-	@NotBlank(message="Email Cannot be blank")
+	@NotBlank(message="Email cannot be blank")
 	@Email(message="Email must be valid")
 	@Column(name="Email")
 	private String email;
 
-	@NotBlank(message="Mobile Number Cannot be blank")
+	@NotBlank(message="Mobile Number cannot be blank")
 	@Pattern(regexp="^[6-9]{1}[0-9]{9}$", message="Must start with 6,7,8 or 9 and be 10 digits long")
 	@Digits(fraction=0, integer=10)
-	@Column(name="MobileNumber")
+	@Column(name="Mobile_Number")
 	private String mobileNumber;
 	
-	@Column(name="CreatedDate")
+	@Column(name="Created_Date")
 	private Date createdDate;
 
 	@OneToMany(mappedBy="user",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JsonProperty(access = Access.WRITE_ONLY)
-	@Column(name="UserAddressID")
+	//@Column(name="User_Address_ID")
 	private List<UserAddress> userAddresses = new ArrayList<UserAddress>();
 	
 	@OneToMany(mappedBy="user",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	@JsonProperty(access = Access.WRITE_ONLY)	
-	@Column(name="OrderID")	
+	@JsonProperty(access = Access.WRITE_ONLY)
+	//@Column(name="Order_ID")
 	private List<Order> ordersList = new ArrayList<Order>();
 	
 	/*@Enumerated(EnumType.STRING)
@@ -97,10 +97,10 @@ public class User {
 	 * @param userSubscription
 	 */
 	public User(int id,
-			@NotBlank(message = "First Name cannot be Null") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String firstName,
-			@NotBlank(message = "Last Name cannot be Null") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String lastName,
-			@NotBlank(message = "Email Cannot be blank") @Email(message = "Email must be valid") String email,
-			@NotBlank(message = "Mobile Number Cannot be blank") @Pattern(regexp = "^[6-9]{1}[0-9]{9}$", message = "Must start with 6,7,8 or 9 and be 10 digits long") @Digits(fraction = 0, integer = 10) String mobileNumber,
+			@NotBlank(message = "First Name cannot be blank") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String firstName,
+			@NotBlank(message = "Last Name cannot be blank") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String lastName,
+			@NotBlank(message = "Email cannot be blank") @Email(message = "Email must be valid") String email,
+			@NotBlank(message = "Mobile Number cannot be blank") @Pattern(regexp = "^[6-9]{1}[0-9]{9}$", message = "Must start with 6,7,8 or 9 and be 10 digits long") @Digits(fraction = 0, integer = 10) String mobileNumber,
 			Date createdDate, 
 			List<UserAddress> userAddresses, 
 			List<Order> ordersList) {

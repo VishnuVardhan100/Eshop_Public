@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -27,18 +28,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name="ConsumerUserAddress")
+@Table(name="Consumer_User_Address")
 @Validated
 public class UserAddress {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="AddressID")
+	@Column(name="Address_ID")
 	private int id;
 	
 	@NotBlank(message="Cannot be Blank")
 	@Pattern(regexp="^[-_:0-9 ]{1,8}$", message="Digits allowed and special characters(_ , -) allowed. Between 1 to 8 characters")
-	@Column(name="houseNo")
+	@Column(name="house_No")
 	private String houseNo;
 	
 	@NotBlank(message="Cannot be Blank")
@@ -63,9 +64,11 @@ public class UserAddress {
 	
 	@NotNull(message="User Address has to be for a respective user")
 	@ManyToOne(cascade={CascadeType.MERGE, CascadeType.REFRESH})
-	@JoinColumn(name="UserID")
+	@JoinTable(	name="Consumer_User_User_Address",
+				joinColumns = {@JoinColumn(name="Address_ID", referencedColumnName = "Address_ID")},
+				inverseJoinColumns = {@JoinColumn(name="User_ID", referencedColumnName = "User_ID")})
 	private User user;
-		
+
 	/**
 	 * Parameterized constructor
 	 * @param id

@@ -18,6 +18,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -30,28 +31,30 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="LogisticsOrder")
+@Table(name="Logistics_Order")
 @Validated
 public class Order {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="OrderID")
+	@Column(name="Order_ID")
 	private long orderID;
 
 	@NotNull(message="Order Date is mandatory")
-	@Column(name="OrderDate")
+	@Column(name="Order_Date")
 	private Date orderDate;
 
 	@NotNull(message="Order cannot have zero order products")
 	@OneToMany(mappedBy="order",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	@JsonProperty(access=Access.WRITE_ONLY)
-	@Column(name="OrderProductID")
+	//@Column(name="Order_Product_ID")
 	private List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
 
 	@NotNull(message="Order cannot be placed without respective user")
-	@ManyToOne(cascade= {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
-	@JoinColumn(name="UserID")
+	@ManyToOne(cascade= {CascadeType.MERGE,CascadeType.REFRESH})
+	@JoinTable(	name="Consumer_User_Logistics_Order",
+				joinColumns= {@JoinColumn(name="Order_ID" , referencedColumnName = "Order_ID")},
+				inverseJoinColumns = {@JoinColumn(name="User_ID", referencedColumnName="User_ID")})
 	private User user;	
 
 	/**

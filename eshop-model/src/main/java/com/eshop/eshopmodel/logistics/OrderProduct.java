@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
@@ -22,26 +23,28 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="LogisiticsOrderProduct")
+@Table(name="Logisitics_Order_Product")
 @Validated
 public class OrderProduct{
 
 	@jakarta.persistence.Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="OrderProductID")
+	@Column(name="Order_Product_ID")
 	private int orderProductID;
 
 	@NotBlank(message="Order Product Name cannot be empty or blank")
-	@Column(name="OrderProductName")
+	@Column(name="Order_Product_Name")
 	private String orderProductName;	
 	
-	@Column(name="OrderProductQuantity")
+	@Column(name="Order_Product_Quantity")
 	@Min(value=0, message="Inventory Product Quantity cannot be less than zero")
 	private long orderProductQuantity;
 
 	@NotNull(message="Respective Order cannot be null")
 	@ManyToOne(cascade={CascadeType.MERGE, CascadeType.REFRESH})
-	@JoinColumn(name="OrderID")
+	@JoinTable(	name="Consumer_User_Logistics_Order_Product",
+				joinColumns= {@JoinColumn(name="Order_Product_ID" , referencedColumnName = "Order_Product_ID")},
+				inverseJoinColumns = {@JoinColumn(name="Order_ID", referencedColumnName="Order_ID")})
 	private Order order;
 	
 	/**
