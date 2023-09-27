@@ -70,18 +70,21 @@ public class OrderProduct{
 	 * @param orderProductQuantity
 	 * @param orderProductUnitCost,
 	 * @param orderProductTotalCost
+	 * @param order
 	 */
 	public OrderProduct(int orderProductID,
 			@NotBlank(message = "Order Product Name cannot be empty or blank") String orderProductName,
 			@Min(value = 1, message = "Order Product Quantity cannot be less than one") long orderProductQuantity,
 			@Min(value = 1, message = "Order Product unit cost cannot be less than one") long orderProductUnitCost,
-			@Min(value = 1, message = "Order Product total cost cannot be less than one") long orderProductTotalCost) {
+			@Min(value = 1, message = "Order Product total cost cannot be less than one") long orderProductTotalCost,
+			@NotNull(message = "Respective Order cannot be null") Order order) {
 		super();
 		this.orderProductID = orderProductID;
 		this.orderProductName = orderProductName;
 		this.orderProductQuantity = orderProductQuantity;
 		this.orderProductUnitCost = orderProductUnitCost;
 		this.orderProductTotalCost = orderProductTotalCost;
+		this.order = order;
 	}
 
 	/**

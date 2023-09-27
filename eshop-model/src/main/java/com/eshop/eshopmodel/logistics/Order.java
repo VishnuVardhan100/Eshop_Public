@@ -74,18 +74,20 @@ public class Order {
 	 * @param orderDate
 	 * @param orderProductList
 	 * @param orderTotalAmount
+	 * @param user
 	 */
-	public Order(long orderID, 
-			@NotNull(message = "Order Date is mandatory") Date orderDate,
-			@Min(value = 1, message = "Inventory Product Quantity cannot be less than one") long orderTotalAmount,
-			@NotNull(message = "Order cannot have zero order products") List<OrderProduct> orderProductList) {
+	public Order(long orderID, @NotNull(message = "Order Date is mandatory") Date orderDate,
+			@Min(value = 1, message = "Order total amount cannot be less than one") long orderTotalAmount,
+			@NotNull(message = "Order cannot have zero order products") List<OrderProduct> orderProductList,
+			@NotNull(message = "Order cannot be placed without respective user") User user) {
 		super();
 		this.orderID = orderID;
 		this.orderDate = orderDate;
 		this.orderTotalAmount = orderTotalAmount;
 		this.orderProductList = orderProductList;
+		this.user = user;
 	}
-
+		
 	/**
 	 * @return order id
 	 */

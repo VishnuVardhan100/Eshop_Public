@@ -24,8 +24,5 @@ public class OrderProductDTO {
 
 	@Min(value=1, message="Order Product unit cost cannot be less than one")
 	private long orderProductUnitCost;
-
-	@Min(value=1, message="Order Product total cost cannot be less than one")
-	private long orderProductTotalCost;
 	
 }
