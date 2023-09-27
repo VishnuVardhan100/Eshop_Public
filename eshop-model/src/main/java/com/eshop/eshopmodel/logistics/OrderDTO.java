@@ -1,8 +1,6 @@
 package com.eshop.eshopmodel.logistics;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.validation.annotation.Validated;
 
