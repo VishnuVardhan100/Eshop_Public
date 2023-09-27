@@ -22,6 +22,9 @@ public class InventoryProductDTO {
 	@Min(value=0, message="Inventory Product Quantity cannot be less than zero")
 	private long inventoryProductQuantity;
 
+	@Min(value=0, message="Inventory Product Price cannot be less than zero")
+	private long inventoryProductPrice;
+	
 	/*@NotBlank(message="Inventory Product category cannot be empty or blank")
 	@Enumerated(EnumType.STRING)
 	private ProductCategory inventoryProductCategory;*/

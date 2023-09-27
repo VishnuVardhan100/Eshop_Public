@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
@@ -27,7 +28,7 @@ import lombok.Data;
 @Validated
 public class OrderProduct{
 
-	@jakarta.persistence.Id
+	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="Order_Product_ID")
 	private int orderProductID;
@@ -37,12 +38,20 @@ public class OrderProduct{
 	private String orderProductName;	
 	
 	@Column(name="Order_Product_Quantity")
-	@Min(value=0, message="Inventory Product Quantity cannot be less than zero")
+	@Min(value=1, message="Order Product Quantity cannot be less than one")
 	private long orderProductQuantity;
 
+	@Column(name="Order_Product_Unit_Cost")
+	@Min(value=1, message="Order Product unit cost cannot be less than one")
+	private long orderProductUnitCost;
+
+	@Column(name="Order_Product_Total_Cost")
+	@Min(value=1, message="Order Product total cost cannot be less than one")
+	private long orderProductTotalCost;
+
 	@NotNull(message="Respective Order cannot be null")
-	@ManyToOne(cascade={CascadeType.MERGE, CascadeType.REFRESH})
-	@JoinTable(	name="Consumer_User_Logistics_Order_Product",
+	@ManyToOne
+	@JoinTable(	name="Logistics_Order_Logistics_Order_Product",
 				joinColumns= {@JoinColumn(name="Order_Product_ID" , referencedColumnName = "Order_Product_ID")},
 				inverseJoinColumns = {@JoinColumn(name="Order_ID", referencedColumnName="Order_ID")})
 	private Order order;
@@ -59,17 +68,20 @@ public class OrderProduct{
 	 * @param orderProductID
 	 * @param orderProductName
 	 * @param orderProductQuantity
-	 * @param order
+	 * @param orderProductUnitCost,
+	 * @param orderProductTotalCost
 	 */
 	public OrderProduct(int orderProductID,
 			@NotBlank(message = "Order Product Name cannot be empty or blank") String orderProductName,
-			@Min(value = 0, message = "Inventory Product Quantity cannot be less than zero") long orderProductQuantity,
-			@NotNull(message = "Respective Order cannot be null") Order order) {
+			@Min(value = 1, message = "Order Product Quantity cannot be less than one") long orderProductQuantity,
+			@Min(value = 1, message = "Order Product unit cost cannot be less than one") long orderProductUnitCost,
+			@Min(value = 1, message = "Order Product total cost cannot be less than one") long orderProductTotalCost) {
 		super();
 		this.orderProductID = orderProductID;
 		this.orderProductName = orderProductName;
 		this.orderProductQuantity = orderProductQuantity;
-		this.order = order;
+		this.orderProductUnitCost = orderProductUnitCost;
+		this.orderProductTotalCost = orderProductTotalCost;
 	}
 
 	/**
@@ -118,6 +130,34 @@ public class OrderProduct{
 	public void setOrderProductQuantity(long orderProductQuantity) {
 		this.orderProductQuantity = orderProductQuantity;
 	}
+	
+	/**
+	 * @return
+	 */
+	public long getOrderProductUnitCost() {
+		return orderProductUnitCost;
+	}
+
+	/**
+	 * @param orderProductUnitCost
+	 */
+	public void setOrderProductUnitCost(long orderProductUnitCost) {
+		this.orderProductUnitCost = orderProductUnitCost;
+	}
+
+	/**
+	 * @return
+	 */
+	public long getOrderProductTotalCost() {
+		return orderProductTotalCost;
+	}
+
+	/**
+	 * @param orderProductTotalCost
+	 */
+	public void setOrderProductTotalCost(long orderProductTotalCost) {
+		this.orderProductTotalCost = orderProductTotalCost;
+	}
 
 	/**
 	 * @return respective order
@@ -135,11 +175,14 @@ public class OrderProduct{
 	}
 
 	/**
-	 * Returns Order Product with Order Product ID, Order Product Name and Order Product Quantity which user placed in order
+	 * Returns Order Product with Order Product ID, Order Product Name ,Order Product Quantity, Order Product Unit Cost
+	 * and Order Product Total Cost which user placed in order
 	 */
 	@Override
 	public String toString() {
-		return "Product [orderProductID=" + orderProductID + ", orderProductName=" + getOrderProductName() + ", orderProductQuantity=" + orderProductQuantity + "]";
+		return "OrderProduct [orderProductID=" + orderProductID + ", orderProductName=" + orderProductName
+				+ ", orderProductQuantity=" + orderProductQuantity + ", orderProductUnitCost=" + orderProductUnitCost
+				+ ", orderProductTotalCost=" + orderProductTotalCost + "]";
 	}
 	
 }

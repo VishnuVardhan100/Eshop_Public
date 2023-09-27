@@ -34,6 +34,10 @@ public class InventoryProduct {
 	@Column(name="Inventory_Product_Quantity")
 	@Min(value=0, message="Inventory Product Quantity cannot be less than zero")
 	private long inventoryProductQuantity;
+
+	@Column(name="Inventory_Product_Price")
+	@Min(value=0, message="Inventory Product Price cannot be less than zero")
+	private long inventoryProductPrice;
 	
 	/*@NotBlank(message="Inventory Product category cannot be empty or blank")
 	@Enumerated(EnumType.STRING)
@@ -56,12 +60,14 @@ public class InventoryProduct {
 	 */
 	public InventoryProduct(int inventoryProductID,
 			@NotBlank(message = "Inventory Product name cannot be empty or blank") String inventoryProductName,
-			@Min(value = 0, message = "Inventory Product Quantity cannot be less than zero") long inventoryProductQuantity){
+			@Min(value = 0, message = "Inventory Product Quantity cannot be less than zero") long inventoryProductQuantity,
+			@Min(value=0, message="Inventory Product Price cannot be less than zero") long inventoryProductPrice){
 			/*@NotBlank(message = "Inventory Product category cannot be empty or blank") ProductCategory inventoryProductCategory)*/
 		super();
 		this.inventoryProductID = inventoryProductID;
 		this.inventoryProductName = inventoryProductName;
 		this.inventoryProductQuantity = inventoryProductQuantity;
+		this.inventoryProductPrice = inventoryProductPrice;
 		/*this.inventoryProductCategory = inventoryProductCategory;*/
 	}
 
@@ -108,6 +114,21 @@ public class InventoryProduct {
 	 */
 	public void setInventoryProductQuantity(long inventoryProductQuantity) {
 		this.inventoryProductQuantity = inventoryProductQuantity;
+	}
+
+	/**
+	 * @return Inventory Product Price
+	 */
+	public long getInventoryProductPrice() {
+		return inventoryProductPrice;
+	}
+
+	/**
+	 * set Inventory Product Price
+	 * @param inventoryProductPrice
+	 */
+	public void setInventoryProductPrice(long inventoryProductPrice) {
+		this.inventoryProductPrice = inventoryProductPrice;
 	}
 
 	/**

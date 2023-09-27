@@ -65,12 +65,10 @@ public class User {
 
 	@OneToMany(mappedBy="user",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JsonProperty(access = Access.WRITE_ONLY)
-	//@Column(name="User_Address_ID")
 	private List<UserAddress> userAddresses = new ArrayList<UserAddress>();
 	
 	@OneToMany(mappedBy="user",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JsonProperty(access = Access.WRITE_ONLY)
-	//@Column(name="Order_ID")
 	private List<Order> ordersList = new ArrayList<Order>();
 	
 	/*@Enumerated(EnumType.STRING)

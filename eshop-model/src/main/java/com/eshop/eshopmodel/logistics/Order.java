@@ -22,6 +22,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -44,14 +45,17 @@ public class Order {
 	@Column(name="Order_Date")
 	private Date orderDate;
 
+	@Min(value=1, message="Order total amount cannot be less than one")
+	@Column(name="Order_Total_Amount")
+	private long orderTotalAmount;
+
 	@NotNull(message="Order cannot have zero order products")
-	@OneToMany(mappedBy="order",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="order",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	@JsonProperty(access=Access.WRITE_ONLY)
-	//@Column(name="Order_Product_ID")
 	private List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
 
 	@NotNull(message="Order cannot be placed without respective user")
-	@ManyToOne(cascade= {CascadeType.MERGE,CascadeType.REFRESH})
+	@ManyToOne
 	@JoinTable(	name="Consumer_User_Logistics_Order",
 				joinColumns= {@JoinColumn(name="Order_ID" , referencedColumnName = "Order_ID")},
 				inverseJoinColumns = {@JoinColumn(name="User_ID", referencedColumnName="User_ID")})
@@ -69,16 +73,17 @@ public class Order {
 	 * @param orderID
 	 * @param orderDate
 	 * @param orderProductList
-	 * @param user
+	 * @param orderTotalAmount
 	 */
-	public Order(long orderID, @NotNull(message = "Order Date is mandatory") Date orderDate,
-			@NotNull(message = "Order cannot have zero order products") List<OrderProduct> orderProductList,
-			@NotNull(message = "Order cannot be placed without respective user") User user) {
+	public Order(long orderID, 
+			@NotNull(message = "Order Date is mandatory") Date orderDate,
+			@Min(value = 1, message = "Inventory Product Quantity cannot be less than one") long orderTotalAmount,
+			@NotNull(message = "Order cannot have zero order products") List<OrderProduct> orderProductList) {
 		super();
 		this.orderID = orderID;
 		this.orderDate = orderDate;
+		this.orderTotalAmount = orderTotalAmount;
 		this.orderProductList = orderProductList;
-		this.user = user;
 	}
 
 	/**
@@ -109,6 +114,22 @@ public class Order {
 	 */
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
+	}
+	
+	
+	/**
+	 * @return Order Total Amount
+	 */
+	public long getOrderTotalAmount() {
+		return orderTotalAmount;
+	}
+
+	/**
+	 * Set Order Total Amount
+	 * @param orderTotalAmount
+	 */
+	public void setOrderTotalAmount(long orderTotalAmount) {
+		this.orderTotalAmount = orderTotalAmount;
 	}
 
 	/**
@@ -146,7 +167,7 @@ public class Order {
 	 */
 	@Override
 	public String toString() {
-		return "Order [orderID=" + orderID + ", orderDate=" + orderDate + "]";
+		return "Order [orderID=" + orderID + ", orderDate=" + orderDate + ", orderTotalAmount=" + orderTotalAmount + "]";
 	}
 	
 }
