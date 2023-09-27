@@ -179,10 +179,7 @@ public class UserService implements UserServiceInterface{
 	 * @throws IllegalArgumentException
 	 */
 	@Override
-	public void deleteUser(int userID) throws UserException, IllegalArgumentException {
-		/*Optional<User> userObject = Optional.of(userRepository.findById(userID).
-				orElseThrow(() -> new UserException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale()))));*/
-		
+	public void deleteUser(int userID) throws UserException, IllegalArgumentException {		
 		if(!userRepository.existsById(userID)) {
 			throw new UserException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale()));
 		}
@@ -204,12 +201,15 @@ public class UserService implements UserServiceInterface{
 		userRepository.findById(userAddressObject.getUser().getId()).
 				orElseThrow(() -> new UserException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale())));
 
+		//userObject.getUserAddresses().add(userAddressObject);
+		//userObject = userRepository.save(userObject);
 		UserAddress userAddressReturnObject = userAddressRepository.save(userAddressObject);
-		userAddressObject = null;
 
 		if(userAddressReturnObject == null) {
 			throw new InvalidInputException(messageSource.getMessage("InvalidInput", null, LocaleContextHolder.getLocale()));
 		}
+		userAddressObject = null;
+		//userObject = null;
 
 		return userCustomModelMapper.mapUserAddressToUserAddressDTO(userAddressReturnObject);
 	}
@@ -289,13 +289,13 @@ public class UserService implements UserServiceInterface{
 		if(userObject.getId() != userAddressObject.getUser().getId()) {
 			throw new UserAddressException(messageSource.getMessage("UserAndUserAddressMismatch", null, LocaleContextHolder.getLocale()));
 		}
-		
-		userAddressObject.setUser(null);
-		userAddressRepository.deleteById(userAddressId);
+
 		userObject.getUserAddresses().remove(userAddressObject);
 		userRepository.save(userObject);
-		userObject = null;
+		//userAddressObject.setUser(null);
+		userAddressRepository.deleteById(userAddressId);
 		userAddressObject = null;
+		userObject = null;
 	}
 
 	/**
@@ -311,16 +311,18 @@ public class UserService implements UserServiceInterface{
 		orElseThrow(() -> new UserException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale())));
 
 		for(Integer userAddressID : userAddressIDs) {
+			System.out.println(userAddressID);
 			UserAddress userAddressObject = userAddressRepository.findById(userAddressID).
 			orElseThrow(() -> new UserAddressException(messageSource.getMessage("UserAddressNotFound", null, LocaleContextHolder.getLocale())));
 
 			if(userObject.getId() != userAddressObject.getUser().getId()) {
 				throw new UserAddressException(messageSource.getMessage("UserAndUserAddressMismatch", null, LocaleContextHolder.getLocale()));
 			}
-			userAddressObject.setUser(null);
-			userAddressRepository.deleteById(userAddressID);
+
 			userObject.getUserAddresses().remove(userAddressObject);
 			userRepository.save(userObject);
+			//userAddressObject.setUser(null);
+			userAddressRepository.deleteById(userAddressID);
 			userAddressObject = null;
 		}
 		userObject = null;
