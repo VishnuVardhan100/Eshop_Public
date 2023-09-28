@@ -75,7 +75,7 @@ public class UserService implements UserServiceInterface{
 	}
 
 	/**
-	 * To retrieve users based on first name
+	 * ADMIN PRIVILEDGE : To retrieve users based on first name
 	 * @param First Name of user
 	 * @return list of matched user DTOs
 	 */
@@ -92,7 +92,7 @@ public class UserService implements UserServiceInterface{
 	}
 
 	/**
-	 * To retrieve users based on last name
+	 * ADMIN PRIVILEDGE : To retrieve users based on last name
 	 * @param Last Name of user
 	 * @return list of matched user DTOs
 	 */
@@ -109,7 +109,7 @@ public class UserService implements UserServiceInterface{
 	}
 
 	/**
-	 * To retrieve users based on email
+	 * ADMIN PRIVILEDGE : To retrieve users based on email
 	 * @param email of user
 	 * @return list of matched user DTOs
 	 */
@@ -126,7 +126,7 @@ public class UserService implements UserServiceInterface{
 	}
 
 	/**
-	 * Retrieve all users
+	 * ADMIN PRIVILEDGE : Retrieve all users
 	 * @return list of all user DTOs
 	 */
 	@Override

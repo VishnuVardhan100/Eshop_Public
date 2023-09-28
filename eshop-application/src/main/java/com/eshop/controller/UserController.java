@@ -63,7 +63,7 @@ public class UserController {
 	}
 
 	/**
-	 * Get users based on first name
+	 * ADMIN PRIVILEDGE : Get users based on first name
 	 * @param first name
 	 * @return list of users matching first name criteria
 	 */
@@ -73,7 +73,7 @@ public class UserController {
 	}
 
 	/**
-	 * Get users based on last name
+	 * ADMIN PRIVILEDGE : Get users based on last name
 	 * @param lastName
 	 * @return list of users matching last name criteria
 	 */
@@ -83,7 +83,7 @@ public class UserController {
 	}
 
 	/**
-	 * Get users based on email
+	 * ADMIN PRIVILEDGE : Get users based on email
 	 * @param email
 	 * @return list of users matching email criteria
 	 */
@@ -93,7 +93,7 @@ public class UserController {
 	}
 
 	/**
-	 * Get all users
+	 * ADMIN PRIVILEDGE : Get all users
 	 * @return list of all users present
 	 */
 	@GetMapping(path="/users/search")
