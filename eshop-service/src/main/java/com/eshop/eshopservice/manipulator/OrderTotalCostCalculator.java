@@ -13,7 +13,6 @@ import com.eshop.eshopmodel.logistics.OrderProduct;
 @Service
 public class OrderTotalCostCalculator {
 	
-	
 	/**
 	 * Calculate total cost of a product in order by quantity and base per unit cost
 	 * @param order product quantity
@@ -26,8 +25,9 @@ public class OrderTotalCostCalculator {
 	
 	public long getOrderTotalAmount(List<OrderProduct> listOfOrderProducts) {
 		long totalOrderAmount = 0;
+		
 		for(OrderProduct orderProductObject : listOfOrderProducts ) {
-			totalOrderAmount =+ orderProductObject.getOrderProductTotalCost();
+			totalOrderAmount += orderProductObject.getOrderProductTotalCost();
 		}
 		return totalOrderAmount;
 	}
