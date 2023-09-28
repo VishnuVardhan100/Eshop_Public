@@ -49,9 +49,8 @@ public class Order {
 	@Column(name="Order_Total_Amount")
 	private long orderTotalAmount;
 
-	@NotNull(message="Order cannot have zero order products")
 	@OneToMany(mappedBy="order",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
-	@JsonProperty(access=Access.WRITE_ONLY)
+	//@JsonProperty(access=Access.WRITE_ONLY)
 	private List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
 
 	@NotNull(message="Order cannot be placed without respective user")
@@ -78,7 +77,7 @@ public class Order {
 	 */
 	public Order(long orderID, @NotNull(message = "Order Date is mandatory") Date orderDate,
 			@Min(value = 1, message = "Order total amount cannot be less than one") long orderTotalAmount,
-			@NotNull(message = "Order cannot have zero order products") List<OrderProduct> orderProductList,
+			List<OrderProduct> orderProductList,
 			@NotNull(message = "Order cannot be placed without respective user") User user) {
 		super();
 		this.orderID = orderID;

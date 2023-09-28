@@ -2,6 +2,9 @@ package com.eshop.eshopmodel.logistics;
 
 import org.springframework.validation.annotation.Validated;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -48,6 +51,7 @@ public class OrderProduct{
 	@Min(value=1, message="Order Product total cost cannot be less than one")
 	private long orderProductTotalCost;
 
+	@JsonProperty(access=Access.WRITE_ONLY)
 	@NotNull(message="Respective Order cannot be null")
 	@ManyToOne
 	@JoinTable(	name="Logistics_Order_Logistics_Order_Product",
