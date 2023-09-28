@@ -17,6 +17,7 @@ import com.eshop.eshopmodel.logistics.OrderProductDTO;
 import com.eshop.eshopmodel.logistics.WrapperOrderProduct;
 import com.eshop.eshopservice.service.LogisticsService;
 import com.eshop.exception.InvalidInputException;
+import com.eshop.exception.InventoryProductException;
 import com.eshop.exception.OrderException;
 import com.eshop.exception.UserException;
 
@@ -42,15 +43,16 @@ public class LogisticsController {
 	@PostMapping("/users/orders/create/{userID}")
 	public ResponseEntity<OrderDTO> placeOrder(@PathVariable(name="userID", required=true) int userID, 
 			@RequestBody(required = true) WrapperOrderProduct wrapperOrderProduct)
-		throws UserException, OrderException, InvalidInputException {
+		throws UserException, InventoryProductException, OrderException, InvalidInputException {
 		OrderDTO orderDTOObject = wrapperOrderProduct.getOrderDTOObject();
+		List<Integer> inventoryProductIDList = wrapperOrderProduct.getListOfInventoryProductIDs();
 		List<OrderProductDTO> orderProductDTOList = wrapperOrderProduct.getListOfOrderProductDTOs();
-		return new ResponseEntity<OrderDTO> (logisticsService.placeOrder(userID, orderDTOObject, orderProductDTOList), HttpStatus.CREATED);
+		return new ResponseEntity<OrderDTO> (logisticsService.placeOrder(userID, orderDTOObject, inventoryProductIDList, orderProductDTOList), HttpStatus.CREATED);
 	}
 
 	
 	/**
-	 * Get all orders
+	 * ADMIN PRIVILEDGE : Get all orders
 	 * @return all orders
 	 */
 	@GetMapping(path = "/users/orders/search")
@@ -65,11 +67,11 @@ public class LogisticsController {
 	 * @return OrderDTO object if get successful
 	 * @throws UserException
 	 */
-	@GetMapping(path = "/users/orders/search/{userID}" , params = "orderID")
+	/*@GetMapping(path = "/users/orders/search/{userID}" , params = "orderID")
 	public ResponseEntity<OrderDTO> getOrderByUserID(@PathVariable(name="userID", required=true) int userID, 
 			@RequestParam(name="orderID", required=true) int orderID) throws UserException {
 		return new ResponseEntity<OrderDTO> (logisticsService.retrieveOrderByUserID(userID, orderID), HttpStatus.OK);
-	}
+	}*/
 	
 	/**
 	 * Get all orders of particular user

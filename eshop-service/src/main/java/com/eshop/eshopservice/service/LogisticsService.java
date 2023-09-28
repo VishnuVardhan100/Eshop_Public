@@ -15,9 +15,11 @@ import com.eshop.eshopmodel.logistics.OrderProduct;
 import com.eshop.eshopmodel.logistics.OrderProductDTO;
 import com.eshop.eshoprepository.OrderRepository;
 import com.eshop.eshoprepository.UserRepository;
+import com.eshop.eshopservice.manipulator.InventoryProductQuantityAccountant;
 import com.eshop.eshopservice.manipulator.OrderTotalCostCalculator;
 import com.eshop.eshopservice.mapper.LogisticsCustomModelMapper;
 import com.eshop.exception.InvalidInputException;
+import com.eshop.exception.InventoryProductException;
 import com.eshop.exception.OrderException;
 import com.eshop.exception.UserException;
 
@@ -42,17 +44,21 @@ public class LogisticsService implements LogisticsServiceInterface {
 	
 	@Autowired
 	private OrderRepository orderRepository;
+		
+	@Autowired
+	private InventoryProductQuantityAccountant inventoryProductQuantityAccountant; 
 
 	/**
 	 * Place an Order
 	 * @param user ID for whom to place order
 	 * @param orderDTO object , the order object
+	 * @param list of inventory product IDs
 	 * @param List of products in order, must be greater than zero
 	 * @return placed orderDTO object
 	 */
 	@Override
-	public OrderDTO placeOrder(int userID, OrderDTO orderDTOObject, List<OrderProductDTO> orderProductDTOList)
-			throws UserException, OrderException, InvalidInputException {
+	public OrderDTO placeOrder(int userID, OrderDTO orderDTOObject, List<Integer> inventoryProductIDList, 
+			List<OrderProductDTO> orderProductDTOList) throws UserException, InventoryProductException, OrderException, InvalidInputException {
 		
 		//first check for user
 		User userRetrieveObject = userRepository.findById(userID).
@@ -73,6 +79,9 @@ public class LogisticsService implements LogisticsServiceInterface {
 		map(orderProductDTO -> logisticsCustomModelMapper.mapOrderProductDTOToOrderProduct(orderProductDTO)).
 		collect(Collectors.toList());
 
+		//check if each of the products' quantity ordered are available against same product's quantity in inventory 
+		inventoryProductQuantityAccountant.performInventoryQuantityCheckAndAdjust(inventoryProductIDList, orderProductList);
+				
 		//perform calculation for orderProduct to set total cost for each product in list
 		//Then add all total costs to set total amount for order
 		orderProductList.forEach(orderProduct -> 

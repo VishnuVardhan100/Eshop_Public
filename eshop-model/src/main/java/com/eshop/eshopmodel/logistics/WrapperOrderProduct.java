@@ -8,10 +8,13 @@ import lombok.NoArgsConstructor;
 public class WrapperOrderProduct {
 	
 	private OrderDTO orderDTOObject;
+	private List<Integer> listOfInventoryProductIDs;
 	private List<OrderProductDTO> listOfOrderProductDTOs;
 	
-	public WrapperOrderProduct( OrderDTO orderDTOObject, List<OrderProductDTO> listOfOrderProductDTOs) {
+	public WrapperOrderProduct( OrderDTO orderDTOObject, List<Integer> listOfInventoryProductIDs,
+			List<OrderProductDTO> listOfOrderProductDTOs) {
 		this.orderDTOObject = orderDTOObject;
+		this.listOfInventoryProductIDs = listOfInventoryProductIDs;
 		this.listOfOrderProductDTOs = listOfOrderProductDTOs;
 	}
 
@@ -23,6 +26,14 @@ public class WrapperOrderProduct {
 		this.orderDTOObject = orderDTOObject;
 	}
 
+	public List<Integer> getListOfInventoryProductIDs() {
+		return listOfInventoryProductIDs;
+	}
+
+	public void setListOfInventoryProductIDs(List<Integer> listOfInventoryProductIDs) {
+		this.listOfInventoryProductIDs = listOfInventoryProductIDs;
+	}
+	
 	public List<OrderProductDTO> getListOfOrderProductDTOs() {
 		return listOfOrderProductDTOs;
 	}

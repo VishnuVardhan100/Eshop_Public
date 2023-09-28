@@ -29,7 +29,7 @@ public class InventoryService implements InventoryServiceInterface {
 	private InventoryProductRepository  inventoryProductRepository;
 
 	/**
-	 * Create a new product in the inventory for customer to purchase
+	 * ADMIN PRIVILEDGE : Create a new product in the inventory for customer to purchase
 	 * @param inventoryProductDTO object to create
 	 * @return inventoryProductDTO object which was created in inventory
 	 */
@@ -42,7 +42,7 @@ public class InventoryService implements InventoryServiceInterface {
 	}
 
 	/**
-	 * Get all InventoryProducts
+	 * ADMIN PRIVILEDGE : Get all InventoryProducts
 	 * @return list of inventoryProductDTO objects
 	 */
 	@Override
@@ -53,7 +53,7 @@ public class InventoryService implements InventoryServiceInterface {
 	}
 
 	/**
-	 * Get all Inventory Products By name criteria
+	 * ADMIN PRIVILEDGE : Get all Inventory Products By name criteria
 	 * @param inventoryProduct name
 	 * @return matching list of inventory products
 	 */
@@ -65,7 +65,7 @@ public class InventoryService implements InventoryServiceInterface {
 	}
 
 	/**
-	 * Get all Inventory Products By price criteria
+	 * ADMIN PRIVILEDGE : Get all Inventory Products By price criteria
 	 * @param lower price
 	 * @param upper price
 	 * @return matching list of inventory products
@@ -78,7 +78,7 @@ public class InventoryService implements InventoryServiceInterface {
 	}
 
 	/**
-	 * Update the inventory product
+	 * ADMIN PRIVILEDGE : Update the inventory product
 	 * @param inventoryProduct ID
 	 * @param inventoryProductDTO object
 	 * @return updated inventoryProductDTO object
@@ -109,7 +109,7 @@ public class InventoryService implements InventoryServiceInterface {
 	}
 
 	/**
-	 * Delete a specific inventory Product
+	 * ADMIN PRIVILEDGE : Delete a specific inventory Product
 	 * @param inventoryProduct ID
 	 * @throws InventoryProductException
 	 */

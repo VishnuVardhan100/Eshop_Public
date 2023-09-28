@@ -189,10 +189,10 @@ public class UserController {
 	 * @throws UserException
 	 * @throws UserAddressException
 	 */
-	@DeleteMapping(path="/users/addresses", params={"userID","userAddressIDs"})
+	/*@DeleteMapping(path="/users/addresses", params={"userID","userAddressIDs"})
 	public ResponseEntity<Object> deleteAllUserAddresses(@RequestParam(name="userID", required=true) int userID, 
 			@RequestParam(name="userAddressIDs", required=true) List<Integer> userAddressIDs) throws UserException, UserAddressException {
 		return new ResponseEntity<Object> (HttpStatus.OK);
-	}
+	}*/
 
 }
