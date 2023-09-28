@@ -32,11 +32,11 @@ public class InventoryProduct {
 	private String inventoryProductName;
 	
 	@Column(name="Inventory_Product_Quantity")
-	@Min(value=0, message="Inventory Product Quantity cannot be less than zero")
+	@Min(value=1, message="Inventory Product Quantity cannot be less than one")
 	private long inventoryProductQuantity;
 
 	@Column(name="Inventory_Product_Price")
-	@Min(value=0, message="Inventory Product Price cannot be less than zero")
+	@Min(value=1, message="Inventory Product Price cannot be less than one")
 	private long inventoryProductPrice;
 	
 	/*@NotBlank(message="Inventory Product category cannot be empty or blank")
@@ -60,8 +60,8 @@ public class InventoryProduct {
 	 */
 	public InventoryProduct(int inventoryProductID,
 			@NotBlank(message = "Inventory Product name cannot be empty or blank") String inventoryProductName,
-			@Min(value = 0, message = "Inventory Product Quantity cannot be less than zero") long inventoryProductQuantity,
-			@Min(value=0, message="Inventory Product Price cannot be less than zero") long inventoryProductPrice){
+			@Min(value = 1, message = "Inventory Product Quantity cannot be less than one") long inventoryProductQuantity,
+			@Min(value = 1, message="Inventory Product Price cannot be less than one") long inventoryProductPrice){
 			/*@NotBlank(message = "Inventory Product category cannot be empty or blank") ProductCategory inventoryProductCategory)*/
 		super();
 		this.inventoryProductID = inventoryProductID;
