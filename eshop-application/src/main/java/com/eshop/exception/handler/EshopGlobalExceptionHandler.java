@@ -28,22 +28,22 @@ public class EshopGlobalExceptionHandler extends ResponseEntityExceptionHandler 
 	@ExceptionHandler(value = InventoryProductException.class)
 	public ResponseEntity<Object> inventoryProductException(InventoryProductException inventoryProductException, 
 			WebRequest webRequest){
-		return new ResponseEntity<>(inventoryProductException.getMessage(), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(inventoryProductException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@ExceptionHandler(value = OrderException.class)
 	public ResponseEntity<Object> orderException(OrderException orderException, WebRequest webRequest){
-		return new ResponseEntity<>(orderException.getMessage(), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(orderException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@ExceptionHandler(value = UserAddressException.class)
 	public ResponseEntity<Object> userAddressException(UserAddressException userAddressException, WebRequest webRequest){
-		return new ResponseEntity<>(userAddressException.getMessage(), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(userAddressException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@ExceptionHandler(value = UserException.class)
 	public ResponseEntity<Object> userException(UserException userException, WebRequest webRequest){
-		return new ResponseEntity<>(userException.getMessage(), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(userException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@ExceptionHandler(value = Exception.class)
