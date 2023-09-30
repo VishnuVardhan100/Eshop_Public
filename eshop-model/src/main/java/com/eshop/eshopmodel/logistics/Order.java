@@ -1,5 +1,6 @@
 package com.eshop.eshopmodel.logistics;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,12 @@ import lombok.Data;
 @Entity
 @Table(name="Logistics_Order")
 @Validated
-public class Order {
+public class Order implements Serializable {
+
+	/**
+	 * Default Version
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

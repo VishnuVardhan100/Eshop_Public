@@ -1,5 +1,6 @@
 package com.eshop.eshopmodel.consumer;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,12 @@ import lombok.Data;
 @Entity
 @Table(name="Consumer_User")
 @Validated
-public class User {
+public class User implements Serializable {
+
+	/**
+	 * Default Version
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@jakarta.persistence.Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

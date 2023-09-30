@@ -1,5 +1,7 @@
 package com.eshop.eshopmodel.consumer;
 
+import java.io.Serializable;
+
 import org.springframework.validation.annotation.Validated;
 
 import jakarta.persistence.CascadeType;
@@ -30,7 +32,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="Consumer_User_Address")
 @Validated
-public class UserAddress {
+public class UserAddress implements Serializable {
+
+	/**
+	 * Default Version
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

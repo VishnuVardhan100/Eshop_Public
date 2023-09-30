@@ -1,5 +1,7 @@
 package com.eshop.eshopmodel.logistics;
 
+import java.io.Serializable;
+
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,7 +30,12 @@ import lombok.Data;
 @Entity
 @Table(name="Logisitics_Order_Product")
 @Validated
-public class OrderProduct{
+public class OrderProduct implements Serializable{
+
+	/**
+	 * Default Version
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
