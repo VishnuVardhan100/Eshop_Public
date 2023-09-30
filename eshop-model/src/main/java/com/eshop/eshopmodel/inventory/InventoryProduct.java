@@ -4,8 +4,6 @@ import org.springframework.validation.annotation.Validated;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
@@ -20,27 +18,31 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="InventoryProduct")
+@Table(name="Inventory_Product")
 @Validated
 public class InventoryProduct {
 
 	@jakarta.persistence.Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="InventoryProductID")
+	@Column(name="Inventory_Product_ID")
 	private int inventoryProductID;
 	
 	@NotBlank(message="Inventory Product name cannot be empty or blank")
-	@Column(name="InventoryProductName")
+	@Column(name="Inventory_Product_Name")
 	private String inventoryProductName;
 	
-	@Column(name="InventoryProductQuantity")
-	@Min(value=0, message="Inventory Product Quantity cannot be less than zero")
+	@Column(name="Inventory_Product_Quantity")
+	@Min(value=1, message="Inventory Product Quantity cannot be less than one")
 	private long inventoryProductQuantity;
+
+	@Column(name="Inventory_Product_Price")
+	@Min(value=1, message="Inventory Product Price cannot be less than one")
+	private long inventoryProductPrice;
 	
-	@NotBlank(message="Inventory Product category cannot be empty or blank")
+	/*@NotBlank(message="Inventory Product category cannot be empty or blank")
 	@Enumerated(EnumType.STRING)
 	@Column(name="InventoryProductCategory")
-	private ProductCategory inventoryProductCategory;
+	private ProductCategory inventoryProductCategory;*/
 	
 	/**
 	 * No argument constructor
@@ -58,13 +60,15 @@ public class InventoryProduct {
 	 */
 	public InventoryProduct(int inventoryProductID,
 			@NotBlank(message = "Inventory Product name cannot be empty or blank") String inventoryProductName,
-			@Min(value = 0, message = "Inventory Product Quantity cannot be less than zero") long inventoryProductQuantity,
-			@NotBlank(message = "Inventory Product category cannot be empty or blank") ProductCategory inventoryProductCategory) {
+			@Min(value = 1, message = "Inventory Product Quantity cannot be less than one") long inventoryProductQuantity,
+			@Min(value = 1, message="Inventory Product Price cannot be less than one") long inventoryProductPrice){
+			/*@NotBlank(message = "Inventory Product category cannot be empty or blank") ProductCategory inventoryProductCategory)*/
 		super();
 		this.inventoryProductID = inventoryProductID;
 		this.inventoryProductName = inventoryProductName;
 		this.inventoryProductQuantity = inventoryProductQuantity;
-		this.inventoryProductCategory = inventoryProductCategory;
+		this.inventoryProductPrice = inventoryProductPrice;
+		/*this.inventoryProductCategory = inventoryProductCategory;*/
 	}
 
 	/**
@@ -113,19 +117,34 @@ public class InventoryProduct {
 	}
 
 	/**
+	 * @return Inventory Product Price
+	 */
+	public long getInventoryProductPrice() {
+		return inventoryProductPrice;
+	}
+
+	/**
+	 * set Inventory Product Price
+	 * @param inventoryProductPrice
+	 */
+	public void setInventoryProductPrice(long inventoryProductPrice) {
+		this.inventoryProductPrice = inventoryProductPrice;
+	}
+
+	/**
 	 * @return Inventory Product Category
 	 */
-	public ProductCategory getInventoryProductCategory() {
+	/*public ProductCategory getInventoryProductCategory() {
 		return inventoryProductCategory;
-	}
+	}*/
 
 	/**
 	 * set Inventory Product Category
 	 * @param Inventory Product Category
 	 */
-	public void setInventoryProductCategory(ProductCategory inventoryProductCategory) {
+	/*public void setInventoryProductCategory(ProductCategory inventoryProductCategory) {
 		this.inventoryProductCategory = inventoryProductCategory;
-	}
+	}*/
 
 	/**
 	 * Returns Inventory Product with ID, Name and Quantity
@@ -133,7 +152,7 @@ public class InventoryProduct {
 	@Override
 	public String toString() {
 		return "InventoryProduct [InventoryProductID=" + inventoryProductID + ", InventoryProductName=" + inventoryProductName + ", InventoryProductQuantity=" + inventoryProductQuantity +
-				", InventoryProductCategory" + inventoryProductCategory + "]";
+				/*", InventoryProductCategory" + inventoryProductCategory +*/ "]";
 	}
 	
 }

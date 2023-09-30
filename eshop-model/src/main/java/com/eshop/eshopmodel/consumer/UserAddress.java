@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -27,32 +28,32 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name="ConsumerUserAddress")
+@Table(name="Consumer_User_Address")
 @Validated
 public class UserAddress {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="AddressID")
+	@Column(name="Address_ID")
 	private int id;
 	
 	@NotBlank(message="Cannot be Blank")
-	@Pattern(regexp="^[0-9_-:\\s]{1,8}$", message="Digits allowed and special characters(_ , -) allowed. Between 1 to 8 characters")
-	@Column(name="houseNo")
+	@Pattern(regexp="^[-_:0-9 ]{1,8}$", message="Digits allowed and special characters(_ , -) allowed. Between 1 to 8 characters")
+	@Column(name="house_No")
 	private String houseNo;
 	
 	@NotBlank(message="Cannot be Blank")
-	@Pattern(regexp="^[a-zA-Z0-9\\s]{5,20}$", message="Alphabets, spaces and digits allowed. Between 5-20 characters")
+	@Pattern(regexp="^[a-zA-Z0-9 ]{5,20}$", message="Alphabets, spaces and digits allowed. Between 5-20 characters")
 	@Column(name="Street")
 	private String street;
 	
 	@NotBlank(message="Cannot be Blank")
-	@Pattern(regexp="^[a-zA-Z\\s]{3,15}$", message="Alphabets, spaces and digits allowed. Between 3-15 characters")
+	@Pattern(regexp="^[a-zA-Z ]{3,15}$", message="Alphabets, spaces and digits allowed. Between 3-15 characters")
 	@Column(name="City")
 	private String city;
 
 	@NotBlank(message="Cannot be Blank")
-	@Pattern(regexp="^[a-zA-Z0-9\\s]{3,15}$", message="Alphabets, spaces and digits allowed. Between 3-15 characters")
+	@Pattern(regexp="^[a-zA-Z0-9 ]{3,15}$", message="Alphabets, spaces and digits allowed. Between 3-15 characters")
 	@Column(name="State")
 	private String state;
 	
@@ -63,9 +64,11 @@ public class UserAddress {
 	
 	@NotNull(message="User Address has to be for a respective user")
 	@ManyToOne(cascade={CascadeType.MERGE, CascadeType.REFRESH})
-	@JoinColumn(name="UserID")
+	@JoinTable(	name="Consumer_User_User_Address",
+				joinColumns = {@JoinColumn(name="Address_ID", referencedColumnName = "Address_ID")},
+				inverseJoinColumns = {@JoinColumn(name="User_ID", referencedColumnName = "User_ID")})
 	private User user;
-		
+
 	/**
 	 * Parameterized constructor
 	 * @param id
@@ -77,10 +80,10 @@ public class UserAddress {
 	 * @param user
 	 */
 	public UserAddress(int id,
-			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[0-9_-:\\s]{1,8}$", message = "Digits allowed and special characters(_ , -) allowed. Between 1 to 8 characters") String houseNo,
-			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z0-9\\s]{5,20}$", message = "Alphabets, spaces and digits allowed. Between 5-20 characters") String street,
-			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z\\s]{3,15}$", message = "Alphabets, spaces and digits allowed. Between 3-15 characters") String city,
-			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z0-9\\s]{3,15}$", message = "Alphabets, spaces and digits allowed. Between 3-15 characters") String state,
+			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[-_:0-9 ]{1,8}$", message = "Digits allowed and special characters(_ , -) allowed. Between 1 to 8 characters") String houseNo,
+			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z0-9 ]{5,20}$", message = "Alphabets, spaces and digits allowed. Between 5-20 characters") String street,
+			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z ]{3,15}$", message = "Alphabets, spaces and digits allowed. Between 3-15 characters") String city,
+			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z0-9 ]{3,15}$", message = "Alphabets, spaces and digits allowed. Between 3-15 characters") String state,
 			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[0-9]{6}$", message = "Only Digits and must be exact 6 characters") String pincode,
 			@NotNull(message="User Address has to be for a respective user") User user) {
 		super();
