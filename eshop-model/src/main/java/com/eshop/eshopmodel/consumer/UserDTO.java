@@ -20,6 +20,7 @@ import lombok.Data;
 @Validated
 public class UserDTO {
 
+	@SuppressWarnings("unused")
 	private int id;
 
 	@NotBlank(message="First Name cannot be blank")
