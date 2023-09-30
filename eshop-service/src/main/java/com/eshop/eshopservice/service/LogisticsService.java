@@ -15,7 +15,7 @@ import com.eshop.eshopmodel.logistics.OrderProduct;
 import com.eshop.eshopmodel.logistics.OrderProductDTO;
 import com.eshop.eshoprepository.OrderRepository;
 import com.eshop.eshoprepository.UserRepository;
-import com.eshop.eshopservice.manipulator.InventoryProductQuantityAccountant;
+import com.eshop.eshopservice.manipulator.InventoryProductAccountant;
 import com.eshop.eshopservice.manipulator.OrderTotalCostCalculator;
 import com.eshop.eshopservice.mapper.LogisticsCustomModelMapper;
 import com.eshop.exception.InvalidInputException;
@@ -46,7 +46,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 	private OrderRepository orderRepository;
 		
 	@Autowired
-	private InventoryProductQuantityAccountant inventoryProductQuantityAccountant; 
+	private InventoryProductAccountant inventoryProductAccountant; 
 
 	/**
 	 * Place an Order
@@ -80,7 +80,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 		collect(Collectors.toList());
 
 		//check if each of the products' quantity ordered are available against same product's quantity in inventory 
-		inventoryProductQuantityAccountant.performInventoryQuantityCheckAndAdjust(inventoryProductIDList, orderProductList);
+		inventoryProductAccountant.performInventoryQuantityCheckAndAdjust(inventoryProductIDList, orderProductList);
 				
 		//perform calculation for orderProduct to set total cost for each product in list
 		//Then add all total costs to set total amount for order
