@@ -42,8 +42,8 @@ public class EshopCustomerCommunicationService {
 	private DataHandler dataHandler = null;
 	private DataSource dataSource = null;
 	
-	private String from = "jakedragonaire1@gmail.com";
-	private String password = "MamidiP@nd0";
+	private String from = "jasonQuagmire@gmail.com";
+	private String password = "Aron678";
 	private String subject = "";
 	private String text = "";
 
