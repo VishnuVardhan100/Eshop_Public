@@ -1,4 +1,4 @@
-package com.eshop.eshopmodel.consumer;
+package com.eshop.eshopmodel.customer;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -8,15 +8,15 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 /**
- * DTO class for User Address
+ * DTO class for Customer Address
  */
 
 @Data
 @Validated
-public class UserAddressDTO {
+public class CustomerAddressDTO {
 
 	@SuppressWarnings("unused")
-	private int id;
+	private long addressID;
 	
 	@NotBlank(message="Cannot be Blank")
 	@Pattern(regexp="^[-_:0-9 ]{1,8}$", message="Digits allowed and special characters(_ , -) allowed. Between 1 to 8 characters")
@@ -38,7 +38,7 @@ public class UserAddressDTO {
 	@Pattern(regexp="^[0-9]{6}$", message="Only Digits and must be exact 6 characters")
 	private String pincode;
 	
-	@NotNull(message="User Address has to be for a respective user")
-	private User user;
+	@NotNull(message="Customer Address has to be for a respective user")
+	private Customer customer;
 	
 }

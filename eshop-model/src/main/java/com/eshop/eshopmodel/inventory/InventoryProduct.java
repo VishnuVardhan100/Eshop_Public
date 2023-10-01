@@ -25,7 +25,7 @@ public class InventoryProduct {
 	@jakarta.persistence.Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="Inventory_Product_ID")
-	private int inventoryProductID;
+	private long inventoryProductID;
 	
 	@NotBlank(message="Inventory Product name cannot be empty or blank")
 	@Column(name="Inventory_Product_Name")
@@ -58,7 +58,7 @@ public class InventoryProduct {
 	 * @param inventoryProductQuantity
 	 * @param inventoryProductCategory
 	 */
-	public InventoryProduct(int inventoryProductID,
+	public InventoryProduct(long inventoryProductID,
 			@NotBlank(message = "Inventory Product name cannot be empty or blank") String inventoryProductName,
 			@Min(value = 1, message = "Inventory Product Quantity cannot be less than one") long inventoryProductQuantity,
 			@Min(value = 1, message="Inventory Product Price cannot be less than one") long inventoryProductPrice){
@@ -74,7 +74,7 @@ public class InventoryProduct {
 	/**
 	 * @return Inventory Product ID
 	 */
-	public int getInventoryProductID() {
+	public long getInventoryProductID() {
 		return inventoryProductID;
 	}
 
@@ -82,7 +82,7 @@ public class InventoryProduct {
 	 * set Inventory Product ID
 	 * @param inventoryProductID
 	 */
-	public void setInventoryProductID(int inventoryProductID) {
+	public void setInventoryProductID(long inventoryProductID) {
 		this.inventoryProductID = inventoryProductID;
 	}
 

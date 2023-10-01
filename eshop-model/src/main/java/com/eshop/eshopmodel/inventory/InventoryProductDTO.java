@@ -15,7 +15,7 @@ import lombok.Data;
 public class InventoryProductDTO {
 
 	@SuppressWarnings("unused")
-	private int inventoryProductID;
+	private long inventoryProductID;
 
 	@NotBlank(message="Inventory Product name cannot be empty or blank")
 	private String inventoryProductName;

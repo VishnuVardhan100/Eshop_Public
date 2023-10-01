@@ -23,7 +23,7 @@ import lombok.Data;
 
 /**
  * Order Product entity class which is derived from Inventory Product class.
- * This class is for product that user places in cart and orders.
+ * This class is for product that customer places in cart and orders.
  */
 
 @Data
@@ -40,7 +40,7 @@ public class OrderProduct implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="Order_Product_ID")
-	private int orderProductID;
+	private long orderProductID;
 
 	@NotBlank(message="Order Product Name cannot be empty or blank")
 	@Column(name="Order_Product_Name")
@@ -61,7 +61,7 @@ public class OrderProduct implements Serializable{
 	@JsonProperty(access=Access.WRITE_ONLY)
 	@NotNull(message="Respective Order cannot be null")
 	@ManyToOne
-	@JoinTable(	name="Logistics_Order_Logistics_Order_Product",
+	@JoinTable(	name="Logistics_Order_And_Product",
 				joinColumns= {@JoinColumn(name="Order_Product_ID" , referencedColumnName = "Order_Product_ID")},
 				inverseJoinColumns = {@JoinColumn(name="Order_ID", referencedColumnName="Order_ID")})
 	private Order order;
@@ -82,7 +82,7 @@ public class OrderProduct implements Serializable{
 	 * @param orderProductTotalCost
 	 * @param order
 	 */
-	public OrderProduct(int orderProductID,
+	public OrderProduct(long orderProductID,
 			@NotBlank(message = "Order Product Name cannot be empty or blank") String orderProductName,
 			@Min(value = 1, message = "Order Product Quantity cannot be less than one") long orderProductQuantity,
 			@Min(value = 1, message = "Order Product unit cost cannot be less than one") long orderProductUnitCost,
@@ -100,7 +100,7 @@ public class OrderProduct implements Serializable{
 	/**
 	 * @return Order Product ID
 	 */
-	public int getOrderProductID() {
+	public long getOrderProductID() {
 		return orderProductID;
 	}
 
@@ -108,7 +108,7 @@ public class OrderProduct implements Serializable{
 	 * set Order Product ID
 	 * @param orderProductID
 	 */
-	public void setOrderProductID(int orderProductID) {
+	public void setOrderProductID(long orderProductID) {
 		this.orderProductID = orderProductID;
 	}
 	
@@ -189,7 +189,7 @@ public class OrderProduct implements Serializable{
 
 	/**
 	 * Returns Order Product with Order Product ID, Order Product Name ,Order Product Quantity, Order Product Unit Cost
-	 * and Order Product Total Cost which user placed in order
+	 * and Order Product Total Cost which customer placed in order
 	 */
 	@Override
 	public String toString() {

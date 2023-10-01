@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.springframework.validation.annotation.Validated;
 
-import com.eshop.eshopmodel.consumer.User;
+import com.eshop.eshopmodel.customer.Customer;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -26,7 +26,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * Base entity class for Order. Has list of products and tied to respectful user.
+ * Base entity class for Order. Has list of products and tied to respectful Customer.
  */
 
 @Data
@@ -57,12 +57,12 @@ public class Order implements Serializable {
 	//@JsonProperty(access=Access.WRITE_ONLY)
 	private List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
 
-	@NotNull(message="Order cannot be placed without respective user")
+	@NotNull(message="Order cannot be placed without respective customer")
 	@ManyToOne
-	@JoinTable(	name="Consumer_User_Logistics_Order",
+	@JoinTable(	name="Customer_Logistics_Order",
 				joinColumns= {@JoinColumn(name="Order_ID" , referencedColumnName = "Order_ID")},
-				inverseJoinColumns = {@JoinColumn(name="User_ID", referencedColumnName="User_ID")})
-	private User user;	
+				inverseJoinColumns = {@JoinColumn(name="Customer_ID", referencedColumnName="Customer_ID")})
+	private Customer customer;	
 
 	/**
 	 * No argument constructor
@@ -77,18 +77,18 @@ public class Order implements Serializable {
 	 * @param orderDate
 	 * @param orderProductList
 	 * @param orderTotalAmount
-	 * @param user
+	 * @param customer
 	 */
 	public Order(long orderID, @NotNull(message = "Order Date is mandatory") Date orderDate,
 			@Min(value = 1, message = "Order total amount cannot be less than one") long orderTotalAmount,
 			List<OrderProduct> orderProductList,
-			@NotNull(message = "Order cannot be placed without respective user") User user) {
+			@NotNull(message = "Order cannot be placed without respective customer") Customer customer) {
 		super();
 		this.orderID = orderID;
 		this.orderDate = orderDate;
 		this.orderTotalAmount = orderTotalAmount;
 		this.orderProductList = orderProductList;
-		this.user = user;
+		this.customer = customer;
 	}
 		
 	/**
@@ -153,18 +153,18 @@ public class Order implements Serializable {
 	}
 
 	/**
-	 * @return respective user for the order
+	 * @return respective customer for the order
 	 */
-	public User getUser() {
-		return user;
+	public Customer getCustomer() {
+		return customer;
 	}
 
 	/**
-	 * set respective user for the order
-	 * @param user
+	 * set respective customer for the order
+	 * @param customer
 	 */
-	public void setUser(User user) {
-		this.user = user;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 	
 	/**
