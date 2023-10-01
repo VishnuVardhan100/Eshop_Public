@@ -1,21 +1,21 @@
 package com.eshop.eshopservice.manipulator;
 
-import com.eshop.eshopmodel.consumer.UserSubscription;
+import java.util.stream.Stream;
+
+import com.eshop.eshopmodel.customer.CustomerSubscription;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-
-import java.util.stream.*;
 
 /**
  * Subscription Type Enumeration Converter for Database Column and Entity Attribute
  */
 
 @Converter(autoApply = true)
-public class UserSubscriptionConverter implements AttributeConverter<UserSubscription, String> {
+public class CustomerSubscriptionConverter implements AttributeConverter<CustomerSubscription, String> {
  
     @Override
-    public String convertToDatabaseColumn(UserSubscription subscriptionType) {
+    public String convertToDatabaseColumn(CustomerSubscription subscriptionType) {
         if (subscriptionType == null) {
             return null;
         }
@@ -23,12 +23,12 @@ public class UserSubscriptionConverter implements AttributeConverter<UserSubscri
     }
 
     @Override
-    public UserSubscription convertToEntityAttribute(String code) {
+    public CustomerSubscription convertToEntityAttribute(String code) {
         if (code == null) {
             return null;
         }
 
-        return Stream.of(UserSubscription.values())
+        return Stream.of(CustomerSubscription.values())
           .filter(c -> c.getSubscriptionType().equals(code))
           .findFirst()
           .orElseThrow(IllegalArgumentException::new);

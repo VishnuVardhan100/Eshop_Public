@@ -1,9 +1,7 @@
 package com.eshop.eshopservice.manipulator;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -16,11 +14,13 @@ import com.eshop.eshoprepository.InventoryProductRepository;
 import com.eshop.exception.InventoryProductException;
 
 /**
- * Class to check list of products have required quantity in inventory to warrant a purchase
+ * The Inventory Product Accountant performs the following functions:
+ * 	-Check if each among list of products have required quantity in inventory to warrant a purchase
+ * 	-Adjust the inventory quantity per requirement from the order
  */
 
 @Service
-public class InventoryProductQuantityAccountant {
+public class InventoryProductAccountant {
 
 	@Autowired
 	private MessageSource messageSource;
@@ -32,7 +32,7 @@ public class InventoryProductQuantityAccountant {
 	
 	private InventoryProduct inventoryRetrieveProduct = null;
 	
-	private Iterator<Integer> inventoryPrdIDListIterator = null;
+	private Iterator<Long> inventoryPrdIDListIterator = null;
 	
 	private OrderProduct orderProduct = null;
 	
@@ -49,7 +49,7 @@ public class InventoryProductQuantityAccountant {
 	 * @param orderProduct List
 	 * @throws InventoryProductException
 	 */
-	public void performInventoryQuantityCheckAndAdjust(List<Integer> inventoryProductIDList, List<OrderProduct> orderProductList)
+	public void performInventoryQuantityCheckAndAdjust(List<Long> inventoryProductIDList, List<OrderProduct> orderProductList)
 		throws InventoryProductException {
 
 		size = inventoryProductIDList.size();

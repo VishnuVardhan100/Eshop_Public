@@ -14,7 +14,8 @@ import lombok.Data;
 @Validated
 public class OrderProductDTO {
 
-	private int orderProductID;
+	@SuppressWarnings("unused")
+	private long orderProductID;
 
 	@NotBlank(message="Order Product Name cannot be empty or blank")
 	private String orderProductName;	

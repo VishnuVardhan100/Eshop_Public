@@ -1,10 +1,12 @@
-package com.eshop.eshopmodel.consumer;
+package com.eshop.eshopmodel.customer;
+
+import java.io.Serializable;
 
 import org.springframework.validation.annotation.Validated;
 
 import jakarta.persistence.CascadeType;
 /**
- * Aggregation Entity class User Address for Base Entity User class. Used to store address
+ * Aggregation Entity class customer Address for Base Entity customer class. Used to store address
  */
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,20 +24,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Entity class for User Address. Aggregation class.
+ * Entity class for Customer Address. Aggregation class.
  */
 
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name="Consumer_User_Address")
+@Table(name="Customer_Address")
 @Validated
-public class UserAddress {
+public class CustomerAddress implements Serializable {
+
+	/**
+	 * Default Version
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="Address_ID")
-	private int id;
+	private long addressID;
 	
 	@NotBlank(message="Cannot be Blank")
 	@Pattern(regexp="^[-_:0-9 ]{1,8}$", message="Digits allowed and special characters(_ , -) allowed. Between 1 to 8 characters")
@@ -62,12 +69,12 @@ public class UserAddress {
 	@Column(name="Pincode")
 	private String pincode;
 	
-	@NotNull(message="User Address has to be for a respective user")
+	@NotNull(message="Customer Address has to be for a respective customer")
 	@ManyToOne(cascade={CascadeType.MERGE, CascadeType.REFRESH})
-	@JoinTable(	name="Consumer_User_User_Address",
+	@JoinTable(	name="Customer_And_Address",
 				joinColumns = {@JoinColumn(name="Address_ID", referencedColumnName = "Address_ID")},
-				inverseJoinColumns = {@JoinColumn(name="User_ID", referencedColumnName = "User_ID")})
-	private User user;
+				inverseJoinColumns = {@JoinColumn(name="Customer_ID", referencedColumnName = "Customer_ID")})
+	private Customer customer;
 
 	/**
 	 * Parameterized constructor
@@ -77,49 +84,49 @@ public class UserAddress {
 	 * @param city
 	 * @param state
 	 * @param pincode
-	 * @param user
+	 * @param customer
 	 */
-	public UserAddress(int id,
+	public CustomerAddress(long addressID,
 			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[-_:0-9 ]{1,8}$", message = "Digits allowed and special characters(_ , -) allowed. Between 1 to 8 characters") String houseNo,
 			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z0-9 ]{5,20}$", message = "Alphabets, spaces and digits allowed. Between 5-20 characters") String street,
 			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z ]{3,15}$", message = "Alphabets, spaces and digits allowed. Between 3-15 characters") String city,
 			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[a-zA-Z0-9 ]{3,15}$", message = "Alphabets, spaces and digits allowed. Between 3-15 characters") String state,
 			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[0-9]{6}$", message = "Only Digits and must be exact 6 characters") String pincode,
-			@NotNull(message="User Address has to be for a respective user") User user) {
+			@NotNull(message="Customer Address has to be for a respective customer") Customer customer) {
 		super();
-		this.id = id;
+		this.addressID = addressID;
 		this.houseNo = houseNo;
 		this.street = street;
 		this.city = city;
 		this.state = state;
 		this.pincode = pincode;
-		this.user = user;
+		this.customer = customer;
 	}
 
 	/**
-	 * @return user address id
+	 * @return customer address id
 	 */
-	public int getId() {
-		return id;
+	public long getAddressID() {
+		return addressID;
 	}
 
 	/**
-	 * set user address id
+	 * set customer address id
 	 * @param id
 	 */
-	public void setId(int id) {
-		this.id = id;
+	public void setAddressID(long addressID) {
+		this.addressID = addressID;
 	}
 
 	/**
-	 * @return user address house number (can be flat number too)
+	 * @return customer address house number (can be flat number too)
 	 */
 	public String getHouseNo() {
 		return houseNo;
 	}
 
 	/**
-	 * set user address house number (can be flat number too)
+	 * set customer address house number (can be flat number too)
 	 * @param houseNo
 	 */
 	public void setHouseNo(String houseNo) {
@@ -127,14 +134,14 @@ public class UserAddress {
 	}
 
 	/**
-	 * @return user address street
+	 * @return customer address street
 	 */
 	public String getStreet() {
 		return street;
 	}
 
 	/**
-	 * set user address street
+	 * set customer address street
 	 * @param street
 	 */
 	public void setStreet(String street) {
@@ -142,14 +149,14 @@ public class UserAddress {
 	}
 
 	/**
-	 * @return user address city
+	 * @return customer address city
 	 */
 	public String getCity() {
 		return city;
 	}
 
 	/**
-	 * set user address city
+	 * set customer address city
 	 * @param city
 	 */
 	public void setCity(String city) {
@@ -157,14 +164,14 @@ public class UserAddress {
 	}
 
 	/**
-	 * @return user address state
+	 * @return customer address state
 	 */
 	public String getState() {
 		return state;
 	}
 
 	/**
-	 * set user address state
+	 * set customer address state
 	 * @param state
 	 */
 	public void setState(String state) {
@@ -172,14 +179,14 @@ public class UserAddress {
 	}
 
 	/**
-	 * @return user address pin code
+	 * @return customer address pin code
 	 */
 	public String getPincode() {
 		return pincode;
 	}
 
 	/**
-	 * set user address pin code
+	 * set customer address pin code
 	 * @param pincode
 	 */
 	public void setPincode(String pincode) {
@@ -187,27 +194,27 @@ public class UserAddress {
 	}
 
 	/**
-	 * @return respective user
+	 * @return respective customer
 	 */
-	public User getUser() {
-		return user;
+	public Customer getCustomer() {
+		return customer;
 	}
 
 	/**
-	 * set respective user
-	 * @param user
+	 * set respective customer
+	 * @param customer
 	 */
-	public void setUser(User user) {
-		this.user = user;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	/**
-	 * return User Address with ID, house number, street, city, state , pin code and respective user
+	 * return Customer Address with ID, house number, street, city, state , pin code and respective customer
 	 */
 	@Override
 	public String toString() {
-		return "UserAddress [id=" + id + ", houseNo=" + houseNo + ", street=" + street + ", city=" + city + ", state="
-				+ state + ", pincode=" + pincode + ", user=" + user + "]";
+		return "CustomerAddress [ID = " + addressID + ", House No = " + houseNo + ", Street = " + street + ", City = " + city + ", State = "
+				+ state + ", Pincode=" + pincode + ", Customer = " + customer + "]";
 	}
 
 }

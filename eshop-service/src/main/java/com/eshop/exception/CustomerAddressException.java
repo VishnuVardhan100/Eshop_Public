@@ -4,26 +4,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Exception with suitable message for Inventory Product issues.
+ * Exception related to Customer Address
  */
 
 @SuppressWarnings("serial")
 @ResponseStatus(value=HttpStatus.OK)
-public class InventoryProductException extends Exception {
-
+public class CustomerAddressException extends Exception {
+	
 	/**
 	 * No argument constructor
 	 */
-	public InventoryProductException() {
-		super();
+	public CustomerAddressException() {
+		
 	}
-
+	
 	/**
 	 * Parameterized constructor. Sets message appropriate for invalid input.
 	 * @param message
 	 */
-	public InventoryProductException(String message) {
+	public CustomerAddressException(String message) {
 		super(message);
 	}
-
+	
 }

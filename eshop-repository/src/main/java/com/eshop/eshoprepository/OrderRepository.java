@@ -14,14 +14,14 @@ import com.eshop.eshopmodel.logistics.Order;
  */
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Integer>{
+public interface OrderRepository extends JpaRepository<Order, Long>{
 
-	@Query(value = "select lo from logistics_order lo inner join consumer_user_logistics_order culo inner join consumer_user cu where"
-			+ "cu.user_ID = :userID and lo.order_ID = :orderID", nativeQuery = true)
-	public Order findOrderByUserID(@Param("userID") int userID, @Param("orderID") int orderID);
+	@Query(value = "select lo from logistics_order lo inner join customer_logistics_order culo inner join customer cu where"
+			+ "cu.Customer_ID = :customerID and lo.order_ID = :orderID", nativeQuery = true)
+	public Order findOrderByCustomerID(@Param("customerID") long customerID, @Param("orderID") long orderID);
 	
-	@Query(value = "select * from logistics_order lo inner join consumer_user_logistics_order culo inner join consumer_user cu where"
-			+ "cu.user_ID = :userID", nativeQuery = true)
-	public List<Order> findAllOrdersByUserID(@Param("userID") int userID);
+	@Query(value = "select * from logistics_order lo inner join customer_logistics_order culo inner join customer cu where"
+			+ "cu.Customer_ID = :customerID", nativeQuery = true)
+	public List<Order> findAllOrdersByCustomerID(@Param("customerID") long customerID);
 
 }

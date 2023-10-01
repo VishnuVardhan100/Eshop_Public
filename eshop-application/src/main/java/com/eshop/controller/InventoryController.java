@@ -7,9 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eshop.eshopmodel.inventory.InventoryProductDTO;
@@ -38,7 +40,7 @@ public class InventoryController {
 	 * ADMIN PRIVILEDGE : Get all Inventory Products
 	 * @return list of inventoryProductDTO objects
 	 */
-	@GetMapping("")
+	@GetMapping(value = "/inventory/search")
 	public ResponseEntity<List<InventoryProductDTO>> getAllInventoryProducts()  {
 		return new ResponseEntity<List<InventoryProductDTO>> (inventoryService.getAllInventoryProducts(), HttpStatus.OK);
 	}
@@ -48,8 +50,9 @@ public class InventoryController {
 	 * @param inventoryProduct name
 	 * @return matching list of inventory products
 	 */
-	@GetMapping("")
-	public ResponseEntity<List<InventoryProductDTO>> getAllInventoryProductsByName(String inventoryProductName){
+	@GetMapping(value = "/inventory/search", params = {"inventoryProductName"})
+	public ResponseEntity<List<InventoryProductDTO>> getAllInventoryProductsByName(
+			@RequestParam(name="inventoryProductName", required=true) String inventoryProductName){
 		return new ResponseEntity<List<InventoryProductDTO>> (inventoryService.getAllInventoryProductsByName(inventoryProductName), HttpStatus.OK);
 	}
 
@@ -59,8 +62,9 @@ public class InventoryController {
 	 * @param upper price
 	 * @return matching list of inventory products
 	 */
-	@GetMapping("")
-	public ResponseEntity<List<InventoryProductDTO>> getAllInventoryProductsByPriceRange(long lowerBoundPrice, long upperBoundPrice) {
+	@GetMapping(value = "/inventory/search", params = {"lowerBound, upperBound"})
+	public ResponseEntity<List<InventoryProductDTO>> getAllInventoryProductsByPriceRange(
+			@RequestParam(name="lowerBound", required=true) long lowerBoundPrice, @RequestParam(name="upperBound", required=true) long upperBoundPrice) {
 		return new ResponseEntity<List<InventoryProductDTO>> (inventoryService.getAllInventoryProductsByPriceRange(lowerBoundPrice, 
 				upperBoundPrice), HttpStatus.OK);
 	}
@@ -72,10 +76,11 @@ public class InventoryController {
 	 * @return updated inventoryProductDTO object
 	 * @throws InventoryProductException
 	 */
-	@PutMapping("")	
-	public ResponseEntity<InventoryProductDTO> updateInventoryProducts(int inventoryProductID, InventoryProductDTO inventoryProductDTOObject) 
+	@PutMapping("/inventory/update/{inventoryProductID}")	
+	public ResponseEntity<InventoryProductDTO> updateInventoryProduct(
+			@PathVariable(name="inventoryProductID", required=true) long inventoryProductID, @RequestBody @Valid InventoryProductDTO inventoryProductDTOObject) 
 			throws InventoryProductException {
-		return new ResponseEntity<InventoryProductDTO>(inventoryService.updateInventoryProducts(inventoryProductID, inventoryProductDTOObject),
+		return new ResponseEntity<InventoryProductDTO>(inventoryService.updateInventoryProduct(inventoryProductID, inventoryProductDTOObject),
 				HttpStatus.OK);
 	}
 
@@ -84,8 +89,8 @@ public class InventoryController {
 	 * @param inventoryProduct ID
 	 * @throws InventoryProductException
 	 */
-	@DeleteMapping("")	
-	public ResponseEntity<Object> removeInventoryProduct(int inventoryProductID) throws InventoryProductException  {
+	@DeleteMapping("/inventory/delete/{inventoryProductID}")	
+	public ResponseEntity<Object> removeInventoryProduct(@PathVariable(name="inventoryProductID", required=true) long inventoryProductID) throws InventoryProductException  {
 		inventoryService.removeInventoryProduct(inventoryProductID);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}

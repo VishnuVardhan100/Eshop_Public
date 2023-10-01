@@ -8,20 +8,20 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.eshop.eshopmodel.consumer.User;
+import com.eshop.eshopmodel.customer.Customer;
 import com.eshop.eshopmodel.logistics.Order;
 import com.eshop.eshopmodel.logistics.OrderDTO;
 import com.eshop.eshopmodel.logistics.OrderProduct;
 import com.eshop.eshopmodel.logistics.OrderProductDTO;
+import com.eshop.eshoprepository.CustomerRepository;
 import com.eshop.eshoprepository.OrderRepository;
-import com.eshop.eshoprepository.UserRepository;
-import com.eshop.eshopservice.manipulator.InventoryProductQuantityAccountant;
+import com.eshop.eshopservice.manipulator.InventoryProductAccountant;
 import com.eshop.eshopservice.manipulator.OrderTotalCostCalculator;
 import com.eshop.eshopservice.mapper.LogisticsCustomModelMapper;
+import com.eshop.exception.CustomerException;
 import com.eshop.exception.InvalidInputException;
 import com.eshop.exception.InventoryProductException;
 import com.eshop.exception.OrderException;
-import com.eshop.exception.UserException;
 
 /**
  * Service for Orders and Order Products
@@ -40,33 +40,33 @@ public class LogisticsService implements LogisticsServiceInterface {
 	private OrderTotalCostCalculator orderTotalCostCalculator;
 	
 	@Autowired
-	private UserRepository userRepository;
+	private CustomerRepository customerRepository;
 	
 	@Autowired
 	private OrderRepository orderRepository;
 		
 	@Autowired
-	private InventoryProductQuantityAccountant inventoryProductQuantityAccountant; 
+	private InventoryProductAccountant inventoryProductAccountant; 
 
 	/**
 	 * Place an Order
-	 * @param user ID for whom to place order
+	 * @param Customer ID for whom to place order
 	 * @param orderDTO object , the order object
 	 * @param list of inventory product IDs
 	 * @param List of products in order, must be greater than zero
 	 * @return placed orderDTO object
 	 */
 	@Override
-	public OrderDTO placeOrder(int userID, OrderDTO orderDTOObject, List<Integer> inventoryProductIDList, 
-			List<OrderProductDTO> orderProductDTOList) throws UserException, InventoryProductException, OrderException, InvalidInputException {
+	public OrderDTO placeOrder(long customerID, OrderDTO orderDTOObject, List<Long> inventoryProductIDList, 
+			List<OrderProductDTO> orderProductDTOList) throws CustomerException, InventoryProductException, OrderException, InvalidInputException {
 		
-		//first check for user
-		User userRetrieveObject = userRepository.findById(userID).
-				orElseThrow(() -> new UserException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale())));
+		//first check for Customer
+		Customer customerRetrieveObject = customerRepository.findById(customerID).
+				orElseThrow(() -> new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale())));
 		
-		//map orderDTO to order and set user
+		//map orderDTO to order and set Customer
 		Order orderObject = logisticsCustomModelMapper.mapOrderDTOToOrder(orderDTOObject);
-		orderObject.setUser(userRetrieveObject);
+		orderObject.setCustomer(customerRetrieveObject);
 		
 		//check number of products in order product list
 		if(orderProductDTOList.size()<1) {
@@ -80,7 +80,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 		collect(Collectors.toList());
 
 		//check if each of the products' quantity ordered are available against same product's quantity in inventory 
-		inventoryProductQuantityAccountant.performInventoryQuantityCheckAndAdjust(inventoryProductIDList, orderProductList);
+		inventoryProductAccountant.performInventoryQuantityCheckAndAdjust(inventoryProductIDList, orderProductList);
 				
 		//perform calculation for orderProduct to set total cost for each product in list
 		//Then add all total costs to set total amount for order
@@ -101,13 +101,13 @@ public class LogisticsService implements LogisticsServiceInterface {
 		Order orderSecondReturnObject = orderRepository.save(orderReturnObject);
 		orderProductList = null;
 		orderObject = null;
-		userRetrieveObject = null;
+		customerRetrieveObject = null;
 		
 		return logisticsCustomModelMapper.mapOrderToOrderDTO(orderSecondReturnObject);
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : Retrieve all orders from all users
+	 * ADMIN PRIVILEDGE : Retrieve all orders from all customers
 	 * @return list of all OrderDTOs
 	 */
 	@Override
@@ -117,42 +117,63 @@ public class LogisticsService implements LogisticsServiceInterface {
 	}
 
 	/**
-	 * Retrieve specific Order of particular user
-	 * @param user ID
+	 * Retrieve specific Order of particular Customer
+	 * @param Customer ID
 	 * @param order ID
 	 * @return OrderDTO object if exist
 	 */
 	@Override
-	public OrderDTO retrieveOrderByUserID(int userID, int orderID) throws UserException {
+	public OrderDTO retrieveOrderByCustomerID(long customerID, long orderID) throws CustomerException {
 		
-		//first check for user
-		if(!userRepository.existsById(userID)) {
-			throw new UserException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale()));
+		//first check for Customer
+		if(!customerRepository.existsById(customerID)) {
+			throw new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale()));
 		}
 
 		//get the order
-		Order orderObject = orderRepository.findOrderByUserID(userID, orderID);
+		Order orderObject = orderRepository.findOrderByCustomerID(customerID, orderID);
 		
 		return logisticsCustomModelMapper.mapOrderToOrderDTO(orderObject);		
 	}
+
+	/**
+	 * CAUTION : INTERNAL USE ONLY
+	 * Retrieve specific Order of particular Customer
+	 * @param Customer ID
+	 * @param order ID
+	 * @return Order object if exist
+	 */
+	@Override
+	public Order retrieveOrderObjectByCustomerID(long customerID, long orderID) throws CustomerException {
+		
+		//first check for customer
+		if(!customerRepository.existsById(customerID)) {
+			throw new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale()));
+		}
+
+		//get the order
+		Order orderObject = orderRepository.findOrderByCustomerID(customerID, orderID);
+		
+		return orderObject;
+	}
 	
 	/**
-	 * Retrieve all orders of particular user
-	 * @param user ID
+	 * Retrieve all orders of particular Customer
+	 * @param Customer ID
 	 * @return List of OrderDTO if they exist
 	 */
 	@Override
-	public List<OrderDTO> retrieveAllOrdersByUserID(int userID) throws UserException {
+	public List<OrderDTO> retrieveAllOrdersByCustomerID(long customerID) throws CustomerException {
 		
-		//first check for user
-		User userObject = userRepository.findById(userID).
-				orElseThrow(() -> new UserException(messageSource.getMessage("UserNotFound", null, LocaleContextHolder.getLocale())));
+		//first check for Customer
+		Customer customerObject = customerRepository.findById(customerID).
+				orElseThrow(() -> new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale())));
 
 		//get List of orders
-		//List<Order> orderList = orderRepository.findAllOrdersByUserID(userID);
+		//List<Order> orderList = orderRepository.findAllOrdersByCustomerID(customerID);
 		
 		//return orderList.stream().map(order -> logisticsCustomModelMapper.mapOrderToOrderDTO(order)).collect(Collectors.toList());
-		return userObject.getOrdersList().stream().
+		return customerObject.getOrdersList().stream().
 				map(order -> logisticsCustomModelMapper.mapOrderToOrderDTO(order)).collect(Collectors.toList());		
 	}
 	

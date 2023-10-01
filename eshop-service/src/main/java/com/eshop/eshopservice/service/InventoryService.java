@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Service;
 
 import com.eshop.eshopmodel.inventory.InventoryProduct;
 import com.eshop.eshopmodel.inventory.InventoryProductDTO;
@@ -17,6 +18,7 @@ import com.eshop.exception.InventoryProductException;
  * Service implementation class for Inventory Products management
  */
 
+@Service
 public class InventoryService implements InventoryServiceInterface {
 	
 	@Autowired
@@ -85,7 +87,7 @@ public class InventoryService implements InventoryServiceInterface {
 	 * @throws InventoryProductException
 	 */
 	@Override
-	public InventoryProductDTO updateInventoryProducts(int inventoryProductID, InventoryProductDTO inventoryProductDTOObject) 
+	public InventoryProductDTO updateInventoryProduct(long inventoryProductID, InventoryProductDTO inventoryProductDTOObject) 
 			throws InventoryProductException {
 		InventoryProduct inventoryProductRetrieveObject = inventoryProductRepository.findById(inventoryProductID).
 				orElseThrow(() -> new InventoryProductException(messageSource.getMessage("InventoryProductNotFound", null, LocaleContextHolder.getLocale())));
@@ -114,7 +116,7 @@ public class InventoryService implements InventoryServiceInterface {
 	 * @throws InventoryProductException
 	 */
 	@Override
-	public void removeInventoryProduct(int inventoryProductID) throws InventoryProductException {
+	public void removeInventoryProduct(long inventoryProductID) throws InventoryProductException {
 		if(!inventoryProductRepository.existsById(inventoryProductID)) {
 			throw new InventoryProductException(messageSource.getMessage("InventoryProductNotFound", null, LocaleContextHolder.getLocale())); 
 		}

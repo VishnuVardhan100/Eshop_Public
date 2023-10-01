@@ -23,6 +23,12 @@ public class OrderTotalCostCalculator {
 		return orderProductQuantity * orderProductUnitCost;
 	}
 	
+	/**
+	 * Calculate the total amount for the order
+	 * based on total cost of each product in the list of order products
+	 * @param list Of OrderProducts
+	 * @return total amount for the order
+	 */
 	public long getOrderTotalAmount(List<OrderProduct> listOfOrderProducts) {
 		long totalOrderAmount = 0;
 		

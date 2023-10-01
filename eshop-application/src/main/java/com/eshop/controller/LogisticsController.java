@@ -9,17 +9,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eshop.eshopmodel.logistics.OrderDTO;
 import com.eshop.eshopmodel.logistics.OrderProductDTO;
 import com.eshop.eshopmodel.logistics.WrapperOrderProduct;
 import com.eshop.eshopservice.service.LogisticsService;
+import com.eshop.exception.CustomerException;
 import com.eshop.exception.InvalidInputException;
 import com.eshop.exception.InventoryProductException;
 import com.eshop.exception.OrderException;
-import com.eshop.exception.UserException;
+
+import jakarta.validation.Valid;
 
 /**
  * Controller for handling web requests regarding order and order products
@@ -32,22 +33,22 @@ public class LogisticsController {
 	private LogisticsService logisticsService;
 	
 	/**
-	 * Place an order form user
-	 * @param userID
-	 * @param wrapperOrderProduct
+	 * Place an order from customer
+	 * @param customerID
+	 * @param wrapperOrderProduct having OrderDTO object, list of Inventory Product IDs, list of concurrent Order Products
 	 * @return OrderDTO object if create successful
-	 * @throws UserException
+	 * @throws CustomerException
 	 * @throws OrderException
 	 * @throws InvalidInputException
 	 */
-	@PostMapping("/users/orders/create/{userID}")
-	public ResponseEntity<OrderDTO> placeOrder(@PathVariable(name="userID", required=true) int userID, 
-			@RequestBody(required = true) WrapperOrderProduct wrapperOrderProduct)
-		throws UserException, InventoryProductException, OrderException, InvalidInputException {
+	@PostMapping("/customers/orders/create/{customerID}")
+	public ResponseEntity<OrderDTO> placeOrder(@PathVariable(name="customerID", required=true) long customerID, 
+			@RequestBody(required = true) @Valid WrapperOrderProduct wrapperOrderProduct)
+		throws CustomerException, InventoryProductException, OrderException, InvalidInputException {
 		OrderDTO orderDTOObject = wrapperOrderProduct.getOrderDTOObject();
-		List<Integer> inventoryProductIDList = wrapperOrderProduct.getListOfInventoryProductIDs();
+		List<Long> inventoryProductIDList = wrapperOrderProduct.getListOfInventoryProductIDs();
 		List<OrderProductDTO> orderProductDTOList = wrapperOrderProduct.getListOfOrderProductDTOs();
-		return new ResponseEntity<OrderDTO> (logisticsService.placeOrder(userID, orderDTOObject, inventoryProductIDList, orderProductDTOList), HttpStatus.CREATED);
+		return new ResponseEntity<OrderDTO> (logisticsService.placeOrder(customerID, orderDTOObject, inventoryProductIDList, orderProductDTOList), HttpStatus.CREATED);
 	}
 
 	
@@ -55,32 +56,32 @@ public class LogisticsController {
 	 * ADMIN PRIVILEDGE : Get all orders
 	 * @return all orders
 	 */
-	@GetMapping(path = "/users/orders/search")
+	@GetMapping(path = "/customers/orders/search")
 	public ResponseEntity<List<OrderDTO>> retrieveAllOrders() {
 		return new ResponseEntity<List<OrderDTO>> (logisticsService.retrieveAllOrders(), HttpStatus.OK);
 	}
 	
 	/**
-	 * Get order based on user ID and order ID
-	 * @param userID
+	 * Get order based on customer ID and order ID
+	 * @param customerID
 	 * @param orderID
 	 * @return OrderDTO object if get successful
-	 * @throws UserException
+	 * @throws CustomerException
 	 */
-	/*@GetMapping(path = "/users/orders/search/{userID}" , params = "orderID")
-	public ResponseEntity<OrderDTO> getOrderByUserID(@PathVariable(name="userID", required=true) int userID, 
-			@RequestParam(name="orderID", required=true) int orderID) throws UserException {
-		return new ResponseEntity<OrderDTO> (logisticsService.retrieveOrderByUserID(userID, orderID), HttpStatus.OK);
+	/*@GetMapping(path = "/customers/orders/search/{customerID}" , params = "orderID")
+	public ResponseEntity<OrderDTO> getOrderByCustomerID(@PathVariable(name="customerID", required=true) long customerID, 
+			@RequestParam(name="orderID", required=true) long orderID) throws CustomerException {
+		return new ResponseEntity<OrderDTO> (logisticsService.retrieveOrderByCustomerID(customerID, orderID), HttpStatus.OK);
 	}*/
 	
 	/**
-	 * Get all orders of particular user
-	 * @param userID
-	 * @return list of all orderDTOs for particular user
-	 * @throws UserException
+	 * Get all orders of particular customer
+	 * @param customerID
+	 * @return list of all orderDTOs for particular customer
+	 * @throws CustomerException
 	 */
-	@GetMapping("/users/orders/search/{userID}")
-	public ResponseEntity<List<OrderDTO>> getAllOrdersByUserID(@PathVariable(name="userID", required=true) int userID) throws UserException {
-		return new ResponseEntity<List<OrderDTO>> (logisticsService.retrieveAllOrdersByUserID(userID),HttpStatus.OK);
+	@GetMapping("/customers/orders/search/{customerID}")
+	public ResponseEntity<List<OrderDTO>> getAllOrdersByCustomerID(@PathVariable(name="customerID", required=true) long customerID) throws CustomerException {
+		return new ResponseEntity<List<OrderDTO>> (logisticsService.retrieveAllOrdersByCustomerID(customerID),HttpStatus.OK);
 	}
 }

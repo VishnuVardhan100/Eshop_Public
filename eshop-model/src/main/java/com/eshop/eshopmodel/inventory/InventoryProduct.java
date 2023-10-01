@@ -4,6 +4,8 @@ import org.springframework.validation.annotation.Validated;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
@@ -25,7 +27,7 @@ public class InventoryProduct {
 	@jakarta.persistence.Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="Inventory_Product_ID")
-	private int inventoryProductID;
+	private long inventoryProductID;
 	
 	@NotBlank(message="Inventory Product name cannot be empty or blank")
 	@Column(name="Inventory_Product_Name")
@@ -39,10 +41,10 @@ public class InventoryProduct {
 	@Min(value=1, message="Inventory Product Price cannot be less than one")
 	private long inventoryProductPrice;
 	
-	/*@NotBlank(message="Inventory Product category cannot be empty or blank")
+	@NotBlank(message="Inventory Product category cannot be empty or blank")
 	@Enumerated(EnumType.STRING)
 	@Column(name="InventoryProductCategory")
-	private ProductCategory inventoryProductCategory;*/
+	private ProductCategory inventoryProductCategory;
 	
 	/**
 	 * No argument constructor
@@ -58,23 +60,23 @@ public class InventoryProduct {
 	 * @param inventoryProductQuantity
 	 * @param inventoryProductCategory
 	 */
-	public InventoryProduct(int inventoryProductID,
+	public InventoryProduct(long inventoryProductID,
 			@NotBlank(message = "Inventory Product name cannot be empty or blank") String inventoryProductName,
 			@Min(value = 1, message = "Inventory Product Quantity cannot be less than one") long inventoryProductQuantity,
-			@Min(value = 1, message="Inventory Product Price cannot be less than one") long inventoryProductPrice){
-			/*@NotBlank(message = "Inventory Product category cannot be empty or blank") ProductCategory inventoryProductCategory)*/
+			@Min(value = 1, message="Inventory Product Price cannot be less than one") long inventoryProductPrice,
+			@NotBlank(message = "Inventory Product category cannot be empty or blank") ProductCategory inventoryProductCategory){
 		super();
 		this.inventoryProductID = inventoryProductID;
 		this.inventoryProductName = inventoryProductName;
 		this.inventoryProductQuantity = inventoryProductQuantity;
 		this.inventoryProductPrice = inventoryProductPrice;
-		/*this.inventoryProductCategory = inventoryProductCategory;*/
+		this.inventoryProductCategory = inventoryProductCategory;
 	}
 
 	/**
 	 * @return Inventory Product ID
 	 */
-	public int getInventoryProductID() {
+	public long getInventoryProductID() {
 		return inventoryProductID;
 	}
 
@@ -82,7 +84,7 @@ public class InventoryProduct {
 	 * set Inventory Product ID
 	 * @param inventoryProductID
 	 */
-	public void setInventoryProductID(int inventoryProductID) {
+	public void setInventoryProductID(long inventoryProductID) {
 		this.inventoryProductID = inventoryProductID;
 	}
 
@@ -134,17 +136,17 @@ public class InventoryProduct {
 	/**
 	 * @return Inventory Product Category
 	 */
-	/*public ProductCategory getInventoryProductCategory() {
+	public ProductCategory getInventoryProductCategory() {
 		return inventoryProductCategory;
-	}*/
+	}
 
 	/**
 	 * set Inventory Product Category
 	 * @param Inventory Product Category
 	 */
-	/*public void setInventoryProductCategory(ProductCategory inventoryProductCategory) {
+	public void setInventoryProductCategory(ProductCategory inventoryProductCategory) {
 		this.inventoryProductCategory = inventoryProductCategory;
-	}*/
+	}
 
 	/**
 	 * Returns Inventory Product with ID, Name and Quantity
@@ -152,7 +154,7 @@ public class InventoryProduct {
 	@Override
 	public String toString() {
 		return "InventoryProduct [InventoryProductID=" + inventoryProductID + ", InventoryProductName=" + inventoryProductName + ", InventoryProductQuantity=" + inventoryProductQuantity +
-				/*", InventoryProductCategory" + inventoryProductCategory +*/ "]";
+				", InventoryProductCategory" + inventoryProductCategory + "]";
 	}
 	
 }

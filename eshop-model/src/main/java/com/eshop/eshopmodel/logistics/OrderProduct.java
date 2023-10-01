@@ -1,5 +1,7 @@
 package com.eshop.eshopmodel.logistics;
 
+import java.io.Serializable;
+
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,19 +23,24 @@ import lombok.Data;
 
 /**
  * Order Product entity class which is derived from Inventory Product class.
- * This class is for product that user places in cart and orders.
+ * This class is for product that customer places in cart and orders.
  */
 
 @Data
 @Entity
 @Table(name="Logisitics_Order_Product")
 @Validated
-public class OrderProduct{
+public class OrderProduct implements Serializable{
+
+	/**
+	 * Default Version
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="Order_Product_ID")
-	private int orderProductID;
+	private long orderProductID;
 
 	@NotBlank(message="Order Product Name cannot be empty or blank")
 	@Column(name="Order_Product_Name")
@@ -54,7 +61,7 @@ public class OrderProduct{
 	@JsonProperty(access=Access.WRITE_ONLY)
 	@NotNull(message="Respective Order cannot be null")
 	@ManyToOne
-	@JoinTable(	name="Logistics_Order_Logistics_Order_Product",
+	@JoinTable(	name="Logistics_Order_And_Product",
 				joinColumns= {@JoinColumn(name="Order_Product_ID" , referencedColumnName = "Order_Product_ID")},
 				inverseJoinColumns = {@JoinColumn(name="Order_ID", referencedColumnName="Order_ID")})
 	private Order order;
@@ -75,7 +82,7 @@ public class OrderProduct{
 	 * @param orderProductTotalCost
 	 * @param order
 	 */
-	public OrderProduct(int orderProductID,
+	public OrderProduct(long orderProductID,
 			@NotBlank(message = "Order Product Name cannot be empty or blank") String orderProductName,
 			@Min(value = 1, message = "Order Product Quantity cannot be less than one") long orderProductQuantity,
 			@Min(value = 1, message = "Order Product unit cost cannot be less than one") long orderProductUnitCost,
@@ -93,7 +100,7 @@ public class OrderProduct{
 	/**
 	 * @return Order Product ID
 	 */
-	public int getOrderProductID() {
+	public long getOrderProductID() {
 		return orderProductID;
 	}
 
@@ -101,7 +108,7 @@ public class OrderProduct{
 	 * set Order Product ID
 	 * @param orderProductID
 	 */
-	public void setOrderProductID(int orderProductID) {
+	public void setOrderProductID(long orderProductID) {
 		this.orderProductID = orderProductID;
 	}
 	
@@ -182,7 +189,7 @@ public class OrderProduct{
 
 	/**
 	 * Returns Order Product with Order Product ID, Order Product Name ,Order Product Quantity, Order Product Unit Cost
-	 * and Order Product Total Cost which user placed in order
+	 * and Order Product Total Cost which customer placed in order
 	 */
 	@Override
 	public String toString() {

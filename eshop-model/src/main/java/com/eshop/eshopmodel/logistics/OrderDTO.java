@@ -16,6 +16,7 @@ import lombok.Data;
 @Validated
 public class OrderDTO {
 
+	@SuppressWarnings("unused")
 	private long orderID;
 
 	@NotNull(message="Order Date is mandatory")
