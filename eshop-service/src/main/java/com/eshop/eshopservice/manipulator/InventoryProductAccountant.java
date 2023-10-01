@@ -32,7 +32,7 @@ public class InventoryProductAccountant {
 	
 	private InventoryProduct inventoryRetrieveProduct = null;
 	
-	private Iterator<Integer> inventoryPrdIDListIterator = null;
+	private Iterator<Long> inventoryPrdIDListIterator = null;
 	
 	private OrderProduct orderProduct = null;
 	
@@ -49,7 +49,7 @@ public class InventoryProductAccountant {
 	 * @param orderProduct List
 	 * @throws InventoryProductException
 	 */
-	public void performInventoryQuantityCheckAndAdjust(List<Integer> inventoryProductIDList, List<OrderProduct> orderProductList)
+	public void performInventoryQuantityCheckAndAdjust(List<Long> inventoryProductIDList, List<OrderProduct> orderProductList)
 		throws InventoryProductException {
 
 		size = inventoryProductIDList.size();
