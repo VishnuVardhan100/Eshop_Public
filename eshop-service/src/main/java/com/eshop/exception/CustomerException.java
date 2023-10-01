@@ -4,25 +4,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Exception with suitable message for User issues.
+ * Exception with suitable message for Customer issues.
  */
 
 @SuppressWarnings("serial")
 @ResponseStatus(value=HttpStatus.NOT_FOUND)
-public class UserException extends Exception {
+public class CustomerException extends Exception {
 
 	/**
 	 * No argument constructor
 	 */
-	public UserException() {
+	public CustomerException() {
 		super();
 	}
 
 	/**
-	 * Parameterized constructor. Used to set message shown to user.
+	 * Parameterized constructor. Used to set message shown to customer
 	 * @param message
 	 */
-	public UserException(String message) {
+	public CustomerException(String message) {
 		super(message);
 	}
 

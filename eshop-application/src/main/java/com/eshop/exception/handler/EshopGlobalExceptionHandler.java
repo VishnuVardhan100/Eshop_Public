@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.eshop.exception.CustomerAddressException;
+import com.eshop.exception.CustomerException;
 import com.eshop.exception.InvalidInputException;
 import com.eshop.exception.InventoryProductException;
 import com.eshop.exception.OrderException;
-import com.eshop.exception.UserAddressException;
-import com.eshop.exception.UserException;
 
 /**
  * Base handler for all exceptions in Eshop Application.
@@ -36,14 +36,14 @@ public class EshopGlobalExceptionHandler extends ResponseEntityExceptionHandler 
 		return new ResponseEntity<>(orderException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	@ExceptionHandler(value = UserAddressException.class)
-	public ResponseEntity<Object> userAddressException(UserAddressException userAddressException, WebRequest webRequest){
-		return new ResponseEntity<>(userAddressException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	@ExceptionHandler(value = CustomerAddressException.class)
+	public ResponseEntity<Object> CustomerAddressException(CustomerAddressException customerAddressException, WebRequest webRequest){
+		return new ResponseEntity<>(customerAddressException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@ExceptionHandler(value = UserException.class)
-	public ResponseEntity<Object> userException(UserException userException, WebRequest webRequest){
-		return new ResponseEntity<>(userException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	@ExceptionHandler(value = CustomerException.class)
+	public ResponseEntity<Object> customerException(CustomerException customerException, WebRequest webRequest){
+		return new ResponseEntity<>(customerException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@ExceptionHandler(value = Exception.class)
