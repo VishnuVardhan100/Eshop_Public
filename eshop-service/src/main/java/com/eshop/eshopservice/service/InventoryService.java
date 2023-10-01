@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Service;
 
 import com.eshop.eshopmodel.inventory.InventoryProduct;
 import com.eshop.eshopmodel.inventory.InventoryProductDTO;
@@ -17,6 +18,7 @@ import com.eshop.exception.InventoryProductException;
  * Service implementation class for Inventory Products management
  */
 
+@Service
 public class InventoryService implements InventoryServiceInterface {
 	
 	@Autowired

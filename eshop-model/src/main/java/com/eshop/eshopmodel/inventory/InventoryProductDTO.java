@@ -2,6 +2,8 @@ package com.eshop.eshopmodel.inventory;
 
 import org.springframework.validation.annotation.Validated;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -26,8 +28,8 @@ public class InventoryProductDTO {
 	@Min(value=1, message="Inventory Product Price cannot be less than one")
 	private long inventoryProductPrice;
 	
-	/*@NotBlank(message="Inventory Product category cannot be empty or blank")
+	@NotBlank(message="Inventory Product category cannot be empty or blank")
 	@Enumerated(EnumType.STRING)
-	private ProductCategory inventoryProductCategory;*/
+	private ProductCategory inventoryProductCategory;
 
 }
