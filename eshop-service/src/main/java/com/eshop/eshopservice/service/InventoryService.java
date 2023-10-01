@@ -85,7 +85,7 @@ public class InventoryService implements InventoryServiceInterface {
 	 * @throws InventoryProductException
 	 */
 	@Override
-	public InventoryProductDTO updateInventoryProducts(long inventoryProductID, InventoryProductDTO inventoryProductDTOObject) 
+	public InventoryProductDTO updateInventoryProduct(long inventoryProductID, InventoryProductDTO inventoryProductDTOObject) 
 			throws InventoryProductException {
 		InventoryProduct inventoryProductRetrieveObject = inventoryProductRepository.findById(inventoryProductID).
 				orElseThrow(() -> new InventoryProductException(messageSource.getMessage("InventoryProductNotFound", null, LocaleContextHolder.getLocale())));

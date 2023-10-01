@@ -73,9 +73,9 @@ public class InventoryController {
 	 * @throws InventoryProductException
 	 */
 	@PutMapping("")	
-	public ResponseEntity<InventoryProductDTO> updateInventoryProducts(int inventoryProductID, InventoryProductDTO inventoryProductDTOObject) 
+	public ResponseEntity<InventoryProductDTO> updateInventoryProduct(long inventoryProductID, InventoryProductDTO inventoryProductDTOObject) 
 			throws InventoryProductException {
-		return new ResponseEntity<InventoryProductDTO>(inventoryService.updateInventoryProducts(inventoryProductID, inventoryProductDTOObject),
+		return new ResponseEntity<InventoryProductDTO>(inventoryService.updateInventoryProduct(inventoryProductID, inventoryProductDTOObject),
 				HttpStatus.OK);
 	}
 
@@ -85,7 +85,7 @@ public class InventoryController {
 	 * @throws InventoryProductException
 	 */
 	@DeleteMapping("")	
-	public ResponseEntity<Object> removeInventoryProduct(int inventoryProductID) throws InventoryProductException  {
+	public ResponseEntity<Object> removeInventoryProduct(long inventoryProductID) throws InventoryProductException  {
 		inventoryService.removeInventoryProduct(inventoryProductID);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}

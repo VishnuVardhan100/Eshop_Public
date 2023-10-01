@@ -15,7 +15,7 @@ public interface InventoryServiceInterface {
 
 	List<InventoryProductDTO> getAllInventoryProductsByPriceRange(long lowerBoundPrice , long upperBoundPrice);
 	
-	InventoryProductDTO updateInventoryProducts(long inventoryProductID, InventoryProductDTO inventoryProductDTOObject) throws InventoryProductException;
+	InventoryProductDTO updateInventoryProduct(long inventoryProductID, InventoryProductDTO inventoryProductDTOObject) throws InventoryProductException;
 	
 	void removeInventoryProduct(long inventoryProductID) throws InventoryProductException;
 	
