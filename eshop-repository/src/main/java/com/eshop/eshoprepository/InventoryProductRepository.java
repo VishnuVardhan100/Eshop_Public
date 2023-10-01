@@ -14,7 +14,7 @@ import com.eshop.eshopmodel.inventory.InventoryProduct;
  */
 
 @Repository
-public interface InventoryProductRepository extends JpaRepository<InventoryProduct, Integer>{
+public interface InventoryProductRepository extends JpaRepository<InventoryProduct, Long>{
 
 	/**
 	 * Get all Products in inventory by name criteria
