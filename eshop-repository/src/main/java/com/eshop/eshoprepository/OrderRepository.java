@@ -18,10 +18,10 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
 
 	@Query(value = "select lo from logistics_order lo inner join customer_logistics_order culo inner join customer cu where"
 			+ "cu.User_ID = :userID and lo.order_ID = :orderID", nativeQuery = true)
-	public Order findOrderByCustomerID(@Param("userID") int userID, @Param("orderID") int orderID);
+	public Order findOrderByCustomerID(@Param("userID") long userID, @Param("orderID") long orderID);
 	
 	@Query(value = "select * from logistics_order lo inner join customer_logistics_order culo inner join customer cu where"
 			+ "cu.User_ID = :userID", nativeQuery = true)
-	public List<Order> findAllOrdersByCustomerID(@Param("userID") int userID);
+	public List<Order> findAllOrdersByCustomerID(@Param("userID") long userID);
 
 }
