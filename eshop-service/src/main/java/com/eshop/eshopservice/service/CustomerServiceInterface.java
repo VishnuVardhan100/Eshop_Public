@@ -30,9 +30,9 @@ public interface CustomerServiceInterface {
 
 	void deleteCustomer (long customerID) throws CustomerException, IllegalArgumentException;
 
-	CustomerAddressDTO addCustomerAddress (CustomerAddressDTO customerAddressDTO) throws CustomerException,
+	CustomerAddressDTO addCustomerAddress (CustomerDTO customerDTOObject , CustomerAddressDTO customerAddressDTOObject) throws CustomerException,
 	InvalidInputException;
-
+	
 	List<CustomerAddressDTO> retrieveAllCustomerAddressesByCustomerID(long customerID) throws CustomerException;
 
 	CustomerAddressDTO updateCustomerAddressInfo(long customerID, CustomerAddressDTO customerAddressDTO) throws CustomerException, CustomerAddressException;

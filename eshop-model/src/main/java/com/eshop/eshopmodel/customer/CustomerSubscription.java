@@ -1,26 +1,25 @@
 package com.eshop.eshopmodel.customer;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import lombok.NoArgsConstructor;
+import java.io.Serializable;
 
 /**
  * Lists types of Subscriptions customer has prevailed.
  */
 
-@Embeddable
-@NoArgsConstructor
-public enum CustomerSubscription {
+public enum CustomerSubscription implements Serializable{
 
 	NORMAL("NORMAL"),PLUS("PLUS"),PREMIUM("PREMIUM");
 	
 	private String subscriptionType;
 
+	private CustomerSubscription() {
+		
+	}
+	
 	private CustomerSubscription(String subscriptionType) {
         this.subscriptionType = subscriptionType;
     }
 	
-	@Column
     public String getSubscriptionType() {
         return subscriptionType;
     }

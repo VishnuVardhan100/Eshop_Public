@@ -4,6 +4,8 @@ import java.sql.Date;
 
 import org.springframework.validation.annotation.Validated;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -42,7 +44,7 @@ public class CustomerDTO {
 	@SuppressWarnings("unused")
 	private Date customerCreatedDate;
 	
-	/*@Enumerated(EnumType.STRING)
-	private CustomerSubscription customerSubscription;*/
+	@Enumerated(EnumType.STRING)
+	private CustomerSubscription customerSubscription;
 	
 }

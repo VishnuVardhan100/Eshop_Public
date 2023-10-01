@@ -203,31 +203,30 @@ public class CustomerService implements CustomerServiceInterface{
 
 	/**
 	 * Add a Customer address
+	 * @param customerDTO Object
 	 * @param customerAddress DTO object
 	 * @return the added customerAddress DTO object
 	 * @throws CustomerAddressException
 	 * @throws InvalidInputException
 	 */
 	@Override
-	public CustomerAddressDTO addCustomerAddress(CustomerAddressDTO customerAddressDTOObject) throws CustomerException, 
+	public CustomerAddressDTO addCustomerAddress(CustomerDTO customerDTOObject, CustomerAddressDTO customerAddressDTOObject) throws CustomerException, 
 		InvalidInputException {
-		CustomerAddress customerAddressObject = customerCustomModelMapper.mapCustomerAddressDTOToCustomerAddress(customerAddressDTOObject);
-		customerRepository.findById(customerAddressObject.getCustomer().getCustomerID()).
-				orElseThrow(() -> new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale())));
-
-		//customerObject.getCustomerAddresses().add(customerAddressObject);
-		//customerObject = customerRepository.save(customerObject);
-		CustomerAddress customerAddressReturnObject = customerAddressRepository.save(customerAddressObject);
-
-		if(customerAddressReturnObject == null) {
-			throw new InvalidInputException(messageSource.getMessage("InvalidInput", null, LocaleContextHolder.getLocale()));
+		Customer customerObject = customerCustomModelMapper.mapCustomerDTOToCustomer(customerDTOObject);
+		if(!customerRepository.existsById(customerObject.getCustomerID())) {
+			throw new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale()));
 		}
+		
+		CustomerAddress customerAddressObject = customerCustomModelMapper.mapCustomerAddressDTOToCustomerAddress(customerAddressDTOObject);
+		customerAddressObject.setCustomer(customerObject);
+		CustomerAddress customerAddressReturnObject = customerAddressRepository.save(customerAddressObject);
+		customerObject = null;
 		customerAddressObject = null;
-		//customerObject = null;
-
+		
 		return customerCustomModelMapper.mapCustomerAddressToCustomerAddressDTO(customerAddressReturnObject);
-	}
-
+	}	
+	
+	
 	/**
 	 * Get all the added Customer addresses for a valid Customer
 	 * @param customerID of valid Customer
@@ -325,7 +324,6 @@ public class CustomerService implements CustomerServiceInterface{
 		orElseThrow(() -> new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale())));
 
 		for(Long customerAddressID : customerAddressIDs) {
-			//System.out.println(customerAddressID);
 			CustomerAddress customerAddressObject = customerAddressRepository.findById(customerAddressID).
 			orElseThrow(() -> new CustomerAddressException(messageSource.getMessage("CustomerAddressNotFound", null, LocaleContextHolder.getLocale())));
 

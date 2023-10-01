@@ -1,17 +1,32 @@
 package com.eshop.eshopmodel.customer;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class WrapperCustomerAddress {
 
-	private long customerID;
-	private CustomerAddress customerAddress;
+	private CustomerDTO customerDTOObject;
+	private CustomerAddressDTO customerAddressDTOObject;
+
+	public WrapperCustomerAddress(CustomerDTO customerDTOObject, CustomerAddressDTO customerAddressDTOObject) {
+		this.customerDTOObject = customerDTOObject;
+		this.customerAddressDTOObject = customerAddressDTOObject;
+	}
+	
+	public CustomerDTO getCustomerDTOObject() {
+		return customerDTOObject;
+	}
+
+	public void setCustomerDTOObject(CustomerDTO customerDTOObject) {
+		this.customerDTOObject = customerDTOObject;
+	}
+
+	public CustomerAddressDTO getCustomerAddressDTOObject() {
+		return customerAddressDTOObject;
+	}
+
+	public void setCustomerAddressDTOObject(CustomerAddressDTO customerAddressDTOObject) {
+		this.customerAddressDTOObject = customerAddressDTOObject;
+	}
 
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eshop.eshopmodel.customer.CustomerAddressDTO;
 import com.eshop.eshopmodel.customer.CustomerDTO;
+import com.eshop.eshopmodel.customer.WrapperCustomerAddress;
 import com.eshop.eshopservice.service.CustomerService;
 import com.eshop.exception.CustomerAddressException;
 import com.eshop.exception.CustomerException;
@@ -129,17 +130,19 @@ public class CustomerController {
 
 	/**
 	 * Add customer address for customer
-	 * @param CustomerAddressDTO Object
+	 * @param WrapperCustomerAddress Object
 	 * @return CustomerAddressDTO object that is added
 	 * @throws CustomerException
 	 * @throws InvalidInputException
 	 */
 	@PostMapping("/customers/addresses/create")
-	public ResponseEntity<CustomerAddressDTO> addCustomerAddress(@RequestBody(required=true) @Valid CustomerAddressDTO customerAddressDTOObject) 
+	public ResponseEntity<CustomerAddressDTO> addCustomerAddress(@RequestBody(required=true) @Valid WrapperCustomerAddress wrapperCustomerAddressObject) 
 			throws CustomerException, InvalidInputException {
-		return new ResponseEntity<CustomerAddressDTO>(customerService.addCustomerAddress(customerAddressDTOObject),HttpStatus.CREATED);
+		CustomerDTO customerDTOObject = wrapperCustomerAddressObject.getCustomerDTOObject();
+		CustomerAddressDTO customerAddressDTOObject = wrapperCustomerAddressObject.getCustomerAddressDTOObject();
+		return new ResponseEntity<CustomerAddressDTO>(customerService.addCustomerAddress(customerDTOObject, customerAddressDTOObject),HttpStatus.CREATED);
 	}
-
+	
 	/**
 	 * Get all Customer address for a respective Customer
 	 * @param Customer ID

@@ -14,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -77,9 +79,9 @@ public class Customer implements Serializable {
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private List<Order> ordersList = new ArrayList<Order>();
 	
-	/*@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.STRING)
 	@Column(name="Customer_Subscription")
-	private CustomerSubscription customerSubscription;*/
+	private CustomerSubscription customerSubscription;
 	
 	/**
 	 * No argument Constructor for customer class
@@ -107,8 +109,8 @@ public class Customer implements Serializable {
 			@NotBlank(message = "Mobile Number cannot be blank") @Pattern(regexp = "^[6-9]{1}[0-9]{9}$", message = "Must start with 6,7,8 or 9 and be 10 digits long") @Digits(fraction = 0, integer = 10) String customerMobileNumber,
 			Date customerCreatedDate, 
 			List<CustomerAddress> customerAddresses, 
-			List<Order> ordersList) {
-			/*CustomerSubscription customerSubscription*/
+			List<Order> ordersList,
+			CustomerSubscription customerSubscription) {
 		super();
 		this.customerID = customerID;
 		this.customerFirstName = customerFirstName;
@@ -118,7 +120,7 @@ public class Customer implements Serializable {
 		this.customerCreatedDate = customerCreatedDate;
 		this.customerAddresses = customerAddresses;
 		this.ordersList = ordersList;
-		//this.customerSubscription = customerSubscription;
+		this.customerSubscription = customerSubscription;
 	}
 
 	/**
@@ -244,17 +246,17 @@ public class Customer implements Serializable {
 	/**
 	 * @return customer Subscription
 	 */
-	/*public CustomerSubscription getCustomerSubscription() {
+	public CustomerSubscription getCustomerSubscription() {
 		return customerSubscription;
-	}*/
+	}
 
 	/**
 	 * set customer Subscription
 	 * @param customerSubscription
 	 */
-	/*public void setCustomerSubscription(CustomerSubscription customerSubscription) {
-		//this.customerSubscription = customerSubscription;
-	}*/
+	public void setCustomerSubscription(CustomerSubscription customerSubscription) {
+		this.customerSubscription = customerSubscription;
+	}
 
 	/**
 	 * Returns Customer ID, first name , last name, email, mobile number and created date
@@ -262,7 +264,7 @@ public class Customer implements Serializable {
 	@Override
 	public String toString() {
 		return "Customer [ID = " + customerID + ", First Name = " + customerFirstName + ", Last Name = " + customerLastName + ", Email = " + customerEmail
-				+ ", Mobile Number = " + customerMobileNumber + ", Created Date = " + customerCreatedDate /*+ ", Customer Subscription = " + customerSubscription*/ + "]";
+				+ ", Mobile Number = " + customerMobileNumber + ", Created Date = " + customerCreatedDate + ", Customer Subscription = " + customerSubscription + "]";
 	}
 
 }

@@ -38,7 +38,7 @@ public class CustomerAddressDTO {
 	@Pattern(regexp="^[0-9]{6}$", message="Only Digits and must be exact 6 characters")
 	private String pincode;
 	
-	@NotNull(message="Customer Address has to be for a respective user")
+	@NotNull(message="Customer Address has to be for a respective customer")
 	private Customer customer;
 	
 }
