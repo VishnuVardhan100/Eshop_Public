@@ -20,6 +20,8 @@ import com.eshop.exception.InvalidInputException;
 import com.eshop.exception.InventoryProductException;
 import com.eshop.exception.OrderException;
 
+import jakarta.validation.Valid;
+
 /**
  * Controller for handling web requests regarding order and order products
  */
@@ -41,7 +43,7 @@ public class LogisticsController {
 	 */
 	@PostMapping("/customers/orders/create/{customerID}")
 	public ResponseEntity<OrderDTO> placeOrder(@PathVariable(name="customerID", required=true) long customerID, 
-			@RequestBody(required = true) WrapperOrderProduct wrapperOrderProduct)
+			@RequestBody(required = true) @Valid WrapperOrderProduct wrapperOrderProduct)
 		throws CustomerException, InventoryProductException, OrderException, InvalidInputException {
 		OrderDTO orderDTOObject = wrapperOrderProduct.getOrderDTOObject();
 		List<Long> inventoryProductIDList = wrapperOrderProduct.getListOfInventoryProductIDs();

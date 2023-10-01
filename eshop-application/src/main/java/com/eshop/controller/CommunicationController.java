@@ -18,6 +18,7 @@ import com.eshop.exception.CustomerException;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.AddressException;
+import jakarta.validation.Valid;
 
 /**
  * Controller to handle send mail requests
@@ -44,7 +45,7 @@ public class CommunicationController {
 	 * @throws MessagingException
 	 */
 	@GetMapping(value="/customers/communications")
-	public ResponseEntity<Object> sendOrderSummaryViaMail(@RequestBody(required=true) WrapperCommunication wrapperCommunicationObject)
+	public ResponseEntity<Object> sendOrderSummaryViaMail(@RequestBody(required=true) @Valid WrapperCommunication wrapperCommunicationObject)
 		throws CustomerException, AddressException, MessagingException {
 		long customerID = wrapperCommunicationObject.getCustomerID();
 		long orderID = wrapperCommunicationObject.getOrderID();
