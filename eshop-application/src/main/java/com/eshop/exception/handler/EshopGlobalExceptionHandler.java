@@ -28,28 +28,27 @@ public class EshopGlobalExceptionHandler extends ResponseEntityExceptionHandler 
 	@ExceptionHandler(value = InventoryProductException.class)
 	public ResponseEntity<Object> inventoryProductException(InventoryProductException inventoryProductException, 
 			WebRequest webRequest){
-		return new ResponseEntity<>(inventoryProductException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(inventoryProductException.getMessage(), HttpStatus.OK);
 	}
 
 	@ExceptionHandler(value = OrderException.class)
 	public ResponseEntity<Object> orderException(OrderException orderException, WebRequest webRequest){
-		return new ResponseEntity<>(orderException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(orderException.getMessage(), HttpStatus.OK);
 	}
 
 	@ExceptionHandler(value = CustomerAddressException.class)
 	public ResponseEntity<Object> CustomerAddressException(CustomerAddressException customerAddressException, WebRequest webRequest){
-		return new ResponseEntity<>(customerAddressException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(customerAddressException.getMessage(), HttpStatus.OK);
 	}
 	
 	@ExceptionHandler(value = CustomerException.class)
 	public ResponseEntity<Object> customerException(CustomerException customerException, WebRequest webRequest){
-		return new ResponseEntity<>(customerException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(customerException.getMessage(), HttpStatus.OK);
 	}
 
 	@ExceptionHandler(value = Exception.class)
 	public ResponseEntity<Object> eshopGlobalExceptionHandler(Exception exception, WebRequest webRequest){
 		return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
 	}
-	
 	
 }

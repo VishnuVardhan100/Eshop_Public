@@ -17,11 +17,11 @@ import com.eshop.eshopmodel.logistics.Order;
 public interface OrderRepository extends JpaRepository<Order, Long>{
 
 	@Query(value = "select lo from logistics_order lo inner join customer_logistics_order culo inner join customer cu where"
-			+ "cu.User_ID = :userID and lo.order_ID = :orderID", nativeQuery = true)
-	public Order findOrderByCustomerID(@Param("userID") long userID, @Param("orderID") long orderID);
+			+ "cu.Customer_ID = :customerID and lo.order_ID = :orderID", nativeQuery = true)
+	public Order findOrderByCustomerID(@Param("customerID") long customerID, @Param("orderID") long orderID);
 	
 	@Query(value = "select * from logistics_order lo inner join customer_logistics_order culo inner join customer cu where"
-			+ "cu.User_ID = :userID", nativeQuery = true)
-	public List<Order> findAllOrdersByCustomerID(@Param("userID") long userID);
+			+ "cu.Customer_ID = :customerID", nativeQuery = true)
+	public List<Order> findAllOrdersByCustomerID(@Param("customerID") long customerID);
 
 }
