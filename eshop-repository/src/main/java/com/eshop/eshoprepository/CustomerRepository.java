@@ -21,7 +21,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
 	 * @param firstname
 	 * @return list of matching customers
 	 */
-	@Query(value = "select * from Customer c where c.Customer_First_Name like :firstname", nativeQuery = true)
+	@Query(value = "select * from Customer c where c.Customer_First_Name ilike :firstname", nativeQuery = true)
 	public List<Customer> retreiveCustomersByFirstName(@Param("firstname") String firstname);
 
 	/**
@@ -29,7 +29,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
 	 * @param lastname
 	 * @return list of matching customers
 	 */
-	@Query(value = "select * from Customer c where c.Customer_Last_Name like :lastname", nativeQuery = true)
+	@Query(value = "select * from Customer c where c.Customer_Last_Name ilike :lastname", nativeQuery = true)
 	public List<Customer> retreiveCustomersByLastName(@Param("lastname") String lastname);
 
 	/**
@@ -37,7 +37,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
 	 * @param email
 	 * @return list of matching customers
 	 */
-	@Query(value = "select * from Customer c where c.Customer_Email like :email", nativeQuery = true)
+	@Query(value = "select * from Customer c where c.Customer_Email ilike :email", nativeQuery = true)
 	public List<Customer> retreiveCustomersByEmail(@Param("email") String email);
 	
 }
