@@ -1,4 +1,4 @@
-package com.eshop.controller;
+package com.eshop.eshopapplication.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -44,7 +44,7 @@ public class CommunicationController {
 	 * @throws AddressException
 	 * @throws MessagingException
 	 */
-	@GetMapping(value="/customers/communications")
+	@GetMapping(value="/customers/communications/sendOrderMail")
 	public ResponseEntity<Object> sendOrderSummaryViaMail(@RequestBody(required=true) @Valid WrapperCommunication wrapperCommunicationObject)
 		throws CustomerException, AddressException, MessagingException {
 		long customerID = wrapperCommunicationObject.getCustomerID();

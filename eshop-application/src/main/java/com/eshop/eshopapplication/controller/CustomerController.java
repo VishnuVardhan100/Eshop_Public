@@ -1,4 +1,4 @@
-package com.eshop.controller;
+package com.eshop.eshopapplication.controller;
 
 import java.util.List;
 import java.util.Locale;
@@ -43,7 +43,7 @@ public class CustomerController {
 	 * @return Response Entity Object having new CustomerDTO object and created status
 	 * @throws InvalidInputException
 	 */
-	@PostMapping("/customers/create")
+	@PostMapping("/customers")
 	public ResponseEntity<CustomerDTO> createCustomer(@RequestBody(required=true) @Valid CustomerDTO customerDTOObject,
 			@RequestHeader(name="Accept-Language", required=false) Locale locale) throws InvalidInputException {
 		CustomerDTO customerDTOReturnObject = customerService.createCustomer(customerDTOObject, locale);
@@ -135,7 +135,7 @@ public class CustomerController {
 	 * @throws CustomerException
 	 * @throws InvalidInputException
 	 */
-	@PostMapping("/customers/addresses/create")
+	@PostMapping("/customers/addresses")
 	public ResponseEntity<CustomerAddressDTO> addCustomerAddress(@RequestBody(required=true) @Valid WrapperCustomerAddress wrapperCustomerAddressObject) 
 			throws CustomerException, InvalidInputException {
 		CustomerDTO customerDTOObject = wrapperCustomerAddressObject.getCustomerDTOObject();

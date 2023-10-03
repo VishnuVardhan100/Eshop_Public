@@ -2,7 +2,9 @@ package com.eshop.eshopapplication;
 
 import java.util.Locale;
 
+import org.hibernate.cfg.Environment;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -17,6 +19,9 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 @EnableJpaRepositories("com.eshop.eshoprepository")
 @SpringBootApplication
 public class EshopApplication {
+	
+	@Autowired
+	private Environment environment;
 
 	public static void main(String[] args) {
 		SpringApplication.run(EshopApplication.class, args);

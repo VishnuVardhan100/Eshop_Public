@@ -1,4 +1,4 @@
-package com.eshop.exception.handler;
+package com.eshop.eshopapplication.exception.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
