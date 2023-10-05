@@ -174,6 +174,7 @@ public class CustomerService implements CustomerServiceInterface{
 		}
 
 		//CAUTION: We should not change the Customer ID - primary identifier. It stays same as when created
+		customerRetrieveObject.setCustomerPassword(customerObject.getCustomerPassword());
 		customerRetrieveObject.setCustomerFirstName(customerObject.getCustomerFirstName());
 		customerRetrieveObject.setCustomerLastName(customerObject.getCustomerLastName());
 		customerRetrieveObject.setCustomerEmail(customerObject.getCustomerEmail());

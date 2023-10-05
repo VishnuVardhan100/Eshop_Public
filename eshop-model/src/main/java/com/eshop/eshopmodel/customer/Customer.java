@@ -46,6 +46,10 @@ public class Customer implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="Customer_ID")
 	private long customerID;
+	
+	@NotBlank(message="Password cannot be empty or white space blanks")
+	@JsonProperty(access = Access.WRITE_ONLY)
+	private String customerPassword;
 
 	@NotBlank(message="First Name cannot be blank")
 	@Pattern(regexp="^[a-zA-Z ]{3,20}$", message="For Last name, regular alphabet and spaces are allowed. Between 3-20 characters")
@@ -93,6 +97,7 @@ public class Customer implements Serializable {
 	/**
 	 * Parameterized Constructor
 	 * @param customerID
+	 * @param customerPassword
 	 * @param customerFirstName
 	 * @param customerLastName
 	 * @param customerEmail
@@ -103,6 +108,7 @@ public class Customer implements Serializable {
 	 * @param customerSubscription
 	 */
 	public Customer(long customerID,
+			@NotBlank(message="Password cannot be empty or white space blanks") String customerPassword,
 			@NotBlank(message = "First Name cannot be blank") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String customerFirstName,
 			@NotBlank(message = "Last Name cannot be blank") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String customerLastName,
 			@NotBlank(message = "Email cannot be blank") @Email(message = "Email must be valid") String customerEmail,
@@ -113,6 +119,7 @@ public class Customer implements Serializable {
 			CustomerSubscription customerSubscription) {
 		super();
 		this.customerID = customerID;
+		this.customerPassword = customerPassword;
 		this.customerFirstName = customerFirstName;
 		this.customerLastName = customerLastName;
 		this.customerEmail = customerEmail;
@@ -136,6 +143,21 @@ public class Customer implements Serializable {
 	 */
 	public void setCustomerID(long customerID) {
 		this.customerID = customerID;
+	}
+	
+	/**
+	 * @return customer password
+	 */
+	public String getCustomerPassword() {
+		return customerPassword;
+	}
+
+	/**
+	 * set customer password
+	 * @param customer password
+	 */
+	public void setCustomerPassword(String customerPassword) {
+		this.customerPassword = customerPassword;
 	}
 
 	/**
