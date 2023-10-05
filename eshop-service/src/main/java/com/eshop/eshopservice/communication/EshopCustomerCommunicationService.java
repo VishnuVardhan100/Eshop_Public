@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.eshop.eshopmodel.customer.Customer;
@@ -42,8 +43,10 @@ public class EshopCustomerCommunicationService {
 	private DataHandler dataHandler = null;
 	private DataSource dataSource = null;
 	
-	private String from = "jasonQuagmire@gmail.com";
-	private String password = "Aron678";
+	@Value("${send.mail.from}")
+	private String from;
+	@Value("${send.mail.password}")
+	private String password;
 	private String subject = "";
 	private String text = "";
 
