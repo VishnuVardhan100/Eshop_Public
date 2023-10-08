@@ -46,9 +46,9 @@ public class EshopGlobalExceptionHandler extends ResponseEntityExceptionHandler 
 		return new ResponseEntity<>(customerException.getMessage(), HttpStatus.OK);
 	}
 
-	@ExceptionHandler(value = Exception.class)
+	/*@ExceptionHandler(value = Exception.class)
 	public ResponseEntity<Object> eshopGlobalExceptionHandler(Exception exception, WebRequest webRequest){
 		return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
-	}
+	}*/
 	
 }
