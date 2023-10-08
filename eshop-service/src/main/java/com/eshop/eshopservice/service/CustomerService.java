@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -46,10 +47,15 @@ public class CustomerService implements CustomerServiceInterface{
 	 * @param locale
 	 * @return CustomerDTO Object after successful Customer creation
 	 * @throws InvalidInputException
+	 * @throws CustomerException 
+	 * @throws NoSuchMessageException 
 	 */
 	@Override
-	public CustomerDTO createCustomer(CustomerDTO customerDTOObject, Locale locale) throws InvalidInputException{
+	public CustomerDTO createCustomer(CustomerDTO customerDTOObject, Locale locale) throws InvalidInputException, CustomerException{
 		Customer customerObject = customerCustomModelMapper.mapCustomerDTOToCustomer(customerDTOObject);
+		if(emailExists(customerObject.getCustomerEmail())) {
+			throw new CustomerException(messageSource.getMessage("EmailExists", null, locale));
+		}
 		Customer customerReturnObject = customerRepository.save(customerObject);
 		customerObject = null;
 
@@ -60,6 +66,19 @@ public class CustomerService implements CustomerServiceInterface{
 		return customerCustomModelMapper.mapCustomerToCustomerDTO(customerReturnObject);
 	}
 
+	/**
+	 * Check if email already exists for another customer
+	 * @param customer email
+	 * @return true if exists or false otherwise
+	 */
+	@Override
+	public boolean emailExists(String customerEmail) {
+		if(customerRepository.emailExists(customerEmail) != null) {
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * Retrieve a Customer by their ID
 	 * @param long Customer ID

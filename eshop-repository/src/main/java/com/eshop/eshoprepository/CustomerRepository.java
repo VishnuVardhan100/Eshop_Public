@@ -1,6 +1,7 @@
 package com.eshop.eshoprepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +16,22 @@ import com.eshop.eshopmodel.customer.Customer;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long>{
+	
+	/**
+	 * Return Email if exists
+	 * @param customerEmail
+	 * @return matching email
+	 */
+	@Query(value = "select cu.Customer_Email from Customer cu where cu.Customer_Email ilike :customerEmail", nativeQuery=true)
+	public String emailExists(@Param("customerEmail") String customerEmail);
+	
+	/**
+	 * Return Customer by checking email
+	 * @param customerEmail
+	 * @return customer
+	 */
+	@Query(value = "select * from Customer cu where cu.Customer_Email ilike :customerEmail", nativeQuery=true)
+	public Customer loadCustomerByEmail(@Param("customerEmail") String customerEmail);
 
 	/**
 	 * Get customers by first name

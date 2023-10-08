@@ -12,7 +12,9 @@ import com.eshop.exception.InvalidInputException;
 
 public interface CustomerServiceInterface {
 	
-	CustomerDTO createCustomer(CustomerDTO customerDTO, Locale locale) throws InvalidInputException;
+	CustomerDTO createCustomer(CustomerDTO customerDTO, Locale locale) throws InvalidInputException, CustomerException;
+	
+	boolean emailExists(String customerEmail);
 
 	CustomerDTO retrieveCustomerByID(long customerID, Locale locale) throws CustomerException;
 
