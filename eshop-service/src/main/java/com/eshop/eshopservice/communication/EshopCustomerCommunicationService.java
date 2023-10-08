@@ -89,10 +89,10 @@ public class EshopCustomerCommunicationService {
 	 */
 	public void prepareOrderMail(Customer customerObject, Order orderObject) throws AddressException, MessagingException  {
 		setUpSession();
-		setOrderMailSubject(orderObject.getOrderID(), orderObject.getOrderDate());
+		setOrderMailSubject(orderObject.getOrderID(), orderObject.getOrderPlacedDate());
 		setUpMIMEMessage(customerObject.getCustomerEmail(), subject);
 		createMultipart();
-		setOrderMailText(orderObject.getOrderID(), orderObject.getOrderDate(), orderObject.getOrderTotalAmount(), orderObject.getOrderProductList());
+		setOrderMailText(orderObject.getOrderID(), orderObject.getOrderPlacedDate(), orderObject.getOrderTotalAmount(), orderObject.getOrderProductList());
 		addMessageBodyPart();
 	}
 
