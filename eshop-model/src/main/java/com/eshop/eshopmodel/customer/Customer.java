@@ -21,6 +21,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -33,9 +34,12 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="Customer")
+@Table( name="Customer",
+		uniqueConstraints= {
+				@UniqueConstraint(name="UniqueEmail", columnNames = { "Customer_Email" })
+		})
 @Validated
-public class Customer implements Serializable {
+public class Customer implements Serializable{
 
 	/**
 	 * Default Version
@@ -48,7 +52,9 @@ public class Customer implements Serializable {
 	private long customerID;
 	
 	@NotBlank(message="Password cannot be empty or white space blanks")
-	@JsonProperty(access = Access.WRITE_ONLY)
+	//@JsonProperty(access = Access.WRITE_ONLY)
+	@Pattern(regexp="^[a-zA-Z0-9 ]{8,20}$" , message="Password can be lower , upper alphabets, digits and whitespace. Length must be between 8 and 20 ,both inclusive")
+	@Column(name="Customer_Password")
 	private String customerPassword;
 
 	@NotBlank(message="First Name cannot be blank")
@@ -86,6 +92,10 @@ public class Customer implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(name="Customer_Subscription")
 	private CustomerSubscription customerSubscription;
+
+	@NotBlank(message="Roles cannot be blank")
+	@Column(name="Roles")
+	private String roles;
 	
 	/**
 	 * No argument Constructor for customer class
@@ -106,9 +116,11 @@ public class Customer implements Serializable {
 	 * @param customerAddresses
 	 * @param ordersList
 	 * @param customerSubscription
+	 * @param roles
 	 */
 	public Customer(long customerID,
-			@NotBlank(message="Password cannot be empty or white space blanks") String customerPassword,
+			@NotBlank(message="Password cannot be empty or white space blanks") @Pattern(regexp="^[a-zA-Z0-9 ]{8,20}$" , message="Password can be lower , upper alphabets, digits and whitespace. Length must be between 8 and 20 ,both inclusive")
+			String customerPassword,
 			@NotBlank(message = "First Name cannot be blank") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String customerFirstName,
 			@NotBlank(message = "Last Name cannot be blank") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String customerLastName,
 			@NotBlank(message = "Email cannot be blank") @Email(message = "Email must be valid") String customerEmail,
@@ -116,7 +128,8 @@ public class Customer implements Serializable {
 			Date customerCreatedDate, 
 			List<CustomerAddress> customerAddresses, 
 			List<Order> ordersList,
-			CustomerSubscription customerSubscription) {
+			CustomerSubscription customerSubscription,
+			@NotBlank(message="Roles cannot be blank") String roles) {
 		super();
 		this.customerID = customerID;
 		this.customerPassword = customerPassword;
@@ -128,6 +141,7 @@ public class Customer implements Serializable {
 		this.customerAddresses = customerAddresses;
 		this.ordersList = ordersList;
 		this.customerSubscription = customerSubscription;
+		this.roles=roles;
 	}
 
 	/**
@@ -280,6 +294,14 @@ public class Customer implements Serializable {
 		this.customerSubscription = customerSubscription;
 	}
 
+	public String getRoles() {
+		return roles;
+	}
+	
+	public void setRoles(String roles) {
+		this.roles = roles;
+	}
+	
 	/**
 	 * Returns Customer ID, first name , last name, email, mobile number and created date
 	 */

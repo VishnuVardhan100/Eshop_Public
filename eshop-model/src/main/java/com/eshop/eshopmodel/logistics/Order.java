@@ -46,15 +46,21 @@ public class Order implements Serializable {
 	private long orderID;
 
 	@NotNull(message="Order Date is mandatory")
-	@Column(name="Order_Date")
-	private Date orderDate;
+	@Column(name="Order_Placed_Date")
+	private Date orderPlacedDate;
 
+	@NotNull(message="Order Delivery Date is mandatory")
+	@Column(name="Order_Delivery_Date")
+	private Date orderDeliveryDate;
+	
 	@Min(value=1, message="Order total amount cannot be less than one")
 	@Column(name="Order_Total_Amount")
 	private long orderTotalAmount;
 
+	@Column(name="Order_Delivery_Status")
+	boolean orderDeliveryStatus;
+	
 	@OneToMany(mappedBy="order",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
-	//@JsonProperty(access=Access.WRITE_ONLY)
 	private List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
 
 	@NotNull(message="Order cannot be placed without respective customer")
@@ -74,19 +80,26 @@ public class Order implements Serializable {
 	/**
 	 * Parameterized Constructor
 	 * @param orderID
-	 * @param orderDate
+	 * @param orderPlacedDate
+	 * @param orderDeliveryDate
+	 * @param orderDeliveryStatus
 	 * @param orderProductList
 	 * @param orderTotalAmount
 	 * @param customer
 	 */
-	public Order(long orderID, @NotNull(message = "Order Date is mandatory") Date orderDate,
+	public Order(long orderID, 
+			@NotNull(message = "Order Date is mandatory") Date orderPlacedDate,
+			@NotNull(message="Order Delivery Date is mandatory") Date orderDeliveryDate,
 			@Min(value = 1, message = "Order total amount cannot be less than one") long orderTotalAmount,
+			boolean orderDeliveryStatus,
 			List<OrderProduct> orderProductList,
 			@NotNull(message = "Order cannot be placed without respective customer") Customer customer) {
 		super();
 		this.orderID = orderID;
-		this.orderDate = orderDate;
+		this.orderPlacedDate = orderPlacedDate;
+		this.orderDeliveryDate = orderDeliveryDate;
 		this.orderTotalAmount = orderTotalAmount;
+		this.orderDeliveryStatus = false;
 		this.orderProductList = orderProductList;
 		this.customer = customer;
 	}
@@ -109,18 +122,32 @@ public class Order implements Serializable {
 	/**
 	 * @return order placed date
 	 */
-	public Date getOrderDate() {
-		return orderDate;
+	public Date getOrderPlacedDate() {
+		return orderPlacedDate;
 	}
 
 	/**
 	 * set order placed date
-	 * @param orderDate
+	 * @param orderPlacedDate
 	 */
-	public void setOrderDate(Date orderDate) {
-		this.orderDate = orderDate;
+	public void setOrderPlacedDate(Date orderPlacedDate) {
+		this.orderPlacedDate = orderPlacedDate;
 	}
-	
+
+	/**
+	 * @return order delivery date
+	 */
+	public Date getOrderDeliveryDate() {
+		return orderDeliveryDate;
+	}
+
+	/**
+	 * set order delivery date
+	 * @param orderDeliveryDate
+	 */
+	public void setOrderDeliveryDate(Date orderDeliveryDate) {
+		this.orderDeliveryDate = orderDeliveryDate;
+	}
 	
 	/**
 	 * @return Order Total Amount
@@ -137,6 +164,21 @@ public class Order implements Serializable {
 		this.orderTotalAmount = orderTotalAmount;
 	}
 
+	/**
+	 * @return Order Delivery Status
+	 */
+	public boolean getOrderDeliveryStatus() {
+		return orderDeliveryStatus;
+	}
+
+	/**
+	 * Set Order Delivery Status
+	 * @param orderDelivery Status
+	 */
+	public void setOrderDeliveryStatus(boolean orderDeliveryStatus) {
+		this.orderDeliveryStatus = orderDeliveryStatus;
+	}
+	
 	/**
 	 * @return list of products in the order
 	 */
@@ -172,7 +214,8 @@ public class Order implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Order [orderID=" + orderID + ", orderDate=" + orderDate + ", orderTotalAmount=" + orderTotalAmount + "]";
+		return "Order [ID=" + orderID + ", Order Placed Date=" + orderPlacedDate + ", Order Delivery Date=" + orderDeliveryDate + ", Order Total Amount=" + orderTotalAmount 
+				+ ", Order Delivery Status" + orderDeliveryStatus + "]";
 	}
 	
 }
