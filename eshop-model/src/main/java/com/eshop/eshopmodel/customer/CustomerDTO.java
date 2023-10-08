@@ -21,9 +21,12 @@ import lombok.Data;
 @Validated
 public class CustomerDTO {
 
-	@SuppressWarnings("unused")
 	private long customerID;
 
+	@NotBlank(message="Password cannot be empty or white space blanks")
+	@Pattern(regexp="^[a-zA-Z0-9 ]{8,20}$" , message="Password can be lower , upper alphabets, digits and whitespace. Length must be between 8 and 20 ,both inclusive")
+	private String customerPassword;
+	
 	@NotBlank(message="First Name cannot be blank")
 	@Pattern(regexp="^[a-zA-Z ]{3,20}$", message="For Last name, regular alphabet and spaces are allowed. Between 3-20 characters")
 	private String customerFirstName;
@@ -41,10 +44,50 @@ public class CustomerDTO {
 	@Digits(fraction=0, integer=10)
 	private String customerMobileNumber;
 	
-	@SuppressWarnings("unused")
 	private Date customerCreatedDate;
 	
 	@Enumerated(EnumType.STRING)
 	private CustomerSubscription customerSubscription;
+
+	@NotBlank(message="Roles cannot be blank")
+	private String roles;
+
+	//ALL GETTERS
 	
+	public long getCustomerID() {
+		return customerID;
+	}
+
+	public String getCustomerPassword() {
+		return customerPassword;
+	}
+
+	public String getCustomerFirstName() {
+		return customerFirstName;
+	}
+
+	public String getCustomerLastName() {
+		return customerLastName;
+	}
+
+	public String getCustomerEmail() {
+		return customerEmail;
+	}
+
+	public String getCustomerMobileNumber() {
+		return customerMobileNumber;
+	}
+
+	public Date getCustomerCreatedDate() {
+		return customerCreatedDate;
+	}
+
+	public CustomerSubscription getCustomerSubscription() {
+		return customerSubscription;
+	}
+	
+	public String getRoles() {
+		return roles;
+	}
+
 }

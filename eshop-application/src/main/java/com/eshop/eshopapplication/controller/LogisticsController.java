@@ -1,4 +1,4 @@
-package com.eshop.controller;
+package com.eshop.eshopapplication.controller;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public class LogisticsController {
 	 * @throws OrderException
 	 * @throws InvalidInputException
 	 */
-	@PostMapping("/customers/orders/create/{customerID}")
+	@PostMapping("/customers/orders/{customerID}")
 	public ResponseEntity<OrderDTO> placeOrder(@PathVariable(name="customerID", required=true) long customerID, 
 			@RequestBody(required = true) @Valid WrapperOrderProduct wrapperOrderProduct)
 		throws CustomerException, InventoryProductException, OrderException, InvalidInputException {

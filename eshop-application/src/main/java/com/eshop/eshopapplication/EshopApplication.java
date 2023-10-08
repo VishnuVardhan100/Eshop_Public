@@ -17,7 +17,7 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 @EnableJpaRepositories("com.eshop.eshoprepository")
 @SpringBootApplication
 public class EshopApplication {
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(EshopApplication.class, args);
 	}

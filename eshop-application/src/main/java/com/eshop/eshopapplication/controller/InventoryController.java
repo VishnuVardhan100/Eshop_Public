@@ -1,4 +1,4 @@
-package com.eshop.controller;
+package com.eshop.eshopapplication.controller;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class InventoryController {
 	 * @param inventoryProductDTO object to create
 	 * @return inventoryProductDTO object which was created in inventory
 	 */
-	@PostMapping("/inventory/add")
+	@PostMapping("/admin/inventory/add")
 	public ResponseEntity<InventoryProductDTO> addInventoryProduct(@RequestBody(required=true) @Valid InventoryProductDTO inventoryProductDTOObject) {
 		return new ResponseEntity<InventoryProductDTO> (inventoryService.addInventoryProduct(inventoryProductDTOObject),HttpStatus.CREATED);
 	}
@@ -40,7 +40,7 @@ public class InventoryController {
 	 * ADMIN PRIVILEDGE : Get all Inventory Products
 	 * @return list of inventoryProductDTO objects
 	 */
-	@GetMapping(value = "/inventory/search")
+	@GetMapping(value = "/admin/inventory/search")
 	public ResponseEntity<List<InventoryProductDTO>> getAllInventoryProducts()  {
 		return new ResponseEntity<List<InventoryProductDTO>> (inventoryService.getAllInventoryProducts(), HttpStatus.OK);
 	}
@@ -50,7 +50,7 @@ public class InventoryController {
 	 * @param inventoryProduct name
 	 * @return matching list of inventory products
 	 */
-	@GetMapping(value = "/inventory/search", params = {"inventoryProductName"})
+	@GetMapping(value = "/admin/inventory/search", params = {"inventoryProductName"})
 	public ResponseEntity<List<InventoryProductDTO>> getAllInventoryProductsByName(
 			@RequestParam(name="inventoryProductName", required=true) String inventoryProductName){
 		return new ResponseEntity<List<InventoryProductDTO>> (inventoryService.getAllInventoryProductsByName(inventoryProductName), HttpStatus.OK);
@@ -62,7 +62,7 @@ public class InventoryController {
 	 * @param upper price
 	 * @return matching list of inventory products
 	 */
-	@GetMapping(value = "/inventory/search", params = {"lowerBound, upperBound"})
+	@GetMapping(value = "/admin/inventory/search", params = {"lowerBound, upperBound"})
 	public ResponseEntity<List<InventoryProductDTO>> getAllInventoryProductsByPriceRange(
 			@RequestParam(name="lowerBound", required=true) long lowerBoundPrice, @RequestParam(name="upperBound", required=true) long upperBoundPrice) {
 		return new ResponseEntity<List<InventoryProductDTO>> (inventoryService.getAllInventoryProductsByPriceRange(lowerBoundPrice, 
@@ -76,7 +76,7 @@ public class InventoryController {
 	 * @return updated inventoryProductDTO object
 	 * @throws InventoryProductException
 	 */
-	@PutMapping("/inventory/update/{inventoryProductID}")	
+	@PutMapping("/admin/inventory/update/{inventoryProductID}")	
 	public ResponseEntity<InventoryProductDTO> updateInventoryProduct(
 			@PathVariable(name="inventoryProductID", required=true) long inventoryProductID, @RequestBody @Valid InventoryProductDTO inventoryProductDTOObject) 
 			throws InventoryProductException {
@@ -89,7 +89,7 @@ public class InventoryController {
 	 * @param inventoryProduct ID
 	 * @throws InventoryProductException
 	 */
-	@DeleteMapping("/inventory/delete/{inventoryProductID}")	
+	@DeleteMapping("/admin/inventory/delete/{inventoryProductID}")	
 	public ResponseEntity<Object> removeInventoryProduct(@PathVariable(name="inventoryProductID", required=true) long inventoryProductID) throws InventoryProductException  {
 		inventoryService.removeInventoryProduct(inventoryProductID);
 		return new ResponseEntity<Object>(HttpStatus.OK);

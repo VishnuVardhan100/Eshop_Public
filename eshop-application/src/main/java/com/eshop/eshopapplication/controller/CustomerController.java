@@ -1,4 +1,4 @@
-package com.eshop.controller;
+package com.eshop.eshopapplication.controller;
 
 import java.util.List;
 import java.util.Locale;
@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eshop.eshopmodel.customer.CustomerAddressDTO;
 import com.eshop.eshopmodel.customer.CustomerDTO;
-import com.eshop.eshopmodel.customer.WrapperCustomerAddress;
 import com.eshop.eshopservice.service.CustomerService;
 import com.eshop.exception.CustomerAddressException;
 import com.eshop.exception.CustomerException;
@@ -42,10 +40,11 @@ public class CustomerController {
 	 * @param locale
 	 * @return Response Entity Object having new CustomerDTO object and created status
 	 * @throws InvalidInputException
+	 * @throws CustomerException
 	 */
-	@PostMapping("/customers/create")
+	@PostMapping("/signup/customers")
 	public ResponseEntity<CustomerDTO> createCustomer(@RequestBody(required=true) @Valid CustomerDTO customerDTOObject,
-			@RequestHeader(name="Accept-Language", required=false) Locale locale) throws InvalidInputException {
+			@RequestHeader(name="Accept-Language", required=false) Locale locale) throws InvalidInputException, CustomerException {
 		CustomerDTO customerDTOReturnObject = customerService.createCustomer(customerDTOObject, locale);
 		return new ResponseEntity<CustomerDTO> (customerDTOReturnObject, HttpStatus.CREATED);
 	}
@@ -68,7 +67,7 @@ public class CustomerController {
 	 * @param first name
 	 * @return list of Customers matching first name criteria
 	 */
-	@GetMapping(path="/customers/search", params={"firstName"})
+	@GetMapping(path="/admin/customers/search", params={"firstName"})
 	public ResponseEntity<List<CustomerDTO>> getCustomersByFirstName(@RequestParam(value="firstName", required=true) String firstName) {
 		return new ResponseEntity<List<CustomerDTO>> (customerService.retrieveCustomersByFirstName(firstName), HttpStatus.OK);
 	}
@@ -78,7 +77,7 @@ public class CustomerController {
 	 * @param lastName
 	 * @return list of Customers matching last name criteria
 	 */
-	@GetMapping(path="/customers/search", params={"lastName"})
+	@GetMapping(path="/admin/customers/search", params={"lastName"})
 	public ResponseEntity<List<CustomerDTO>> getCustomersByLastName(@RequestParam(value="lastName", required=true) String lastName) {
 		return new ResponseEntity<List<CustomerDTO>> (customerService.retrieveCustomersByLastName(lastName), HttpStatus.OK);
 	}
@@ -88,7 +87,7 @@ public class CustomerController {
 	 * @param email
 	 * @return list of Customers matching email criteria
 	 */
-	@GetMapping(path="/customers/search", params={"email"})
+	@GetMapping(path="/admin/customers/search", params={"email"})
 	public ResponseEntity<List<CustomerDTO>> getCustomersByEmail(@RequestParam(value="email", required=true) String email) {
 		return new ResponseEntity<List<CustomerDTO>> (customerService.retrieveCustomersByEmail(email), HttpStatus.OK);
 	}
@@ -97,7 +96,7 @@ public class CustomerController {
 	 * ADMIN PRIVILEDGE : Get all Customers
 	 * @return list of all Customers present
 	 */
-	@GetMapping(path="/customers/search")
+	@GetMapping(path="/admin/customers/search")
 	public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
 		return new ResponseEntity<List<CustomerDTO>> (customerService.retrieveAllCustomers(), HttpStatus.OK);
 	}
@@ -127,75 +126,5 @@ public class CustomerController {
 		customerService.deleteCustomer(customerID);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
-
-	/**
-	 * Add customer address for customer
-	 * @param WrapperCustomerAddress Object
-	 * @return CustomerAddressDTO object that is added
-	 * @throws CustomerException
-	 * @throws InvalidInputException
-	 */
-	@PostMapping("/customers/addresses/create")
-	public ResponseEntity<CustomerAddressDTO> addCustomerAddress(@RequestBody(required=true) @Valid WrapperCustomerAddress wrapperCustomerAddressObject) 
-			throws CustomerException, InvalidInputException {
-		CustomerDTO customerDTOObject = wrapperCustomerAddressObject.getCustomerDTOObject();
-		CustomerAddressDTO customerAddressDTOObject = wrapperCustomerAddressObject.getCustomerAddressDTOObject();
-		return new ResponseEntity<CustomerAddressDTO>(customerService.addCustomerAddress(customerDTOObject, customerAddressDTOObject),HttpStatus.CREATED);
-	}
-	
-	/**
-	 * Get all Customer address for a respective Customer
-	 * @param Customer ID
-	 * @return list of added Customer addresses for required Customer
-	 * @throws CustomerException
-	 */
-	@GetMapping("/customers/addresses/search/{customerID}")
-	public ResponseEntity<List<CustomerAddressDTO>> retrieveAllCustomerAddressesByCustomerID(@PathVariable(name="customerID", required=true) long customerID) 
-			throws CustomerException {
-		return new ResponseEntity<List<CustomerAddressDTO>> (customerService.retrieveAllCustomerAddressesByCustomerID(customerID), HttpStatus.OK);
-	}
-
-	/**
-	 * Update specific Customer address for required Customer
-	 * @param CustomerAddress ID
-	 * @param CustomerAddressDTO Object
-	 * @return updated Customer address
-	 * @throws CustomerException
-	 * @throws CustomerAddressException
-	 */
-	@PutMapping("/customers/addresses/{customerID}")
-	public ResponseEntity<CustomerAddressDTO> updateCustomerAddressInfo(@PathVariable(name="customerID", required=true) long customerID, 
-			@RequestBody(required=true) @Valid CustomerAddressDTO customerAddressDTOObject) throws CustomerException, CustomerAddressException {
-		return new ResponseEntity<CustomerAddressDTO> (customerService.updateCustomerAddressInfo(customerID, customerAddressDTOObject), HttpStatus.OK);
-	}
-
-	/**
-	 * Delete specified Customer Address for required Customer
-	 * @param Customer ID
-	 * @param CustomerAddress ID
-	 * @return OK status if successful
-	 * @throws CustomerException
-	 * @throws CustomerAddressException
-	 */
-	@DeleteMapping(path="/customers/addresses", params={"customerID","customerAddressID"})
-	public ResponseEntity<Object> deleteCustomerAddress (@RequestParam(name="customerID", required=true) long customerID, 
-			@RequestParam(name="customerAddressID", required=true) long customerAddressID) throws CustomerException, CustomerAddressException {
-		customerService.deleteCustomerAddress(customerID, customerAddressID);
-		return new ResponseEntity<Object> (HttpStatus.OK);
-	}
-
-	/**
-	 * Delete Customer addresses based on list of Customer IDs
-	 * @param Customer ID
-	 * @param CustomerAddress IDs
-	 * @return OK status if successful
-	 * @throws CustomerException
-	 * @throws CustomerAddressException
-	 */
-	/*@DeleteMapping(path="/customers/addresses", params={"customerID","customerAddressIDs"})
-	public ResponseEntity<Object> deleteAllCustomerAddresses(@RequestParam(name="customerID", required=true) long customerID, 
-			@RequestParam(name="customerAddressIDs", required=true) List<Long> customerAddressIDs) throws CustomerException, CustomerAddressException {
-		return new ResponseEntity<Object> (HttpStatus.OK);
-	}*/
 
 }

@@ -21,6 +21,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -33,9 +34,12 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="Customer")
+@Table( name="Customer",
+		uniqueConstraints= {
+				@UniqueConstraint(name="UniqueEmail", columnNames = { "Customer_Email" })
+		})
 @Validated
-public class Customer implements Serializable {
+public class Customer implements Serializable{
 
 	/**
 	 * Default Version
@@ -46,6 +50,12 @@ public class Customer implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="Customer_ID")
 	private long customerID;
+	
+	@NotBlank(message="Password cannot be empty or white space blanks")
+	//@JsonProperty(access = Access.WRITE_ONLY)
+	@Pattern(regexp="^[a-zA-Z0-9 ]{8,20}$" , message="Password can be lower , upper alphabets, digits and whitespace. Length must be between 8 and 20 ,both inclusive")
+	@Column(name="Customer_Password")
+	private String customerPassword;
 
 	@NotBlank(message="First Name cannot be blank")
 	@Pattern(regexp="^[a-zA-Z ]{3,20}$", message="For Last name, regular alphabet and spaces are allowed. Between 3-20 characters")
@@ -82,6 +92,10 @@ public class Customer implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(name="Customer_Subscription")
 	private CustomerSubscription customerSubscription;
+
+	@NotBlank(message="Roles cannot be blank")
+	@Column(name="Roles")
+	private String roles;
 	
 	/**
 	 * No argument Constructor for customer class
@@ -93,6 +107,7 @@ public class Customer implements Serializable {
 	/**
 	 * Parameterized Constructor
 	 * @param customerID
+	 * @param customerPassword
 	 * @param customerFirstName
 	 * @param customerLastName
 	 * @param customerEmail
@@ -101,8 +116,11 @@ public class Customer implements Serializable {
 	 * @param customerAddresses
 	 * @param ordersList
 	 * @param customerSubscription
+	 * @param roles
 	 */
 	public Customer(long customerID,
+			@NotBlank(message="Password cannot be empty or white space blanks") @Pattern(regexp="^[a-zA-Z0-9 ]{8,20}$" , message="Password can be lower , upper alphabets, digits and whitespace. Length must be between 8 and 20 ,both inclusive")
+			String customerPassword,
 			@NotBlank(message = "First Name cannot be blank") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String customerFirstName,
 			@NotBlank(message = "Last Name cannot be blank") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String customerLastName,
 			@NotBlank(message = "Email cannot be blank") @Email(message = "Email must be valid") String customerEmail,
@@ -110,9 +128,11 @@ public class Customer implements Serializable {
 			Date customerCreatedDate, 
 			List<CustomerAddress> customerAddresses, 
 			List<Order> ordersList,
-			CustomerSubscription customerSubscription) {
+			CustomerSubscription customerSubscription,
+			@NotBlank(message="Roles cannot be blank") String roles) {
 		super();
 		this.customerID = customerID;
+		this.customerPassword = customerPassword;
 		this.customerFirstName = customerFirstName;
 		this.customerLastName = customerLastName;
 		this.customerEmail = customerEmail;
@@ -121,6 +141,7 @@ public class Customer implements Serializable {
 		this.customerAddresses = customerAddresses;
 		this.ordersList = ordersList;
 		this.customerSubscription = customerSubscription;
+		this.roles=roles;
 	}
 
 	/**
@@ -136,6 +157,21 @@ public class Customer implements Serializable {
 	 */
 	public void setCustomerID(long customerID) {
 		this.customerID = customerID;
+	}
+	
+	/**
+	 * @return customer password
+	 */
+	public String getCustomerPassword() {
+		return customerPassword;
+	}
+
+	/**
+	 * set customer password
+	 * @param customer password
+	 */
+	public void setCustomerPassword(String customerPassword) {
+		this.customerPassword = customerPassword;
 	}
 
 	/**
@@ -258,13 +294,22 @@ public class Customer implements Serializable {
 		this.customerSubscription = customerSubscription;
 	}
 
+	public String getRoles() {
+		return roles;
+	}
+	
+	public void setRoles(String roles) {
+		this.roles = roles;
+	}
+	
 	/**
 	 * Returns Customer ID, first name , last name, email, mobile number and created date
 	 */
 	@Override
 	public String toString() {
 		return "Customer [ID = " + customerID + ", First Name = " + customerFirstName + ", Last Name = " + customerLastName + ", Email = " + customerEmail
-				+ ", Mobile Number = " + customerMobileNumber + ", Created Date = " + customerCreatedDate + ", Customer Subscription = " + customerSubscription + "]";
+				+ ", Mobile Number = " + customerMobileNumber + ", Created Date = " + customerCreatedDate + ", Customer Subscription = " + customerSubscription +
+				", Roles = " + roles +  "]";
 	}
 
 }

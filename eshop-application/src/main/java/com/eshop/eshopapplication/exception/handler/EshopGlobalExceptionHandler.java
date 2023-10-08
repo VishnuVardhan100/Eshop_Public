@@ -1,4 +1,4 @@
-package com.eshop.exception.handler;
+package com.eshop.eshopapplication.exception.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,9 +46,9 @@ public class EshopGlobalExceptionHandler extends ResponseEntityExceptionHandler 
 		return new ResponseEntity<>(customerException.getMessage(), HttpStatus.OK);
 	}
 
-	@ExceptionHandler(value = Exception.class)
+	/*@ExceptionHandler(value = Exception.class)
 	public ResponseEntity<Object> eshopGlobalExceptionHandler(Exception exception, WebRequest webRequest){
 		return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
-	}
+	}*/
 	
 }
