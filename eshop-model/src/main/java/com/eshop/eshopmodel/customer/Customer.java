@@ -308,7 +308,8 @@ public class Customer implements Serializable{
 	@Override
 	public String toString() {
 		return "Customer [ID = " + customerID + ", First Name = " + customerFirstName + ", Last Name = " + customerLastName + ", Email = " + customerEmail
-				+ ", Mobile Number = " + customerMobileNumber + ", Created Date = " + customerCreatedDate + ", Customer Subscription = " + customerSubscription + "]";
+				+ ", Mobile Number = " + customerMobileNumber + ", Created Date = " + customerCreatedDate + ", Customer Subscription = " + customerSubscription +
+				", Roles = " + roles +  "]";
 	}
 
 }
