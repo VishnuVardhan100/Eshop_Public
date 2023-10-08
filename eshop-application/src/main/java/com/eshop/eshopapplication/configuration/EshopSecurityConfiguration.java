@@ -3,15 +3,13 @@ package com.eshop.eshopapplication.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.eshop.eshopservice.service.CustomerLoginService;
@@ -41,8 +39,7 @@ public class EshopSecurityConfiguration {
 	 */
 	@Bean
 	public PasswordEncoder getPasswordEncoder() {
-		return NoOpPasswordEncoder.getInstance();
-		//return new BCryptPasswordEncoder();		
+		return new BCryptPasswordEncoder();		
 	}
 
 	/**
@@ -53,13 +50,21 @@ public class EshopSecurityConfiguration {
 	 */
 	@Bean
     public SecurityFilterChain httpRequestFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(
-        		authorizeHttpRequests -> authorizeHttpRequests.requestMatchers("/admin/**").hasRole("ADMIN")
-            	.requestMatchers("/customers/**").hasAnyRole("ADMIN","CUSTOMER")
-            	.requestMatchers("/signup/**").permitAll()
-            	.requestMatchers("/").permitAll())
-        .csrf((csrf) -> csrf.disable())
-        .formLogin(Customizer.withDefaults());
+        http.cors(Customizer.withDefaults())
+        	.csrf((csrf) -> csrf.disable())
+        	.authorizeHttpRequests(
+        			authorizeHttpRequests -> authorizeHttpRequests
+            .requestMatchers("/","/login","/favicon.ico").permitAll()
+            .requestMatchers(HttpMethod.POST,"/signup").permitAll()
+            .requestMatchers(HttpMethod.POST,"/signup/**").permitAll()
+        	.requestMatchers("/admin/**").hasRole("ADMIN")
+            .requestMatchers("/customers/**").hasAnyRole("CUSTOMER","ADMIN")
+        	.anyRequest().authenticated()
+        	)
+        	.sessionManagement(Customizer.withDefaults())
+        	.formLogin(Customizer.withDefaults())
+        	.logout(Customizer.withDefaults());
+        
         return http.build();
 	}
 

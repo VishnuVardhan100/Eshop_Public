@@ -36,6 +36,9 @@ public class CustomerLoginService implements UserDetailsService {
 		if(customerObject.isPresent()) {
 			customerDTOObject = customerCustomModelMapper.mapCustomerToCustomerDTO(customerObject.get());
 		}
+		else {
+			throw new UsernameNotFoundException(email);
+		}
 
 		return new CustomerLoginDetails(customerDTOObject);
 	}

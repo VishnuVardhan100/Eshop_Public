@@ -11,27 +11,34 @@ import org.springframework.security.core.userdetails.UserDetails;
 @SuppressWarnings("serial")
 public class CustomerLoginDetails implements UserDetails {
 
-	CustomerDTO customerDTOObject;
+	private long customerID;
+	private String customerEmail;
+	private String customerPassword;
+	private String firstName;
+	private String roles;
 	
 	public CustomerLoginDetails(CustomerDTO customerDTOObject) {
-		this.customerDTOObject = customerDTOObject;
+		this.customerID = customerDTOObject.getCustomerID();
+		this.customerEmail = customerDTOObject.getCustomerEmail();
+		this.customerPassword = customerDTOObject.getCustomerPassword();
+		this.firstName = customerDTOObject.getCustomerFirstName();
+		this.roles = customerDTOObject.getRoles();
 	}
 	
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		String roles = customerDTOObject.getRoles();
 		return Stream.of(roles.split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 	}
 
 	@Override
 	public String getPassword() {
-		return customerDTOObject.getCustomerPassword();
+		return customerPassword;
 	}
 
 	@Override
 	public String getUsername() {
-		return customerDTOObject.getCustomerEmail();
+		return customerEmail;
 	}
 
 	@Override
