@@ -42,10 +42,11 @@ public class CustomerController {
 	 * @param locale
 	 * @return Response Entity Object having new CustomerDTO object and created status
 	 * @throws InvalidInputException
+	 * @throws CustomerException
 	 */
-	@PostMapping("/customers")
+	@PostMapping("/signup/customers")
 	public ResponseEntity<CustomerDTO> createCustomer(@RequestBody(required=true) @Valid CustomerDTO customerDTOObject,
-			@RequestHeader(name="Accept-Language", required=false) Locale locale) throws InvalidInputException {
+			@RequestHeader(name="Accept-Language", required=false) Locale locale) throws InvalidInputException, CustomerException {
 		CustomerDTO customerDTOReturnObject = customerService.createCustomer(customerDTOObject, locale);
 		return new ResponseEntity<CustomerDTO> (customerDTOReturnObject, HttpStatus.CREATED);
 	}
@@ -68,7 +69,7 @@ public class CustomerController {
 	 * @param first name
 	 * @return list of Customers matching first name criteria
 	 */
-	@GetMapping(path="/customers/search", params={"firstName"})
+	@GetMapping(path="/admin/customers/search", params={"firstName"})
 	public ResponseEntity<List<CustomerDTO>> getCustomersByFirstName(@RequestParam(value="firstName", required=true) String firstName) {
 		return new ResponseEntity<List<CustomerDTO>> (customerService.retrieveCustomersByFirstName(firstName), HttpStatus.OK);
 	}
@@ -78,7 +79,7 @@ public class CustomerController {
 	 * @param lastName
 	 * @return list of Customers matching last name criteria
 	 */
-	@GetMapping(path="/customers/search", params={"lastName"})
+	@GetMapping(path="/admin/customers/search", params={"lastName"})
 	public ResponseEntity<List<CustomerDTO>> getCustomersByLastName(@RequestParam(value="lastName", required=true) String lastName) {
 		return new ResponseEntity<List<CustomerDTO>> (customerService.retrieveCustomersByLastName(lastName), HttpStatus.OK);
 	}
@@ -88,7 +89,7 @@ public class CustomerController {
 	 * @param email
 	 * @return list of Customers matching email criteria
 	 */
-	@GetMapping(path="/customers/search", params={"email"})
+	@GetMapping(path="/admin/customers/search", params={"email"})
 	public ResponseEntity<List<CustomerDTO>> getCustomersByEmail(@RequestParam(value="email", required=true) String email) {
 		return new ResponseEntity<List<CustomerDTO>> (customerService.retrieveCustomersByEmail(email), HttpStatus.OK);
 	}
@@ -97,7 +98,7 @@ public class CustomerController {
 	 * ADMIN PRIVILEDGE : Get all Customers
 	 * @return list of all Customers present
 	 */
-	@GetMapping(path="/customers/search")
+	@GetMapping(path="/admin/customers/search")
 	public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
 		return new ResponseEntity<List<CustomerDTO>> (customerService.retrieveAllCustomers(), HttpStatus.OK);
 	}
