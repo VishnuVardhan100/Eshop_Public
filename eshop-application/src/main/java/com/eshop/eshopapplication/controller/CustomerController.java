@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eshop.eshopmodel.customer.CustomerDTO;
+import com.eshop.eshopmodel.customer.CustomerSignUpDTO;
 import com.eshop.eshopservice.service.CustomerService;
 import com.eshop.exception.CustomerAddressException;
 import com.eshop.exception.CustomerException;
@@ -36,16 +37,16 @@ public class CustomerController {
 	
 	/**
 	 * Method to create new Customer
-	 * @param CustomerDTO Object
+	 * @param CustomerSignUpDTO Object
 	 * @param locale
 	 * @return Response Entity Object having new CustomerDTO object and created status
 	 * @throws InvalidInputException
 	 * @throws CustomerException
 	 */
 	@PostMapping("/signup/customers")
-	public ResponseEntity<CustomerDTO> createCustomer(@RequestBody(required=true) @Valid CustomerDTO customerDTOObject,
-			@RequestHeader(name="Accept-Language", required=false) Locale locale) throws InvalidInputException, CustomerException {
-		CustomerDTO customerDTOReturnObject = customerService.createCustomer(customerDTOObject, locale);
+	public ResponseEntity<CustomerDTO> createCustomer(@RequestBody(required=true) @Valid CustomerSignUpDTO customerSignUpDTOObject,
+			@RequestHeader(name="Accept-Language", required=false) Locale locale) throws CustomerException {
+		CustomerDTO customerDTOReturnObject = customerService.createCustomer(customerSignUpDTOObject, locale);
 		return new ResponseEntity<CustomerDTO> (customerDTOReturnObject, HttpStatus.CREATED);
 	}
 

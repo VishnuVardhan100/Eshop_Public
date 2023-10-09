@@ -15,19 +15,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * DTO class for customer class.
+ * 
  */
 
 @Data
 @Validated
 @NoArgsConstructor
-public class CustomerDTO {
+public class CustomerSignUpDTO {
 
 	private long customerID;
 
-	//@NotBlank(message="Password cannot be blank")
-	//@Pattern(regexp="[a-zA-Z0-9 ]{8,15}",message="Alphabets, Digits and space. Limit 8 to 15 characters")
-	//private String customerPassword;
+	@NotBlank(message="Password cannot be blank")
+	@Pattern(regexp="[a-zA-Z0-9 ]{8,15}",message="Alphabets, Digits and space. Limit 8 to 15 characters")
+	private String customerPassword;
 
 	@NotBlank(message="First Name cannot be blank")
 	@Pattern(regexp="^[a-zA-Z ]{3,20}$", message="For Last name, regular alphabet and spaces are allowed. Between 3-20 characters")
@@ -58,9 +58,9 @@ public class CustomerDTO {
 		return customerID;
 	}
 
-	/*public String getCustomerPassword() {
+	public String getCustomerPassword() {
 		return customerPassword;
-	}*/
+	}
 
 	public String getCustomerFirstName() {
 		return customerFirstName;
@@ -94,9 +94,9 @@ public class CustomerDTO {
 		this.customerID = customerID;
 	}
 
-	/*public void setCustomerPassword(String customerPassword) {
+	public void setCustomerPassword(String customerPassword) {
 		this.customerPassword = customerPassword;
-	}*/
+	}
 	
 	public void setCustomerFirstName(String customerFirstName) {
 		this.customerFirstName = customerFirstName;
@@ -125,5 +125,5 @@ public class CustomerDTO {
 	public void setRoles(String roles) {
 		this.roles = roles;
 	}
-
+	
 }

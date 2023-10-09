@@ -14,15 +14,13 @@ public class CustomerLoginDetails implements UserDetails {
 	private long customerID;
 	private String customerEmail;
 	private String customerPassword;
-	private String firstName;
 	private String roles;
 	
-	public CustomerLoginDetails(CustomerDTO customerDTOObject) {
-		this.customerID = customerDTOObject.getCustomerID();
-		this.customerEmail = customerDTOObject.getCustomerEmail();
-		this.customerPassword = customerDTOObject.getCustomerPassword();
-		this.firstName = customerDTOObject.getCustomerFirstName();
-		this.roles = customerDTOObject.getRoles();
+	public CustomerLoginDetails(CustomerLoggedInDTO customerLoggedInDTOObject) {
+		this.customerID = customerLoggedInDTOObject.getCustomerID();
+		this.customerEmail = customerLoggedInDTOObject.getCustomerEmail();
+		this.customerPassword = customerLoggedInDTOObject.getCustomerPassword();
+		this.roles = customerLoggedInDTOObject.getRoles();
 	}
 	
 	

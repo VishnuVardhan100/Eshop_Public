@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.eshop.eshopmodel.customer.Customer;
 import com.eshop.eshopmodel.customer.CustomerDTO;
+import com.eshop.eshopmodel.customer.CustomerLoggedInDTO;
 import com.eshop.eshopmodel.customer.CustomerLoginDetails;
 import com.eshop.eshoprepository.CustomerRepository;
 import com.eshop.eshopservice.mapper.CustomerCustomModelMapper;
@@ -30,17 +31,17 @@ public class CustomerLoginService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Optional<Customer> customerObject = null;
-		CustomerDTO customerDTOObject = null;
+		CustomerLoggedInDTO customerLoggedInDTOObject = null;
 
 		customerObject = Optional.of(customerRepository.loadCustomerByEmail(email));
 		if(customerObject.isPresent()) {
-			customerDTOObject = customerCustomModelMapper.mapCustomerToCustomerDTO(customerObject.get());
+			customerLoggedInDTOObject = customerCustomModelMapper.mapCustomerToCustomerLoggedInDTO(customerObject.get());
 		}
 		else {
 			throw new UsernameNotFoundException(email);
 		}
 
-		return new CustomerLoginDetails(customerDTOObject);
+		return new CustomerLoginDetails(customerLoggedInDTOObject);
 	}
 
 }
