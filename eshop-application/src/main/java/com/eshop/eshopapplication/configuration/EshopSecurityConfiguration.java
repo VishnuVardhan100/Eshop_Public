@@ -9,6 +9,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -29,7 +30,7 @@ public class EshopSecurityConfiguration {
 
 	@Autowired
     @Qualifier("delegatedAuthenticationEntryPoint")
-    AuthenticationEntryPoint authEntryPoint;
+    private AuthenticationEntryPoint authEntryPoint;
 
 	@Bean
 	public DaoAuthenticationProvider authProvider() {
@@ -49,7 +50,7 @@ public class EshopSecurityConfiguration {
 	}
 
 	/**
-	 * HTTP Authorization for different roles
+	 * HTTP Authorization for endpoints based on different roles
 	 * @param http
 	 * @return Security filter chain
 	 * @throws Exception
@@ -60,14 +61,14 @@ public class EshopSecurityConfiguration {
         	.csrf((csrf) -> csrf.disable())
         	.authorizeHttpRequests(
         			authorizeHttpRequests -> authorizeHttpRequests
-            .requestMatchers("/","/login","/favicon.ico").permitAll()
-            .requestMatchers(HttpMethod.POST,"/signup").permitAll()
+            .requestMatchers("/","/signin","/favicon.ico").permitAll()
             .requestMatchers(HttpMethod.POST,"/signup/**").permitAll()
         	.requestMatchers("/admin/**").hasRole("ADMIN")
             .requestMatchers("/customers/**").hasAnyRole("CUSTOMER","ADMIN")
         	.anyRequest().authenticated()
         	)
-        	.sessionManagement(Customizer.withDefaults())
+        	.exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPoint))
+        	.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         	.formLogin(Customizer.withDefaults())
         	.logout(Customizer.withDefaults());
         

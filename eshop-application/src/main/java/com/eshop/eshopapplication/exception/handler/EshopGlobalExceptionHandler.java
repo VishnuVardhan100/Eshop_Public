@@ -51,7 +51,7 @@ public class EshopGlobalExceptionHandler extends ResponseEntityExceptionHandler 
 	@ExceptionHandler(value = AuthenticationException.class)
     @ResponseBody
     public ResponseEntity<Object> handleAuthenticationException(AuthenticationException authenticationException) {
-        return new ResponseEntity<>(authenticationException.getMessage(), HttpStatus.OK);
+        return new ResponseEntity<>(authenticationException.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 	
 	/*@ExceptionHandler(value = Exception.class)
