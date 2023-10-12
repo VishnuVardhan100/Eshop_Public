@@ -1,4 +1,4 @@
-package com.eshop.eshopmodel.customer;
+package com.eshop.eshopmodel.customer.login;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -8,6 +8,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.eshop.eshopmodel.customer.Customer;
+
+/**
+ * This is the class sen for user authentication during login.
+ * It takes details from a Customer raw class.
+ */
+
 @SuppressWarnings("serial")
 public class CustomerLoginDetails implements UserDetails {
 
@@ -16,13 +23,12 @@ public class CustomerLoginDetails implements UserDetails {
 	private String customerPassword;
 	private String roles;
 	
-	public CustomerLoginDetails(CustomerLoggedInDTO customerLoggedInDTOObject) {
-		this.customerID = customerLoggedInDTOObject.getCustomerID();
-		this.customerEmail = customerLoggedInDTOObject.getCustomerEmail();
-		this.customerPassword = customerLoggedInDTOObject.getCustomerPassword();
-		this.roles = customerLoggedInDTOObject.getRoles();
+	public CustomerLoginDetails(Customer customerObject) {
+		this.customerID = customerObject.getCustomerID();
+		this.customerEmail = customerObject.getCustomerEmail();
+		this.customerPassword = customerObject.getCustomerPassword();
+		this.roles = customerObject.getRoles();
 	}
-	
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -37,6 +43,14 @@ public class CustomerLoginDetails implements UserDetails {
 	@Override
 	public String getUsername() {
 		return customerEmail;
+	}
+	
+	public long getId() {
+		return customerID;
+	}
+
+	public String getRoles() {
+		return roles;
 	}
 
 	@Override

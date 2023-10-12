@@ -52,7 +52,6 @@ public class Customer implements Serializable{
 	private long customerID;
 	
 	@NotBlank(message="Password cannot be empty or white space blanks")
-	//@JsonProperty(access = Access.WRITE_ONLY)
 	//@Pattern(regexp="^[a-zA-Z0-9 ]{8,20}$" , message="Password can be lower , upper alphabets, digits and whitespace. Length must be between 8 and 20 ,both inclusive")
 	@Column(name="Customer_Password")
 	private String customerPassword;
