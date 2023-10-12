@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.eshop.eshopmodel.customer.Customer;
 import com.eshop.eshopmodel.customer.CustomerDTO;
+import com.eshop.eshopmodel.customer.CustomerSignUpDTO;
 import com.eshop.eshoprepository.CustomerRepository;
 import com.eshop.eshopservice.mapper.CustomerCustomModelMapper;
 import com.eshop.exception.CustomerAddressException;
@@ -41,7 +42,7 @@ public class CustomerService implements CustomerServiceInterface{
 
 	/**
 	 * Connects to Repository to create Customer
-	 * @param CustomerDTO Object from Client side
+	 * @param CustomerSignUpDTO Object from Client side
 	 * @param locale
 	 * @return CustomerDTO Object after successful Customer creation
 	 * @throws InvalidInputException
@@ -49,20 +50,19 @@ public class CustomerService implements CustomerServiceInterface{
 	 * @throws NoSuchMessageException 
 	 */
 	@Override
-	public CustomerDTO createCustomer(CustomerDTO customerDTOObject, Locale locale) throws InvalidInputException, CustomerException{
-		Customer customerObject = customerCustomModelMapper.mapCustomerDTOToCustomer(customerDTOObject);
+	public CustomerDTO createCustomer(CustomerSignUpDTO customerSignUpDTOObject, Locale locale) throws CustomerException{
+		String hashedPassword = "";
+		Customer customerObject = null;
+		Customer customerReturnObject = null;
+		
+		customerObject = customerCustomModelMapper.mapCustomerSignUpDTOToCustomer(customerSignUpDTOObject);
 		if(emailExists(customerObject.getCustomerEmail())) {
 			throw new CustomerException(messageSource.getMessage("EmailExists", null, locale));
 		}
-		
-		String hashedPassword = passwordEncoder.encode(customerObject.getCustomerPassword());
+		hashedPassword = passwordEncoder.encode(customerObject.getCustomerPassword());
 		customerObject.setCustomerPassword(hashedPassword);
-		Customer customerReturnObject = customerRepository.save(customerObject);
+		customerReturnObject = customerRepository.save(customerObject);
 		customerObject = null;
-
-		if(customerReturnObject == null) {
-			throw new InvalidInputException(messageSource.getMessage("InvalidInput", null, locale));
-		}
 
 		return customerCustomModelMapper.mapCustomerToCustomerDTO(customerReturnObject);
 	}
@@ -81,7 +81,7 @@ public class CustomerService implements CustomerServiceInterface{
 	}
 	
 	/**
-	 * Retrieve a Customer by their ID
+	 * ADMIN PRIVILEDGE : Retrieve a Customer by their ID
 	 * @param long Customer ID
 	 * @param locale
 	 * @return CustomerDTO object
@@ -200,6 +200,7 @@ public class CustomerService implements CustomerServiceInterface{
 		customerRetrieveObject.setCustomerEmail(customerObject.getCustomerEmail());
 		customerRetrieveObject.setCustomerMobileNumber(customerObject.getCustomerMobileNumber());
 		//CAUTION: We should not change the Customer Created Date. It stays same as when created
+		//CAUTION: We should not change roles of customer as well. It stays same as when created
 
 		Customer customerReturnObject = customerRepository.save(customerRetrieveObject);
 		customerRetrieveObject = null;

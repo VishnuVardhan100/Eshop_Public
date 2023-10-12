@@ -52,8 +52,7 @@ public class Customer implements Serializable{
 	private long customerID;
 	
 	@NotBlank(message="Password cannot be empty or white space blanks")
-	//@JsonProperty(access = Access.WRITE_ONLY)
-	@Pattern(regexp="^[a-zA-Z0-9 ]{8,20}$" , message="Password can be lower , upper alphabets, digits and whitespace. Length must be between 8 and 20 ,both inclusive")
+	//@Pattern(regexp="^[a-zA-Z0-9 ]{8,20}$" , message="Password can be lower , upper alphabets, digits and whitespace. Length must be between 8 and 20 ,both inclusive")
 	@Column(name="Customer_Password")
 	private String customerPassword;
 
@@ -119,7 +118,8 @@ public class Customer implements Serializable{
 	 * @param roles
 	 */
 	public Customer(long customerID,
-			@NotBlank(message="Password cannot be empty or white space blanks") @Pattern(regexp="^[a-zA-Z0-9 ]{8,20}$" , message="Password can be lower , upper alphabets, digits and whitespace. Length must be between 8 and 20 ,both inclusive")
+			@NotBlank(message="Password cannot be empty or white space blanks") 
+			/*@Pattern(regexp="^[a-zA-Z0-9 ]{8,20}$" , message="Password can be lower , upper alphabets, digits and whitespace. Length must be between 8 and 20 ,both inclusive")*/
 			String customerPassword,
 			@NotBlank(message = "First Name cannot be blank") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String customerFirstName,
 			@NotBlank(message = "Last Name cannot be blank") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String customerLastName,

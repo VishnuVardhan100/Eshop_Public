@@ -9,10 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.eshop.eshopmodel.customer.Customer;
-import com.eshop.eshopmodel.customer.CustomerDTO;
-import com.eshop.eshopmodel.customer.CustomerLoginDetails;
+import com.eshop.eshopmodel.customer.login.CustomerLoginDetails;
 import com.eshop.eshoprepository.CustomerRepository;
-import com.eshop.eshopservice.mapper.CustomerCustomModelMapper;
 
 /**
  * Service class for Customer Login
@@ -24,23 +22,20 @@ public class CustomerLoginService implements UserDetailsService {
 	@Autowired
 	private CustomerRepository customerRepository;
 	
-	@Autowired
-	private CustomerCustomModelMapper customerCustomModelMapper;
-	
+	/**
+	 * Method to fetch customer by unique value.
+	 * return UserDetails object for further authentication
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Optional<Customer> customerObject = null;
-		CustomerDTO customerDTOObject = null;
 
 		customerObject = Optional.of(customerRepository.loadCustomerByEmail(email));
-		if(customerObject.isPresent()) {
-			customerDTOObject = customerCustomModelMapper.mapCustomerToCustomerDTO(customerObject.get());
-		}
-		else {
+		if(!customerObject.isPresent()) {
 			throw new UsernameNotFoundException(email);
 		}
 
-		return new CustomerLoginDetails(customerDTOObject);
+		return new CustomerLoginDetails(customerObject.get());
 	}
 
 }

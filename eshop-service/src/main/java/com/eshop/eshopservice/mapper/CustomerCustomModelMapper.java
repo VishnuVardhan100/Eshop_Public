@@ -8,6 +8,7 @@ import com.eshop.eshopmodel.customer.Customer;
 import com.eshop.eshopmodel.customer.CustomerAddress;
 import com.eshop.eshopmodel.customer.CustomerAddressDTO;
 import com.eshop.eshopmodel.customer.CustomerDTO;
+import com.eshop.eshopmodel.customer.CustomerSignUpDTO;
 
 /**
  * Custom Model Mapper class to map:
@@ -45,6 +46,16 @@ public class CustomerCustomModelMapper {
 	 */
 	public Customer mapCustomerDTOToCustomer(CustomerDTO CustomerDTOObject) {
 		Customer customerReturnObject = modelMapper.map(CustomerDTOObject, Customer.class);
+		return  customerReturnObject;
+	}
+
+	/**
+	 * To map CustomerSignUpDTO to a Customer Object
+	 * @param CustomerSignUpDTO Object
+	 * @return Customer Object
+	 */
+	public Customer mapCustomerSignUpDTOToCustomer(CustomerSignUpDTO CustomerSignUpDTOObject) {
+		Customer customerReturnObject = modelMapper.map(CustomerSignUpDTOObject, Customer.class);
 		return  customerReturnObject;
 	}
 

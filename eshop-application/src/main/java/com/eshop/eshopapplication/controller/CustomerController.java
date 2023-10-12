@@ -6,6 +6,12 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +22,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eshop.eshopapplication.authentication.JwtUtilOld;
 import com.eshop.eshopmodel.customer.CustomerDTO;
+import com.eshop.eshopmodel.customer.CustomerSignUpDTO;
+import com.eshop.eshopmodel.customer.login.CustomerSignInAuthenticationRequest;
+import com.eshop.eshopmodel.customer.login.CustomerSignInAuthenticationResponse;
+import com.eshop.eshopservice.service.CustomerLoginService;
 import com.eshop.eshopservice.service.CustomerService;
 import com.eshop.exception.CustomerAddressException;
 import com.eshop.exception.CustomerException;
@@ -32,31 +43,69 @@ import jakarta.validation.Valid;
 public class CustomerController {
 
 	@Autowired
+	private AuthenticationManager authenticationManager; 
+	
+	@Autowired
+	private JwtUtilOld jwtUtil;
+	
+	@Autowired
+	private CustomerLoginService customerLoginService;
+	
+	@Autowired
 	private CustomerService customerService;
 	
 	/**
+	 * Sign in endpoint for customers
+	 * @param customerSignInAuthenticationRequest object conatinaing username and password
+	 * @return JSON Web Token uf successful
+	 * @throws Exception
+	 */
+	@PostMapping("/signin/customers")
+	public ResponseEntity<?> customerSignInAuthenticate(@RequestBody(required=true) @Valid CustomerSignInAuthenticationRequest customerSignInAuthenticationRequest)
+		throws Exception {
+		try	{
+			Authentication authentication = authenticationManager
+			        .authenticate(new UsernamePasswordAuthenticationToken(customerSignInAuthenticationRequest.getUsername(), customerSignInAuthenticationRequest.getPassword()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+		}
+		catch(BadCredentialsException bce) {
+			throw new BadCredentialsException("Incorrect Email/Username or Password",bce);
+		}
+
+		final UserDetails userDetails = customerLoginService.loadUserByUsername(customerSignInAuthenticationRequest.getUsername());		
+		final String jwt = jwtUtil.generateToken(userDetails);
+		
+		return ResponseEntity.ok(new CustomerSignInAuthenticationResponse(jwt));
+
+		//final String jwt = jwtUtil.generateTokenFromUsername(customerSignInAuthenticationRequest.getUsername());
+		//ResponseCookie jwtCookie = jwtUtil.generateJwtCookie(userDetails);
+		//return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+
+	}
+	
+	/**
 	 * Method to create new Customer
-	 * @param CustomerDTO Object
+	 * @param CustomerSignUpDTO Object
 	 * @param locale
 	 * @return Response Entity Object having new CustomerDTO object and created status
 	 * @throws InvalidInputException
 	 * @throws CustomerException
 	 */
 	@PostMapping("/signup/customers")
-	public ResponseEntity<CustomerDTO> createCustomer(@RequestBody(required=true) @Valid CustomerDTO customerDTOObject,
-			@RequestHeader(name="Accept-Language", required=false) Locale locale) throws InvalidInputException, CustomerException {
-		CustomerDTO customerDTOReturnObject = customerService.createCustomer(customerDTOObject, locale);
+	public ResponseEntity<CustomerDTO> createCustomer(@RequestBody(required=true) @Valid CustomerSignUpDTO customerSignUpDTOObject,
+			@RequestHeader(name="Accept-Language", required=false) Locale locale) throws CustomerException {
+		CustomerDTO customerDTOReturnObject = customerService.createCustomer(customerSignUpDTOObject, locale);
 		return new ResponseEntity<CustomerDTO> (customerDTOReturnObject, HttpStatus.CREATED);
 	}
 
 	/**
-	 * Retrieve Customer by ID
+	 * ADMIN PRIVILEDGE : Retrieve Customer by ID
 	 * @param Customer ID
 	 * @param locale
 	 * @return Customer object if exists
 	 * @throws CustomerException
 	 */
-	@GetMapping("/customers/search/{customerID}")
+	@GetMapping("admin/customers/search/{customerID}")
 	public ResponseEntity<CustomerDTO> getCustomerByID(@PathVariable(name="customerID", required=true) long customerID,
 			@RequestHeader(name="Accept-Language", required=false) Locale locale) throws CustomerException {
 		return new ResponseEntity<CustomerDTO> (customerService.retrieveCustomerByID(customerID, locale),HttpStatus.OK);

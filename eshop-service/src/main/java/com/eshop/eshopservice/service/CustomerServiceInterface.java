@@ -5,13 +5,14 @@ import java.util.Locale;
 
 import com.eshop.eshopmodel.customer.Customer;
 import com.eshop.eshopmodel.customer.CustomerDTO;
+import com.eshop.eshopmodel.customer.CustomerSignUpDTO;
 import com.eshop.exception.CustomerAddressException;
 import com.eshop.exception.CustomerException;
-import com.eshop.exception.InvalidInputException;
 
 public interface CustomerServiceInterface {
 	
-	CustomerDTO createCustomer(CustomerDTO customerDTO, Locale locale) throws InvalidInputException, CustomerException;
+	//CustomerDTO createCustomer(CustomerDTO customerDTOObject, Locale locale) throws CustomerException;
+	CustomerDTO createCustomer(CustomerSignUpDTO customerSignUpDTOObject, Locale locale) throws CustomerException;
 	
 	boolean emailExists(String customerEmail);
 
