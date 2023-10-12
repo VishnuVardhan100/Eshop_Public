@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -49,14 +48,13 @@ public class EshopGlobalExceptionHandler extends ResponseEntityExceptionHandler 
 	}
 
 	@ExceptionHandler(value = AuthenticationException.class)
-    @ResponseBody
     public ResponseEntity<Object> handleAuthenticationException(AuthenticationException authenticationException) {
         return new ResponseEntity<>(authenticationException.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 	
-	/*@ExceptionHandler(value = Exception.class)
+	@ExceptionHandler(value = Exception.class)
 	public ResponseEntity<Object> eshopGlobalExceptionHandler(Exception exception, WebRequest webRequest){
-		return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
-	}*/
+		return new ResponseEntity<>(exception.getStackTrace(), HttpStatus.BAD_REQUEST);
+	}
 	
 }
