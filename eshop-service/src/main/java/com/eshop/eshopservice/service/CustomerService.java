@@ -81,7 +81,7 @@ public class CustomerService implements CustomerServiceInterface{
 	}
 	
 	/**
-	 * Retrieve a Customer by their ID
+	 * ADMIN PRIVILEDGE : Retrieve a Customer by their ID
 	 * @param long Customer ID
 	 * @param locale
 	 * @return CustomerDTO object
