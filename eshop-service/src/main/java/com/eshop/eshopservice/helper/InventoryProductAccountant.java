@@ -1,4 +1,4 @@
-package com.eshop.eshopservice.manipulator;
+package com.eshop.eshopservice.helper;
 
 import java.util.Iterator;
 import java.util.List;

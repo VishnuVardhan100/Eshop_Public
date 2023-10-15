@@ -1,4 +1,4 @@
-package com.eshop.eshopservice.manipulator;
+package com.eshop.eshopservice.helper;
 
 import java.util.stream.Stream;
 
