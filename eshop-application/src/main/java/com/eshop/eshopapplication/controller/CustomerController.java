@@ -24,12 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eshop.eshopapplication.authentication.JwtUtilOld;
 import com.eshop.eshopmodel.customer.CustomerDTO;
+import com.eshop.eshopmodel.customer.CustomerPasswordUpdateDTO;
 import com.eshop.eshopmodel.customer.CustomerSignUpDTO;
 import com.eshop.eshopmodel.customer.login.CustomerSignInAuthenticationRequest;
 import com.eshop.eshopmodel.customer.login.CustomerSignInAuthenticationResponse;
 import com.eshop.eshopservice.service.CustomerLoginService;
 import com.eshop.eshopservice.service.CustomerService;
-import com.eshop.exception.CustomerAddressException;
 import com.eshop.exception.CustomerException;
 import com.eshop.exception.InvalidInputException;
 
@@ -99,13 +99,24 @@ public class CustomerController {
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : Retrieve Customer by ID
+	 * Get Customer by email
+	 * @param customerEmail
+	 * @return CustomerDTO object, if such customer exists
+	 * @throws CustomerException
+	 */
+	@GetMapping(path = "/customers/load", params={"customerEmail"})
+	public ResponseEntity<CustomerDTO> getCustomerByEmail(@RequestParam(name="customerEmail", required=true) String customerEmail) throws CustomerException {
+		return new ResponseEntity<CustomerDTO> (customerService.loadCustomerByEmail(customerEmail), HttpStatus.OK);
+	}
+	
+	/**
+	 * Retrieve Customer by ID
 	 * @param Customer ID
 	 * @param locale
 	 * @return Customer object if exists
 	 * @throws CustomerException
 	 */
-	@GetMapping("admin/customers/search/{customerID}")
+	@GetMapping("customers/search/{customerID}")
 	public ResponseEntity<CustomerDTO> getCustomerByID(@PathVariable(name="customerID", required=true) long customerID,
 			@RequestHeader(name="Accept-Language", required=false) Locale locale) throws CustomerException {
 		return new ResponseEntity<CustomerDTO> (customerService.retrieveCustomerByID(customerID, locale),HttpStatus.OK);
@@ -157,10 +168,26 @@ public class CustomerController {
 	 * @return CustomerDTO updated object
 	 * @throws CustomerException
 	 */
-	@PutMapping("/customers/{customerID}")
+	@PutMapping("/customers/update/info/{customerID}")
 	public ResponseEntity<CustomerDTO> updateCustomerInfo(@PathVariable(value="customerID", required=true) long customerID, 
-			@RequestBody(required=true) @Valid CustomerDTO customerDTOObject) throws CustomerException, CustomerAddressException {
+			@RequestBody(required=true) @Valid CustomerDTO customerDTOObject) throws CustomerException {
 		return new ResponseEntity<CustomerDTO> (customerService.updateCustomerInfo(customerID, customerDTOObject),HttpStatus.OK);
+	}
+	
+	/**
+	 * Update the customer password
+	 * @param CustomerPasswordUpdateDTO Object containing id and passwords 
+	 * @return confirmation message 
+	 * @throws CustomerException
+	 */
+	@PutMapping("/customers/update/credential")
+	public ResponseEntity<Object> updateCustomerPassword(@RequestBody(required = true) @Valid CustomerPasswordUpdateDTO CustomerPasswordUpdateDTOObject) 
+		throws CustomerException{
+		long customerID = CustomerPasswordUpdateDTOObject.getCustomerID();
+		String customerOldPassword = CustomerPasswordUpdateDTOObject.getCustomerOldPassword();
+		String customerNewPassword = CustomerPasswordUpdateDTOObject.getCustomerNewPassword();
+		customerService.updateCustomerPassword(customerID, customerOldPassword, customerNewPassword);
+		return new ResponseEntity<>("Customer Password Reset Successfully", HttpStatus.OK);
 	}
 
 	/**
@@ -173,7 +200,7 @@ public class CustomerController {
 	public ResponseEntity<Object> deleteCustomer(@PathVariable(value="customerID", required=true) long customerID) throws CustomerException,
 		IllegalArgumentException {
 		customerService.deleteCustomer(customerID);
-		return new ResponseEntity<Object>(HttpStatus.OK);
+		return new ResponseEntity<Object>("Customer deleted successfully", HttpStatus.OK);
 	}
 
 }
