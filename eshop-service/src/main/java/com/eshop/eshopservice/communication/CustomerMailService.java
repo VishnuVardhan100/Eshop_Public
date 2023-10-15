@@ -1,15 +1,13 @@
 package com.eshop.eshopservice.communication;
 
-import java.sql.Date;
-import java.util.List;
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.eshop.eshopmodel.customer.Customer;
 import com.eshop.eshopmodel.logistics.Order;
-import com.eshop.eshopmodel.logistics.OrderProduct;
 
 import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
@@ -27,12 +25,18 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 
 /**
- * Class to send mail to Customer about order
+ * Class to send different mails to Customer
  */
 
 @Service
-public class EshopCustomerCommunicationService {
+public class CustomerMailService {
 
+	@Autowired
+	private MailSubjectHelper mailSubjectHelper;
+	
+	@Autowired
+	private MailTextHelper mailTextHelper;
+	
 	private Session session = null;
 	private Properties properties = null;
 	
@@ -89,11 +93,10 @@ public class EshopCustomerCommunicationService {
 	 */
 	public void prepareOrderMail(Customer customerObject, Order orderObject) throws AddressException, MessagingException  {
 		setUpSession();
-		setOrderMailSubject(orderObject.getOrderID(), orderObject.getOrderPlacedDate());
+		subject = mailSubjectHelper.setOrderMailSubject(orderObject.getOrderID(), orderObject.getOrderPlacedDate());
 		setUpMIMEMessage(customerObject.getCustomerEmail(), subject);
 		createMultipart();
-		setOrderMailText(orderObject.getOrderID(), orderObject.getOrderPlacedDate(), orderObject.getOrderTotalAmount(), orderObject.getOrderProductList());
-		addMessageBodyPart();
+		text = mailTextHelper.setOrderMailText(orderObject.getOrderID(), orderObject.getOrderPlacedDate(), orderObject.getOrderTotalAmount(), orderObject.getOrderProductList());
 	}
 
 	/**
@@ -114,6 +117,7 @@ public class EshopCustomerCommunicationService {
 	 */
 	public void sendOrderSummaryViaMail(Customer customerObject, Order orderObject) throws AddressException, MessagingException  {
 		prepareOrderMail(customerObject, orderObject);
+		addMessageBodyPart();
 		mimeMultipart.addBodyPart(bodyPart);
 		sendMail();
 	}
@@ -128,40 +132,13 @@ public class EshopCustomerCommunicationService {
 	 */
 	public void sendOrderSummaryViaMailWithAttachement(Customer customerObject, Order orderObject, String fileFullPathname) throws AddressException, MessagingException  {
 		prepareOrderMail(customerObject, orderObject);
+		addMessageBodyPart();
 		addMessageBodyPartWithAttachment(fileFullPathname);
 		mimeMultipart.addBodyPart(bodyPart);
 		mimeMultipart.addBodyPart(bodyPartWithAttachment);
 		sendMail();
 	}	
 
-	/**
-	 * Set subject for order mail 
-	 * @param order ID - respective order
-	 * @param order Date - date when order was placed
-	 */
-	private void setOrderMailSubject(long orderID, Date orderDate) {
-		subject = "Please find details for Order: " + orderID + ", placed on " + orderDate ;
-	}
-
-	/**
-	 * Set text message part for order mail
-	 * @param orderID - respective order
-	 * @param orderDate - date when order was placed
-	 * @param orderTotalAmount - total bill amount for the order
-	 * @param listOfOrderProducts - all products in order in question
-	 */
-	private void setOrderMailText(long orderID, Date orderDate, long orderTotalAmount, List<OrderProduct> listOfOrderProducts) {
-		text = "Order Summary for /n/nOrder ID: " + orderID + "/nOrder Date: " + orderDate + "/nOrder Amount: " + orderTotalAmount + "/n/n/n";
-		
-		text += "Order Product Details:/n/nProduct Name/tProduct Unit Cost/tProduct Quantity/tProduct Total Cost/n/n";
-		
-		for(OrderProduct product : listOfOrderProducts) {
-			text += product.getOrderProductName() + "/t" + product.getOrderProductUnitCost() + "/t" + product.getOrderProductQuantity() + "/t" + product.getOrderProductTotalCost() + "/n";
-		}
-		
-		text += "/n/n/nThank you and please visit again!!!"; 
-	}	
-	
 	/**
 	 * Set up the MIME message
 	 * @param recepientToMail - recipient mail ID
