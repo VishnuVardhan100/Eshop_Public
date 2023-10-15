@@ -70,6 +70,7 @@ public class JwtUtilNew {
 	 * @param JWT token
 	 * @return Username from JWT
 	 */
+	@SuppressWarnings("unused")
 	private String getUserNameFromJwtToken(String token) {
 		return Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(token).getBody().getSubject();
 	}

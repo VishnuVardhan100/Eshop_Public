@@ -33,6 +33,7 @@ public class EshopSecurityConfiguration {
 	@Autowired
 	private CustomerLoginService customerLoginService;
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private JwtUtilOld jwtUtilOld;
 
