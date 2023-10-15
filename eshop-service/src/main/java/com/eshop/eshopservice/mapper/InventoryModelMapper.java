@@ -12,7 +12,7 @@ import com.eshop.eshopmodel.inventory.InventoryProductDTO;
  */
 
 @Service
-public class InventoryCustomModelMapper {
+public class InventoryModelMapper {
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -20,7 +20,7 @@ public class InventoryCustomModelMapper {
 	/**
 	 * No argument constructor
 	 */
-	public InventoryCustomModelMapper() {
+	public InventoryModelMapper() {
 		
 	}
 	

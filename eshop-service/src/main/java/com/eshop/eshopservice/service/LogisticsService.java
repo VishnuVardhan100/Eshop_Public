@@ -17,7 +17,7 @@ import com.eshop.eshoprepository.CustomerRepository;
 import com.eshop.eshoprepository.OrderRepository;
 import com.eshop.eshopservice.helper.InventoryProductAccountant;
 import com.eshop.eshopservice.helper.OrderTotalCostCalculator;
-import com.eshop.eshopservice.mapper.LogisticsCustomModelMapper;
+import com.eshop.eshopservice.mapper.LogisticsModelMapper;
 import com.eshop.exception.CustomerException;
 import com.eshop.exception.InvalidInputException;
 import com.eshop.exception.InventoryProductException;
@@ -34,7 +34,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 	private MessageSource messageSource;
 	
 	@Autowired
-	private LogisticsCustomModelMapper logisticsCustomModelMapper;
+	private LogisticsModelMapper logisticsModelMapper;
 	
 	@Autowired
 	private OrderTotalCostCalculator orderTotalCostCalculator;
@@ -65,7 +65,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 				orElseThrow(() -> new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale())));
 		
 		//map orderDTO to order and set Customer
-		Order orderObject = logisticsCustomModelMapper.mapOrderDTOToOrder(orderDTOObject);
+		Order orderObject = logisticsModelMapper.mapOrderDTOToOrder(orderDTOObject);
 		orderObject.setCustomer(customerRetrieveObject);
 		
 		//check number of products in order product list
@@ -76,7 +76,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 		//perform map orderProductDTO to orderProduct
 		List<OrderProduct> orderProductList= orderProductDTOList.
 		stream().
-		map(orderProductDTO -> logisticsCustomModelMapper.mapOrderProductDTOToOrderProduct(orderProductDTO)).
+		map(orderProductDTO -> logisticsModelMapper.mapOrderProductDTOToOrderProduct(orderProductDTO)).
 		collect(Collectors.toList());
 
 		//check if each of the products' quantity ordered are available against same product's quantity in inventory 
@@ -103,7 +103,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 		orderObject = null;
 		customerRetrieveObject = null;
 		
-		return logisticsCustomModelMapper.mapOrderToOrderDTO(orderSecondReturnObject);
+		return logisticsModelMapper.mapOrderToOrderDTO(orderSecondReturnObject);
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 	@Override
 	public List<OrderDTO> retrieveAllOrders() {
 		return orderRepository.findAll().stream().
-				map(order -> logisticsCustomModelMapper.mapOrderToOrderDTO(order)).collect(Collectors.toList());
+				map(order -> logisticsModelMapper.mapOrderToOrderDTO(order)).collect(Collectors.toList());
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 		//get the order
 		Order orderObject = orderRepository.findOrderByCustomerID(customerID, orderID);
 		
-		return logisticsCustomModelMapper.mapOrderToOrderDTO(orderObject);		
+		return logisticsModelMapper.mapOrderToOrderDTO(orderObject);		
 	}
 
 	/**
@@ -172,9 +172,9 @@ public class LogisticsService implements LogisticsServiceInterface {
 		//get List of orders
 		//List<Order> orderList = orderRepository.findAllOrdersByCustomerID(customerID);
 		
-		//return orderList.stream().map(order -> logisticsCustomModelMapper.mapOrderToOrderDTO(order)).collect(Collectors.toList());
+		//return orderList.stream().map(order -> logisticsModelMapper.mapOrderToOrderDTO(order)).collect(Collectors.toList());
 		return customerObject.getOrdersList().stream().
-				map(order -> logisticsCustomModelMapper.mapOrderToOrderDTO(order)).collect(Collectors.toList());		
+				map(order -> logisticsModelMapper.mapOrderToOrderDTO(order)).collect(Collectors.toList());		
 	}
 	
 }

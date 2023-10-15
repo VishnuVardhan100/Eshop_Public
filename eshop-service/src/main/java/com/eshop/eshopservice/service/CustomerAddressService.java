@@ -14,7 +14,7 @@ import com.eshop.eshopmodel.customer.CustomerAddressDTO;
 import com.eshop.eshopmodel.customer.CustomerDTO;
 import com.eshop.eshoprepository.CustomerAddressRepository;
 import com.eshop.eshoprepository.CustomerRepository;
-import com.eshop.eshopservice.mapper.CustomerCustomModelMapper;
+import com.eshop.eshopservice.mapper.CustomerModelMapper;
 import com.eshop.exception.CustomerAddressException;
 import com.eshop.exception.CustomerException;
 import com.eshop.exception.InvalidInputException;
@@ -26,7 +26,7 @@ public class CustomerAddressService implements CustomerAddressServiceInterface {
 	private MessageSource messageSource;
 	
 	@Autowired
-	private CustomerCustomModelMapper customerCustomModelMapper;
+	private CustomerModelMapper customerModelMapper;
 	
 	@Autowired
 	private CustomerRepository customerRepository;
@@ -45,18 +45,18 @@ public class CustomerAddressService implements CustomerAddressServiceInterface {
 	@Override
 	public CustomerAddressDTO addCustomerAddress(CustomerDTO customerDTOObject, CustomerAddressDTO customerAddressDTOObject) throws CustomerException, 
 		InvalidInputException {
-		Customer customerObject = customerCustomModelMapper.mapCustomerDTOToCustomer(customerDTOObject);
+		Customer customerObject = customerModelMapper.mapCustomerDTOToCustomer(customerDTOObject);
 		if(!customerRepository.existsById(customerObject.getCustomerID())) {
 			throw new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale()));
 		}
 		
-		CustomerAddress customerAddressObject = customerCustomModelMapper.mapCustomerAddressDTOToCustomerAddress(customerAddressDTOObject);
+		CustomerAddress customerAddressObject = customerModelMapper.mapCustomerAddressDTOToCustomerAddress(customerAddressDTOObject);
 		customerAddressObject.setCustomer(customerObject);
 		CustomerAddress customerAddressReturnObject = customerAddressRepository.save(customerAddressObject);
 		customerObject = null;
 		customerAddressObject = null;
 		
-		return customerCustomModelMapper.mapCustomerAddressToCustomerAddressDTO(customerAddressReturnObject);
+		return customerModelMapper.mapCustomerAddressToCustomerAddressDTO(customerAddressReturnObject);
 	}	
 	
 	
@@ -75,7 +75,7 @@ public class CustomerAddressService implements CustomerAddressServiceInterface {
 		List<CustomerAddressDTO> allReturnCustomerAddressDTO = new ArrayList<CustomerAddressDTO>(5);
 
 		for(CustomerAddress customerAddress : allCustomerAddresses) {
-			allReturnCustomerAddressDTO.add(customerCustomModelMapper.mapCustomerAddressToCustomerAddressDTO(customerAddress));
+			allReturnCustomerAddressDTO.add(customerModelMapper.mapCustomerAddressToCustomerAddressDTO(customerAddress));
 		}
 		allCustomerAddresses = null;
 		customer = null;
@@ -95,7 +95,7 @@ public class CustomerAddressService implements CustomerAddressServiceInterface {
 			throw new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale()));
 		}
 
-		CustomerAddress customerAddressObject = customerCustomModelMapper.mapCustomerAddressDTOToCustomerAddress(customerAddressDTOObject);
+		CustomerAddress customerAddressObject = customerModelMapper.mapCustomerAddressDTOToCustomerAddress(customerAddressDTOObject);
 		if(customerID != customerAddressObject.getCustomer().getCustomerID()) {
 			throw new CustomerAddressException(messageSource.getMessage("CustomerAndCustomerAddressMismatch", null, LocaleContextHolder.getLocale()));
 		}
@@ -115,7 +115,7 @@ public class CustomerAddressService implements CustomerAddressServiceInterface {
 		customerAddressRetrieveObject = null;
 		customerAddressObject = null;
 
-		return customerCustomModelMapper.mapCustomerAddressToCustomerAddressDTO(customerAddressReturnObject);
+		return customerModelMapper.mapCustomerAddressToCustomerAddressDTO(customerAddressReturnObject);
 	}
 
 	/**

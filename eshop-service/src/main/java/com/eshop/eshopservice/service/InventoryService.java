@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.eshop.eshopmodel.inventory.InventoryProduct;
 import com.eshop.eshopmodel.inventory.InventoryProductDTO;
 import com.eshop.eshoprepository.InventoryProductRepository;
-import com.eshop.eshopservice.mapper.InventoryCustomModelMapper;
+import com.eshop.eshopservice.mapper.InventoryModelMapper;
 import com.eshop.exception.InventoryProductException;
 
 /**
@@ -25,7 +25,7 @@ public class InventoryService implements InventoryServiceInterface {
 	private MessageSource messageSource;
 	
 	@Autowired
-	private InventoryCustomModelMapper inventoryCustomModelMapper;
+	private InventoryModelMapper inventoryModelMapper;
 	
 	@Autowired
 	private InventoryProductRepository  inventoryProductRepository;
@@ -37,10 +37,10 @@ public class InventoryService implements InventoryServiceInterface {
 	 */
 	@Override
 	public InventoryProductDTO addInventoryProduct(InventoryProductDTO inventoryProductDTOObject) {
-		InventoryProduct inventoryProductObject = inventoryCustomModelMapper.mapInventoryProductDTOToInventoryProduct(inventoryProductDTOObject);
+		InventoryProduct inventoryProductObject = inventoryModelMapper.mapInventoryProductDTOToInventoryProduct(inventoryProductDTOObject);
 		InventoryProduct inventoryProductReturnObject = inventoryProductRepository.save(inventoryProductObject);
 		inventoryProductObject = null;
-		return inventoryCustomModelMapper.mapInventoryProductToInventoryProductDTO(inventoryProductReturnObject);
+		return inventoryModelMapper.mapInventoryProductToInventoryProductDTO(inventoryProductReturnObject);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class InventoryService implements InventoryServiceInterface {
 	@Override
 	public List<InventoryProductDTO> getAllInventoryProducts() {
 		return inventoryProductRepository.findAll().stream().
-				map(inventoryProduct -> inventoryCustomModelMapper.mapInventoryProductToInventoryProductDTO(inventoryProduct)).
+				map(inventoryProduct -> inventoryModelMapper.mapInventoryProductToInventoryProductDTO(inventoryProduct)).
 				collect(Collectors.toList());
 	}
 
@@ -62,7 +62,7 @@ public class InventoryService implements InventoryServiceInterface {
 	@Override
 	public List<InventoryProductDTO> getAllInventoryProductsByName(String inventoryProductName) {
 		return inventoryProductRepository.getAllInventoryProductsByName(inventoryProductName).stream().
-				map(inventoryProduct -> inventoryCustomModelMapper.mapInventoryProductToInventoryProductDTO(inventoryProduct)).
+				map(inventoryProduct -> inventoryModelMapper.mapInventoryProductToInventoryProductDTO(inventoryProduct)).
 				collect(Collectors.toList());
 	}
 
@@ -75,7 +75,7 @@ public class InventoryService implements InventoryServiceInterface {
 	@Override
 	public List<InventoryProductDTO> getAllInventoryProductsByPriceRange(long lowerBoundPrice, long upperBoundPrice) {
 		return inventoryProductRepository.getAllInventoryProductsByPriceRange(lowerBoundPrice, upperBoundPrice).stream().
-				map(inventoryProduct -> inventoryCustomModelMapper.mapInventoryProductToInventoryProductDTO(inventoryProduct)).
+				map(inventoryProduct -> inventoryModelMapper.mapInventoryProductToInventoryProductDTO(inventoryProduct)).
 				collect(Collectors.toList());
 	}
 
@@ -92,7 +92,7 @@ public class InventoryService implements InventoryServiceInterface {
 		InventoryProduct inventoryProductRetrieveObject = inventoryProductRepository.findById(inventoryProductID).
 				orElseThrow(() -> new InventoryProductException(messageSource.getMessage("InventoryProductNotFound", null, LocaleContextHolder.getLocale())));
 		
-		InventoryProduct inventoryProductObject = inventoryCustomModelMapper.mapInventoryProductDTOToInventoryProduct(inventoryProductDTOObject);
+		InventoryProduct inventoryProductObject = inventoryModelMapper.mapInventoryProductDTOToInventoryProduct(inventoryProductDTOObject);
 		
 		if(inventoryProductID != inventoryProductObject.getInventoryProductID()) {
 			throw new InventoryProductException(messageSource.getMessage("InventoryProductIDIncorrect", null, LocaleContextHolder.getLocale()));
@@ -107,7 +107,7 @@ public class InventoryService implements InventoryServiceInterface {
 		inventoryProductObject = null;
 		inventoryProductRetrieveObject = null;
 		
-		return inventoryCustomModelMapper.mapInventoryProductToInventoryProductDTO(inventoryProductReturnObject);
+		return inventoryModelMapper.mapInventoryProductToInventoryProductDTO(inventoryProductReturnObject);
 	}
 
 	/**
