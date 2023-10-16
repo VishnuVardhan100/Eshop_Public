@@ -63,6 +63,8 @@ public class CustomerService implements CustomerServiceInterface{
 		customerReturnObject = customerRepository.save(customerObject);
 		customerObject = null;
 
+		//customerMailService.sendCustomerCreatedMail(customerReturnObject);
+
 		return customerModelMapper.mapCustomerToCustomerDTO(customerReturnObject);
 	}
 
@@ -237,6 +239,7 @@ public class CustomerService implements CustomerServiceInterface{
 		if(passwordEncoder.matches(customerOldPasword, customerRetrieveObject.getCustomerPassword())) {
 			customerRetrieveObject.setCustomerPassword(passwordEncoder.encode(customerNewPasword));
 			customerRepository.save(customerRetrieveObject);
+			//customerMailService.sendCustomerPasswordResetMail(customerRetrieveObject);
 		}
 		else {
 			throw new CustomerException(messageSource.getMessage("WrongCustomerCredentials", null, LocaleContextHolder.getLocale()));
@@ -254,6 +257,11 @@ public class CustomerService implements CustomerServiceInterface{
 		if(!customerRepository.existsById(customerID)) {
 			throw new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale()));
 		}
+		/*
+		 * Customer customerRetrieveObject = customerRepository.findById(customerID)
+		 * .orElseThrow(() -> new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale())));
+		 * customerMailService.sendCustomerDeletedMail(customerRetrieveObject);
+		 */
 		customerRepository.deleteById(customerID);
 	}
 

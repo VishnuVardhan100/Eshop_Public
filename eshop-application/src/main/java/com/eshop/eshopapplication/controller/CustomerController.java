@@ -55,9 +55,9 @@ public class CustomerController {
 	private CustomerService customerService;
 	
 	/**
-	 * Sign in endpoint for customers
-	 * @param customerSignInAuthenticationRequest object conatinaing username and password
-	 * @return JSON Web Token uf successful
+	 * Sign in end point for customers
+	 * @param customerSignInAuthenticationRequest object containing user name and password
+	 * @return JSON Web Token if successful
 	 * @throws Exception
 	 */
 	@PostMapping("/signin/customers")
@@ -187,7 +187,7 @@ public class CustomerController {
 		String customerOldPassword = CustomerPasswordUpdateDTOObject.getCustomerOldPassword();
 		String customerNewPassword = CustomerPasswordUpdateDTOObject.getCustomerNewPassword();
 		customerService.updateCustomerPassword(customerID, customerOldPassword, customerNewPassword);
-		return new ResponseEntity<>("Customer Password Reset Successfully", HttpStatus.OK);
+		return new ResponseEntity<>("Customer password reset Successfully", HttpStatus.OK);
 	}
 
 	/**
