@@ -64,6 +64,25 @@ public class EshopMailService {
 		mimeMessage.setSubject(subject);
 		return mimeMessage;
 	}
+
+	/**
+	 * Create the MIME message for many recipients
+	 * @param session - for session for which to set mime message to
+	 * @param from - EShop sender mail ID
+	 * @param recepientMailList - list of recipient mail ID
+	 * @param subject - subject for mail
+	 * @throws AddressException
+	 * @throws MessagingException
+	 */
+	protected MimeMessage createMIMEMessageMultiRecipient(Session session, String from, String[] recipientMailList, String subject) throws AddressException, MessagingException{
+		MimeMessage mimeMessage = new MimeMessage(session);
+		mimeMessage.setFrom(new InternetAddress(from));
+		for(String recipient : recipientMailList) {
+			mimeMessage.addRecipient(Message.RecipientType.TO,new InternetAddress(recipient));
+		}
+		mimeMessage.setSubject(subject);
+		return mimeMessage;
+	}
 	
 	/**
 	 * Get a MimeMultipart
