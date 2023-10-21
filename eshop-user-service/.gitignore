@@ -1,6 +1,16 @@
 HELP.md
+
+# Eclipse
+.settings/
+.project
+eshop-user-service.jar
+
 target/
-!.mvn/wrapper/maven-wrapper.jar
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.properties
+.mvn/wrapper/maven-wrapper.jar
+mvnw
+mvnw.cmd
 !**/src/main/**/target/
 !**/src/test/**/target/
 
