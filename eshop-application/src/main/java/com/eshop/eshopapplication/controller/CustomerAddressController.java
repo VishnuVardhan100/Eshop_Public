@@ -94,10 +94,11 @@ public class CustomerAddressController {
 	 * @throws CustomerException
 	 * @throws CustomerAddressException
 	 */
-	/*@DeleteMapping(path="/customers/addresses", params={"customerID","customerAddressIDs"})
+	@DeleteMapping(path="/customers/addresses", params={"customerID","customerAddressIDs"})
 	public ResponseEntity<Object> deleteAllCustomerAddresses(@RequestParam(name="customerID", required=true) long customerID, 
-			@RequestParam(name="customerAddressIDs", required=true) List<Long> customerAddressIDs) throws CustomerException, CustomerAddressException {
+			@RequestBody(required=true) List<Long> customerAddressIDs) throws CustomerException, CustomerAddressException {
+		customerAddressService.deleteAllCustomerAddresses(customerID, customerAddressIDs);		
 		return new ResponseEntity<Object> (HttpStatus.OK);
-	}*/
+	}
 
 }

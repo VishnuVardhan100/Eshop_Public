@@ -16,7 +16,7 @@ import com.eshop.eshopmodel.logistics.OrderProductDTO;
  */
 
 @Service
-public class LogisticsCustomModelMapper {
+public class LogisticsModelMapper {
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -24,7 +24,7 @@ public class LogisticsCustomModelMapper {
 	/**
 	 * No arguments constructor
 	 */
-	public LogisticsCustomModelMapper() {
+	public LogisticsModelMapper() {
 		
 	}
 	

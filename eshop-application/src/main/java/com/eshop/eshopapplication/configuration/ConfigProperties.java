@@ -1,4 +1,4 @@
-package com.eshop.eshopmodel.communication;
+package com.eshop.eshopapplication.configuration;
 
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Configuration;

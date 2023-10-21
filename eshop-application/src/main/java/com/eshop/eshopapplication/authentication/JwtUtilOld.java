@@ -38,7 +38,6 @@ public class JwtUtilOld {
 
 	private Claims extractAllClaims(String token) {
 		return Jwts.parser().setSigningKey(jwtSecretKey).parseClaimsJws(token).getBody();
-		//return Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(token).getBody();
 	}
 	
 	public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -63,6 +62,7 @@ public class JwtUtilOld {
 		return createToken(claims,userDetails.getUsername());
 	}
 	
+	@SuppressWarnings("unused")
 	private Key key() {
 	   return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecretKey));
 	}

@@ -17,7 +17,7 @@ import com.eshop.eshopmodel.customer.CustomerSignUpDTO;
  */
 
 @Service
-public class CustomerCustomModelMapper {
+public class CustomerModelMapper {
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -25,7 +25,7 @@ public class CustomerCustomModelMapper {
 	/**
 	 * No argument Constructor
 	 */
-	public CustomerCustomModelMapper() {
+	public CustomerModelMapper() {
 		
 	}
 

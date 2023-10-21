@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eshop.eshopmodel.communication.WrapperCommunication;
 import com.eshop.eshopmodel.customer.Customer;
 import com.eshop.eshopmodel.logistics.Order;
-import com.eshop.eshopservice.communication.EshopCustomerCommunicationService;
+import com.eshop.eshopservice.communication.OrderMailService;
 import com.eshop.eshopservice.service.CustomerService;
 import com.eshop.eshopservice.service.LogisticsService;
 import com.eshop.exception.CustomerException;
@@ -34,7 +34,7 @@ public class CommunicationController {
 	private LogisticsService logisticsService;
 	
 	@Autowired
-	private EshopCustomerCommunicationService eshopCustomerCommunicationService;
+	private OrderMailService orderMailService;
 	
 	/**
 	 * Send a mail to customer about an order. Can be after placing order or separately too.
@@ -53,7 +53,7 @@ public class CommunicationController {
 		Customer customerObject = customerService.retrieveCustomerObjectByID(customerID, LocaleContextHolder.getLocale());
 		Order orderObject = logisticsService.retrieveOrderObjectByCustomerID(customerID, orderID);
 		
-		eshopCustomerCommunicationService.sendOrderSummaryViaMail(customerObject, orderObject);
+		orderMailService.sendOrderSummaryViaMail(customerObject, orderObject);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 

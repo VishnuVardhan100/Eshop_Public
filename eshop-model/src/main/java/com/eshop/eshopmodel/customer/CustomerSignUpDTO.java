@@ -15,7 +15,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
+ * Customer information sent by client to create customer account
  */
 
 @Data
