@@ -9,9 +9,9 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../eshop-parent/pom.xml</relativePath>
 	</parent>
-	<artifactId>eshop-user-service</artifactId>
-	<name>eshop-user-service</name>
-	<description>Eshop user services microservice</description>
+	<artifactId>eshop-inventory-service</artifactId>
+	<name>eshop-inventory-service</name>
+	<description>Eshop inventory services microservice</description>
 
 	<dependencies>
 
@@ -59,7 +59,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>-->
-
+		
 	</dependencies>
 
 	<build>

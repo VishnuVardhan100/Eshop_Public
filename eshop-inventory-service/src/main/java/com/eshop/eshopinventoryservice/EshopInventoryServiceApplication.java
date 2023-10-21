@@ -1,4 +1,4 @@
-package com.eshop.eshopuserservice;
+package com.eshop.eshopinventoryservice;
 
 import java.util.Locale;
 
@@ -16,10 +16,10 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 @ComponentScan(basePackages={"com.eshop"})
 @EnableJpaRepositories("com.eshop.eshoprepository")
 @SpringBootApplication
-public class EshopUserServiceApplication {
+public class EshopInventoryServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EshopUserServiceApplication.class, args);
+		SpringApplication.run(EshopInventoryServiceApplication.class, args);
 	}
 
 	@Bean
