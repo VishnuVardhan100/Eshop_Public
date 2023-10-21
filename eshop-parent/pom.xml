@@ -25,6 +25,7 @@
 		<module>../eshop-application</module>
 		<module>../eshop-service</module>
 		<module>../eshop-repository</module>
+		<module>../eshop-user-service</module>
 	</modules>
 
 	<dependencies>
