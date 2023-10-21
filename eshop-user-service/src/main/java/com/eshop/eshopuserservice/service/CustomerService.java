@@ -114,15 +114,24 @@ public class CustomerService implements CustomerServiceInterface{
 	 * CAUTION : INTERNAL USE ONLY
 	 * Retrieve a Customer by their ID
 	 * @param long Customer ID
-	 * @param locale
 	 * @return Customer object
 	 * @throws CustomerException
 	 */
 	@Override
-	public Customer retrieveCustomerObjectByID(long customerID, Locale locale) throws CustomerException {
+	public Customer retrieveCustomerByID(long customerID) throws CustomerException {
 		Optional<Customer> customerReturnObject = Optional.of(customerRepository.findById(customerID).
-				orElseThrow(() -> new CustomerException(messageSource.getMessage("CustomerNotFound", null, locale))));
+				orElseThrow(() -> new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale()))));
 		return customerReturnObject.get();
+	}
+
+	/**
+	 * Check if customer exists by ID
+	 * @param customerID
+	 * @return true or false of customer exists
+	 */
+	@Override
+	public boolean customerExists(long customerID) throws CustomerException {
+		return customerRepository.existsById(customerID);
 	}
 	
 	/**

@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import com.eshop.eshopinventoryservice.exception.InventoryProductException;
 import com.eshop.eshopinventoryservice.model.inventory.InventoryProduct;
 import com.eshop.eshopinventoryservice.model.inventory.InventoryProductDTO;
+import com.eshop.eshopinventoryservice.model.logistics.OrderProduct;
 import com.eshop.eshopinventoryservice.repository.InventoryProductRepository;
 import com.eshop.eshopinventoryservice.service.helper.InventoryModelMapper;
+import com.eshop.eshopinventoryservice.service.helper.InventoryProductAccountant;
 
 /**
  * Service implementation class for Inventory Products management
@@ -26,6 +28,9 @@ public class InventoryService implements InventoryServiceInterface {
 	
 	@Autowired
 	private InventoryModelMapper inventoryModelMapper;
+	
+	@Autowired
+	private InventoryProductAccountant inventoryProductAccountant;
 	
 	@Autowired
 	private InventoryProductRepository  inventoryProductRepository;
@@ -121,6 +126,19 @@ public class InventoryService implements InventoryServiceInterface {
 			throw new InventoryProductException(messageSource.getMessage("InventoryProductNotFound", null, LocaleContextHolder.getLocale())); 
 		}
 		inventoryProductRepository.deleteById(inventoryProductID);
+	}
+	
+	/**
+	 * Perform necessary checking if product is available in inventory and adjust quantity
+	 * based on user order requirements
+	 * @param list of inventory product IDs
+	 * @param list of order products
+	 * @throws Inventory product exception
+	 */
+	@Override
+	public void performInventoryQuantityCheckAndAdjust(List<Long> inventoryProductIDList, List<OrderProduct> orderProductList)
+			throws InventoryProductException {
+		inventoryProductAccountant.performInventoryQuantityCheckAndAdjust( inventoryProductIDList, orderProductList);
 	}
 
 }

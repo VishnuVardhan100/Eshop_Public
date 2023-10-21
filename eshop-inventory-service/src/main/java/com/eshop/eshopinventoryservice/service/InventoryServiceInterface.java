@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.eshop.eshopinventoryservice.exception.InventoryProductException;
 import com.eshop.eshopinventoryservice.model.inventory.InventoryProductDTO;
+import com.eshop.eshopinventoryservice.model.logistics.OrderProduct;
 
 public interface InventoryServiceInterface {
 
@@ -18,5 +19,8 @@ public interface InventoryServiceInterface {
 	InventoryProductDTO updateInventoryProduct(long inventoryProductID, InventoryProductDTO inventoryProductDTOObject) throws InventoryProductException;
 	
 	void removeInventoryProduct(long inventoryProductID) throws InventoryProductException;
+	
+	void performInventoryQuantityCheckAndAdjust(List<Long> inventoryProductIDList, List<OrderProduct> orderProductList)
+			throws InventoryProductException;
 	
 }

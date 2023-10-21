@@ -17,8 +17,10 @@ public interface CustomerServiceInterface {
 	CustomerDTO loadCustomerByEmail(String customerEmail) throws CustomerException;
 
 	CustomerDTO retrieveCustomerByID(long customerID, Locale locale) throws CustomerException;
+	
+	Customer retrieveCustomerByID(long customerID) throws CustomerException;
 
-	Customer retrieveCustomerObjectByID(long customerID, Locale locale) throws CustomerException;
+	boolean customerExists(long customerID) throws CustomerException;
 	
 	List<CustomerDTO> retrieveCustomersByFirstName(String firstName);
 
