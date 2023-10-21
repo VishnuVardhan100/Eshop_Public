@@ -28,6 +28,7 @@
 		<module>../eshop-user-service</module>
 		<module>../eshop-inventory-service</module>
 		<module>../eshop-order-service</module>
+		<module>../eshop-communications-service</module>
 	</modules>
 
 	<dependencies>
