@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +34,7 @@ public class CustomerService implements CustomerServiceInterface{
 	@Autowired
 	private CustomerModelMapper customerModelMapper;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Autowired
 	private CustomerRepository customerRepository;
