@@ -14,7 +14,7 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 @EntityScan("com.eshop")
 @ComponentScan(basePackages={"com.eshop"})
-@EnableJpaRepositories("com.eshop.eshoprepository")
+@EnableJpaRepositories("com.eshop.eshopuserservice.repository")
 @SpringBootApplication
 public class EshopUserServiceApplication {
 

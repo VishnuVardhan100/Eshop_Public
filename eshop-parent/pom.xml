@@ -22,18 +22,20 @@
 	</properties>
 
 	<modules>
-		<module>../eshop-model</module>
+		<!--<module>../eshop-model</module>
 		<module>../eshop-application</module>
 		<module>../eshop-service</module>
-		<module>../eshop-repository</module>
+		<module>../eshop-repository</module>-->
 		<module>../eshop-user-service</module>
 		<module>../eshop-inventory-service</module>
 		<module>../eshop-order-service</module>
 		<module>../eshop-communications-service</module>
+		<module>../eshop-service-registry</module>
+		<module>../eshop-gateway</module>
 	</modules>
 
 	<dependencies>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
@@ -103,7 +105,7 @@
 		    <artifactId>jaxb-api</artifactId>
 		    <version>2.4.0-b180830.0359</version>
 		</dependency>
-
+-->
 	</dependencies>
 
 	<build>

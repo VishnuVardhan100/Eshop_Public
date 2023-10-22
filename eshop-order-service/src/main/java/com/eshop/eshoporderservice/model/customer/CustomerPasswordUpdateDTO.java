@@ -14,7 +14,6 @@ import lombok.Data;
 @Validated
 public class CustomerPasswordUpdateDTO {
 
-	@SuppressWarnings("unused")
 	private long customerID;
 
 	@NotBlank(message="Password cannot be blank")
