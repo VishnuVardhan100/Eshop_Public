@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eshop.eshoporderservice.model.logistics.Order;
 import com.eshop.eshoporderservice.model.logistics.OrderDTO;
 import com.eshop.eshoporderservice.model.logistics.OrderProductDTO;
 import com.eshop.eshoporderservice.model.logistics.WrapperOrderProduct;
@@ -73,6 +75,20 @@ public class LogisticsController {
 			@RequestParam(name="orderID", required=true) long orderID) throws CustomerException {
 		return new ResponseEntity<OrderDTO> (logisticsService.retrieveOrderByCustomerID(customerID, orderID), HttpStatus.OK);
 	}*/
+
+	/**
+	 * CAUTION : INTERNAL USE ONLY
+	 * Get the raw order object based on customerID and orderID
+	 * @param customerID
+	 * @param orderID
+	 * @return Raw order object
+	 * @throws CustomerException
+	 */
+	@GetMapping(value = "/customers/ordersobject", params= {"customerID", "orderID"})
+	public ResponseEntity<Order> getOrderObjectByCustomerID(@RequestParam(name="customerID", required=true) long customerID,
+			@RequestParam(name="orderID", required=true) long orderID) throws CustomerException {
+		return new ResponseEntity<Order> (logisticsService.retrieveOrderObjectByCustomerID(customerID, orderID), HttpStatus.OK);
+	}
 	
 	/**
 	 * Get all orders of particular customer

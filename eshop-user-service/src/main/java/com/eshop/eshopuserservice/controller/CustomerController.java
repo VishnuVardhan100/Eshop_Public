@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eshop.eshopuserservice.exception.CustomerException;
 import com.eshop.eshopuserservice.exception.InvalidInputException;
+import com.eshop.eshopuserservice.model.customer.Customer;
 import com.eshop.eshopuserservice.model.customer.CustomerDTO;
 import com.eshop.eshopuserservice.model.customer.CustomerPasswordUpdateDTO;
 import com.eshop.eshopuserservice.model.customer.CustomerSignUpDTO;
@@ -95,12 +96,24 @@ public class CustomerController {
 	public ResponseEntity<CustomerDTO> getCustomerByEmail(@RequestParam(name="customerEmail", required=true) String customerEmail) throws CustomerException {
 		return new ResponseEntity<CustomerDTO> (customerService.loadCustomerByEmail(customerEmail), HttpStatus.OK);
 	}
+
+	/**
+	 * CAUTION: INTERNAL USE ONLY
+	 * Get Customer by email
+	 * @param customerEmail
+	 * @return Customer raw object, if such customer exists
+	 * @throws CustomerException
+	 */
+	@GetMapping(path = "/customers/loadobject", params={"customerEmail"})
+	public ResponseEntity<Customer> getCustomerObjectByEmail(@RequestParam(name="customerEmail", required=true) String customerEmail) throws CustomerException {
+		return new ResponseEntity<Customer> (customerService.loadCustomerObjectByEmail(customerEmail), HttpStatus.OK);
+	}
 	
 	/**
-	 * Retrieve Customer by ID
+	 * Retrieve CustomerDTO by ID
 	 * @param Customer ID
 	 * @param locale
-	 * @return Customer object if exists
+	 * @return CustomerDTO object if exists
 	 * @throws CustomerException
 	 */
 	@GetMapping("customers/search/{customerID}")
@@ -109,6 +122,19 @@ public class CustomerController {
 		return new ResponseEntity<CustomerDTO> (customerService.retrieveCustomerByID(customerID, locale),HttpStatus.OK);
 	}
 
+	/**
+	 * CAUION: INTERNAL USE ONLY
+	 * Retrieve Customer by ID
+	 * @param customerID
+	 * @return customer object if exists
+	 * @throws CustomerException
+	 */
+	@GetMapping(path= "customers/searchbyid" , params= {"customerID"})
+	public ResponseEntity<Customer> getCustomerByID(@RequestParam(name="customerID", required=true) long customerID
+			) throws CustomerException {
+		return new ResponseEntity<Customer> (customerService.retrieveCustomerByID(customerID),HttpStatus.OK);
+	}
+	
 	/**
 	 * ADMIN PRIVILEDGE : Get Customers based on first name
 	 * @param first name

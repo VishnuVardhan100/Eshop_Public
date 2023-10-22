@@ -1,8 +1,7 @@
 package com.eshop.eshoporderservice.service;
 
-import java.util.Optional;
-
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.eshop.eshoporderservice.exception.CustomerException;
 import com.eshop.eshoporderservice.model.customer.Customer;
@@ -10,8 +9,7 @@ import com.eshop.eshoporderservice.model.customer.Customer;
 @FeignClient("ESHOP-USER-SERVICE")
 public interface CustomerInterface {
 
-	Optional<Customer> retrieveCustomerByID(long customerID) throws CustomerException;
-
-	boolean customerExists(long customerID) throws CustomerException;
+	@GetMapping(path= "customers/searchbyid" , params= {"customerID"})
+	Customer getCustomerByID(long customerID) throws CustomerException;
 
 }

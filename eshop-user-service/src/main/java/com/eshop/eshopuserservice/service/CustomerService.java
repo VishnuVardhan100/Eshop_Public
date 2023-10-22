@@ -85,6 +85,7 @@ public class CustomerService implements CustomerServiceInterface{
 	 * Retrieve Customer by email
 	 * @param Customer Email
 	 * @return CustomerDTO object, if customer exists
+	 * @throws CustomerException
 	 */
 	@Override
 	public CustomerDTO loadCustomerByEmail(String customerEmail) throws CustomerException {
@@ -94,6 +95,22 @@ public class CustomerService implements CustomerServiceInterface{
 		}
 		CustomerDTO customerDTOObject = customerModelMapper.mapCustomerToCustomerDTO(customerRetrieveObject);
 		return customerDTOObject;
+	}
+
+	/**
+	 * CAUTION: INTERNAL USE ONLY
+	 * Retrieve Customer raw object by email
+	 * @param Customer Email
+	 * @return CustomerDTO object, if customer exists
+	 * @throws CustomerException
+	 */
+	@Override
+	public Customer loadCustomerObjectByEmail(String customerEmail) throws CustomerException {
+		Customer customerRetrieveObject  = customerRepository.loadCustomerByEmail(customerEmail);
+		if(customerRetrieveObject == null) {
+			throw new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale()));
+		}
+		return customerRetrieveObject;
 	}
 	
 	/**

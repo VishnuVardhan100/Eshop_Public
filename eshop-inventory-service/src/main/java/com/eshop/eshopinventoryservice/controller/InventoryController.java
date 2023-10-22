@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eshop.eshopinventoryservice.model.inventory.InventoryProductDTO;
+import com.eshop.eshopinventoryservice.model.logistics.OrderProduct;
 import com.eshop.eshopinventoryservice.service.InventoryService;
 import com.eshop.eshopinventoryservice.exception.InventoryProductException;
 
@@ -69,6 +70,21 @@ public class InventoryController {
 				upperBoundPrice), HttpStatus.OK);
 	}
 
+	/**
+	 * Check inventory for products ordered by customer and do needful adjustments
+	 * @param inventoryProductIDList
+	 * @param orderProductList
+	 * @return OK status upon successful operation
+	 * @throws InventoryProductException
+	 */
+	@PostMapping(value= "/admin/inventory/update/checkandadjust", params= {"inventoryProductIDList","orderProductList"})
+	public ResponseEntity<Object> performInventoryQuantityCheckAndAdjust(@RequestParam(name="inventoryProductIDList", required=true) List<Long> inventoryProductIDList, 
+			@RequestParam(name="orderProductList",required=true) List<OrderProduct> orderProductList)
+			throws InventoryProductException{
+			inventoryService.performInventoryQuantityCheckAndAdjust(inventoryProductIDList, orderProductList);
+			return new ResponseEntity<Object> (HttpStatus.OK);
+	}
+	
 	/**
 	 * ADMIN PRIVILEDGE : Update the inventory product
 	 * @param inventoryProduct ID

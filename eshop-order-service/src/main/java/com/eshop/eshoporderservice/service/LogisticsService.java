@@ -59,8 +59,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 			List<OrderProductDTO> orderProductDTOList) throws CustomerException, InventoryProductException, OrderException, InvalidInputException {
 		
 		//first check for Customer
-		Customer customerRetrieveObject = customerInterface.retrieveCustomerByID(customerID).
-				orElseThrow(() -> new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale())));
+		Customer customerRetrieveObject = customerInterface.getCustomerByID(customerID);
 		
 		//map orderDTO to order and set Customer
 		Order orderObject = logisticsModelMapper.mapOrderDTOToOrder(orderDTOObject);
@@ -124,10 +123,8 @@ public class LogisticsService implements LogisticsServiceInterface {
 	public OrderDTO retrieveOrderByCustomerID(long customerID, long orderID) throws CustomerException {
 		
 		//first check for Customer
-		if(!customerInterface.customerExists(customerID)) {
-			throw new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale()));
-		}
-
+		Customer customerObject = customerInterface.getCustomerByID(customerID);
+		
 		//get the order
 		Order orderObject = orderRepository.findOrderByCustomerID(customerID, orderID);
 		
@@ -145,10 +142,8 @@ public class LogisticsService implements LogisticsServiceInterface {
 	public Order retrieveOrderObjectByCustomerID(long customerID, long orderID) throws CustomerException {
 		
 		//first check for customer
-		if(!customerInterface.customerExists(customerID)) {
-			throw new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale()));
-		}
-
+		Customer customerObject = customerInterface.getCustomerByID(customerID);
+		
 		//get the order
 		Order orderObject = orderRepository.findOrderByCustomerID(customerID, orderID);
 		
@@ -164,8 +159,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 	public List<OrderDTO> retrieveAllOrdersByCustomerID(long customerID) throws CustomerException {
 		
 		//first check for Customer
-		Customer customerObject = customerInterface.retrieveCustomerByID(customerID).
-				orElseThrow(() -> new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale())));
+		Customer customerObject = customerInterface.getCustomerByID(customerID);
 
 		//get List of orders
 		//List<Order> orderList = orderRepository.findAllOrdersByCustomerID(customerID);

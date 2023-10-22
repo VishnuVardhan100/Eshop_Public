@@ -1,13 +1,13 @@
 package com.eshop.eshopgateway.service;
 
-import java.util.Optional;
-
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.eshop.eshopgateway.model.customer.Customer;
 
 @FeignClient("ESHOP-USER-SERVICE")
 public interface CustomerInterface {
 
-	Optional<Customer> loadCustomerByEmail(String email);
+	@GetMapping(path = "/customers/loadobject", params={"customerEmail"})
+	Customer getCustomerObjectByEmail(String email);
 }

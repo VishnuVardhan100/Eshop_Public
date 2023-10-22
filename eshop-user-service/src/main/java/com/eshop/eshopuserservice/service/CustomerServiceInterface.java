@@ -15,6 +15,8 @@ public interface CustomerServiceInterface {
 	boolean emailExists(String customerEmail);
 	
 	CustomerDTO loadCustomerByEmail(String customerEmail) throws CustomerException;
+	
+	Customer loadCustomerObjectByEmail(String customerEmail) throws CustomerException;
 
 	CustomerDTO retrieveCustomerByID(long customerID, Locale locale) throws CustomerException;
 	
