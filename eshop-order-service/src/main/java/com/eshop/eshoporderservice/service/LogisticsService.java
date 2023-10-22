@@ -13,6 +13,7 @@ import com.eshop.eshoporderservice.exception.InvalidInputException;
 import com.eshop.eshoporderservice.exception.InventoryProductException;
 import com.eshop.eshoporderservice.exception.OrderException;
 import com.eshop.eshoporderservice.model.customer.Customer;
+import com.eshop.eshoporderservice.model.inventory.WrapperPerformCheckAndAdjust;
 import com.eshop.eshoporderservice.model.logistics.Order;
 import com.eshop.eshoporderservice.model.logistics.OrderDTO;
 import com.eshop.eshoporderservice.model.logistics.OrderProduct;
@@ -76,8 +77,9 @@ public class LogisticsService implements LogisticsServiceInterface {
 		map(orderProductDTO -> logisticsModelMapper.mapOrderProductDTOToOrderProduct(orderProductDTO)).
 		collect(Collectors.toList());
 
-		//check if each of the products' quantity ordered are available against same product's quantity in inventory 
-		inventoryInterface.performInventoryQuantityCheckAndAdjust(inventoryProductIDList, orderProductList);
+		//check if each of the products' quantity ordered are available against same product's quantity in inventory
+		WrapperPerformCheckAndAdjust wrapperPerformCheckAndAdjustObject = new WrapperPerformCheckAndAdjust(inventoryProductIDList, orderProductList); 
+		inventoryInterface.performInventoryQuantityCheckAndAdjust(wrapperPerformCheckAndAdjustObject);
 				
 		//perform calculation for orderProduct to set total cost for each product in list
 		//Then add all total costs to set total amount for order

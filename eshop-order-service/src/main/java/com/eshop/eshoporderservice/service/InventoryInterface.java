@@ -1,17 +1,19 @@
 package com.eshop.eshoporderservice.service;
 
-import java.util.List;
-
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.eshop.eshoporderservice.exception.InventoryProductException;
-import com.eshop.eshoporderservice.model.logistics.OrderProduct;
+import com.eshop.eshoporderservice.model.inventory.WrapperPerformCheckAndAdjust;
+
+import jakarta.validation.Valid;
 
 @FeignClient("ESHOP-INVENTORY-SERVICE")
 public interface InventoryInterface {
 
-	@PostMapping(value= "/admin/inventory/update/checkandadjust", params= {"inventoryProductIDList","orderProductList"})
-	void performInventoryQuantityCheckAndAdjust(List<Long> inventoryProductIDList, List<OrderProduct> orderProductList) throws InventoryProductException;
+	@PostMapping(value= "/admin/inventory/update/checkandadjust")
+	void performInventoryQuantityCheckAndAdjust(@RequestBody(required=true) @Valid WrapperPerformCheckAndAdjust wrapperPerformCheckAndAdjustObject) 
+			throws InventoryProductException;
 	
 }

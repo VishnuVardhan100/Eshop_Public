@@ -2,6 +2,7 @@ package com.eshop.eshopcommunicationsservice.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eshop.eshopcommunicationsservice.exception.CustomerException;
 import com.eshop.eshopcommunicationsservice.model.logistics.Order;
@@ -10,5 +11,6 @@ import com.eshop.eshopcommunicationsservice.model.logistics.Order;
 public interface LogisticsInterface {
 
 	@GetMapping(value = "/customers/ordersobject", params= {"customerID", "orderID"})
-	Order retrieveOrderObjectByCustomerID(long customerID, long orderID) throws CustomerException;
+	Order retrieveOrderObjectByCustomerID(@RequestParam(name="customerID", required=true) long customerID, @RequestParam(name="orderID", required=true)long orderID)
+		throws CustomerException;
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eshop.eshopinventoryservice.model.inventory.InventoryProductDTO;
 import com.eshop.eshopinventoryservice.model.logistics.OrderProduct;
 import com.eshop.eshopinventoryservice.service.InventoryService;
+import com.eshop.eshopinventoryservice.model.inventory.WrapperPerformCheckAndAdjust;
 import com.eshop.eshopinventoryservice.exception.InventoryProductException;
 
 import jakarta.validation.Valid;
@@ -77,12 +78,13 @@ public class InventoryController {
 	 * @return OK status upon successful operation
 	 * @throws InventoryProductException
 	 */
-	@PostMapping(value= "/admin/inventory/update/checkandadjust", params= {"inventoryProductIDList","orderProductList"})
-	public ResponseEntity<Object> performInventoryQuantityCheckAndAdjust(@RequestParam(name="inventoryProductIDList", required=true) List<Long> inventoryProductIDList, 
-			@RequestParam(name="orderProductList",required=true) List<OrderProduct> orderProductList)
-			throws InventoryProductException{
-			inventoryService.performInventoryQuantityCheckAndAdjust(inventoryProductIDList, orderProductList);
-			return new ResponseEntity<Object> (HttpStatus.OK);
+	@PostMapping(value= "/admin/inventory/update/checkandadjust")
+	public ResponseEntity<Object> performInventoryQuantityCheckAndAdjust(@RequestBody(required=true) @Valid WrapperPerformCheckAndAdjust wrapperPerformCheckAndAdjustObject)
+		throws InventoryProductException{
+		List<Long> inventoryProductIDList = wrapperPerformCheckAndAdjustObject.getInventoryProductIDList();
+		List<OrderProduct> orderProductList = wrapperPerformCheckAndAdjustObject.getOrderProductList();
+		inventoryService.performInventoryQuantityCheckAndAdjust(inventoryProductIDList, orderProductList);
+		return new ResponseEntity<Object> (HttpStatus.OK);
 	}
 	
 	/**
