@@ -92,7 +92,7 @@ public class CustomerController {
 	 * @return CustomerDTO object, if such customer exists
 	 * @throws CustomerException
 	 */
-	@GetMapping(path = "/customers/load", params={"customerEmail"})
+	@GetMapping(path= "/customers/load", params={"customerEmail"})
 	public ResponseEntity<CustomerDTO> getCustomerByEmail(@RequestParam(name="customerEmail", required=true) String customerEmail) throws CustomerException {
 		return new ResponseEntity<CustomerDTO> (customerService.loadCustomerByEmail(customerEmail), HttpStatus.OK);
 	}
@@ -104,7 +104,7 @@ public class CustomerController {
 	 * @return Customer raw object, if such customer exists
 	 * @throws CustomerException
 	 */
-	@GetMapping(path = "/customers/loadobject", params={"customerEmail"})
+	@GetMapping(path= "/customers/loadobject", params={"customerEmail"})
 	public ResponseEntity<Customer> getCustomerObjectByEmail(@RequestParam(name="customerEmail", required=true) String customerEmail) throws CustomerException {
 		return new ResponseEntity<Customer> (customerService.loadCustomerObjectByEmail(customerEmail), HttpStatus.OK);
 	}
@@ -116,7 +116,7 @@ public class CustomerController {
 	 * @return CustomerDTO object if exists
 	 * @throws CustomerException
 	 */
-	@GetMapping("customers/search/{customerID}")
+	@GetMapping("/customers/search/{customerID}")
 	public ResponseEntity<CustomerDTO> getCustomerByID(@PathVariable(name="customerID", required=true) long customerID,
 			@RequestHeader(name="Accept-Language", required=false) Locale locale) throws CustomerException {
 		return new ResponseEntity<CustomerDTO> (customerService.retrieveCustomerByID(customerID, locale),HttpStatus.OK);
@@ -129,7 +129,7 @@ public class CustomerController {
 	 * @return customer object if exists
 	 * @throws CustomerException
 	 */
-	@GetMapping(path= "customers/searchbyid" , params= {"customerID"})
+	@GetMapping(path= "/customers/searchbyid" , params= {"customerID"})
 	public ResponseEntity<Customer> getCustomerByID(@RequestParam(name="customerID", required=true) long customerID
 			) throws CustomerException {
 		return new ResponseEntity<Customer> (customerService.retrieveCustomerByID(customerID),HttpStatus.OK);
