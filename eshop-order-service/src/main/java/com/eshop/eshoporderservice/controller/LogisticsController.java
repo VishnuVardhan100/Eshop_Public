@@ -43,7 +43,7 @@ public class LogisticsController {
 	 * @throws OrderException
 	 * @throws InvalidInputException
 	 */
-	@PostMapping("/customers/orders/{customerID}")
+	@PostMapping("/orders/{customerID}")
 	public ResponseEntity<OrderDTO> placeOrder(@PathVariable(name="customerID", required=true) long customerID, 
 			@RequestBody(required = true) @Valid WrapperOrderProduct wrapperOrderProduct)
 		throws CustomerException, InventoryProductException, OrderException, InvalidInputException {
@@ -58,7 +58,7 @@ public class LogisticsController {
 	 * ADMIN PRIVILEDGE : Get all orders
 	 * @return all orders
 	 */
-	@GetMapping(path = "/customers/orders/search")
+	@GetMapping(path = "/admin/orders/search")
 	public ResponseEntity<List<OrderDTO>> retrieveAllOrders() {
 		return new ResponseEntity<List<OrderDTO>> (logisticsService.retrieveAllOrders(), HttpStatus.OK);
 	}
@@ -70,11 +70,11 @@ public class LogisticsController {
 	 * @return OrderDTO object if get successful
 	 * @throws CustomerException
 	 */
-	/*@GetMapping(path = "/customers/orders/search/{customerID}" , params = "orderID")
-	public ResponseEntity<OrderDTO> getOrderByCustomerID(@PathVariable(name="customerID", required=true) long customerID, 
+	@GetMapping(path = "/orders/search/" , params = {"customerID","orderID"})
+	public ResponseEntity<OrderDTO> getOrderByCustomerID(@RequestParam(name="customerID", required=true) long customerID, 
 			@RequestParam(name="orderID", required=true) long orderID) throws CustomerException {
 		return new ResponseEntity<OrderDTO> (logisticsService.retrieveOrderByCustomerID(customerID, orderID), HttpStatus.OK);
-	}*/
+	}
 
 	/**
 	 * CAUTION : INTERNAL USE ONLY
@@ -84,7 +84,7 @@ public class LogisticsController {
 	 * @return Raw order object
 	 * @throws CustomerException
 	 */
-	@GetMapping(value = "/customers/ordersobject", params= {"customerID", "orderID"})
+	@GetMapping(value = "/orders/search/ordersobject", params= {"customerID", "orderID"})
 	public ResponseEntity<Order> getOrderObjectByCustomerID(@RequestParam(name="customerID", required=true) long customerID,
 			@RequestParam(name="orderID", required=true) long orderID) throws CustomerException {
 		return new ResponseEntity<Order> (logisticsService.retrieveOrderObjectByCustomerID(customerID, orderID), HttpStatus.OK);
@@ -96,7 +96,7 @@ public class LogisticsController {
 	 * @return list of all orderDTOs for particular customer
 	 * @throws CustomerException
 	 */
-	@GetMapping("/customers/orders/search/{customerID}")
+	@GetMapping("/orders/search/{customerID}")
 	public ResponseEntity<List<OrderDTO>> getAllOrdersByCustomerID(@PathVariable(name="customerID", required=true) long customerID) throws CustomerException {
 		return new ResponseEntity<List<OrderDTO>> (logisticsService.retrieveAllOrdersByCustomerID(customerID),HttpStatus.OK);
 	}

@@ -33,7 +33,7 @@ public class CommunicationController {
 	 * @throws AddressException
 	 * @throws MessagingException
 	 */
-	@GetMapping(value="/customers/communications/sendOrderMail")
+	@GetMapping(value="/communications/customers/sendOrderMail")
 	public ResponseEntity<Object> sendOrderSummaryViaMail(@RequestBody(required=true) @Valid WrapperCommunication wrapperCommunicationObject)
 		throws CustomerException, AddressException, MessagingException {
 		long customerID = wrapperCommunicationObject.getCustomerID();
