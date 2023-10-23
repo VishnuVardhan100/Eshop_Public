@@ -31,7 +31,8 @@
 		<module>../eshop-order-service</module>
 		<module>../eshop-communications-service</module>
 		<module>../eshop-service-registry</module>
-		<module>../eshop-gateway</module>
+		<!--<module>../eshop-gateway</module>-->
+		<module>../eshop-standard-gateway</module>
 	</modules>
 
 	<dependencies>
