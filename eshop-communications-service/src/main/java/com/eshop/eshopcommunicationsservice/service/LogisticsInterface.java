@@ -10,7 +10,7 @@ import com.eshop.eshopcommunicationsservice.model.logistics.Order;
 @FeignClient("ESHOP-ORDER-SERVICE")
 public interface LogisticsInterface {
 
-	@GetMapping(value = "/customers/ordersobject", params= {"customerID", "orderID"})
+	@GetMapping(value= "/orders/search/ordersobject", params= {"customerID", "orderID"})
 	Order retrieveOrderObjectByCustomerID(@RequestParam(name="customerID", required=true) long customerID, @RequestParam(name="orderID", required=true)long orderID)
 		throws CustomerException;
 }

@@ -10,6 +10,6 @@ import com.eshop.eshopcommunicationsservice.model.customer.Customer;
 @FeignClient("ESHOP-USER-SERVICE")
 public interface CustomerInterface {
 
-	@GetMapping(path= "customers/searchbyid" , params= {"customerID"})
+	@GetMapping(path= "/customers/searchbyid" , params= {"customerID"})
 	Customer getCustomerByID(@RequestParam(name="customerID", required=true) long customerID) throws CustomerException;
 }
