@@ -1,0 +1,73 @@
+server:
+#    port: ${SPRING_PORT}
+    port: 8765
+
+eureka:
+    instance:
+        hostname: localhost
+    client:
+        fetchRegistry: true
+        serviceUrl:
+            defaultZone: http://${eureka.instance.hostname}:8761/eureka
+
+spring:
+#    application:
+#        name: ${SPRING_GATEWAY_NAME}
+    application:
+        name: eshop-standard-gateway
+    jpa:
+        hibernate:
+            ddl-auto: update
+            show-sql: true
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+    datasource:
+        continue-on-error: true
+        initialization-mode: always
+        initialize: true
+        schema: classpath:/schema.sql
+        password: ${SPRING_DATASOURCE_PASSWORD}
+        url: jdbc:postgresql://${SPRING_DATASOURCE_HOST}:${SPRING_DATASOURCE_PORT}/${SPRING_DATASOURCE_DBNAME}
+        username: ${SPRING_DATASOURCE_USERNAME}
+    cloud:
+        discovery:
+            enabled: true
+        gateway:
+            discovery:
+                locator:
+                    enabled: true
+                    lower-case-service-id: true
+            routes:
+            - id: ESHOP-USER-SERVICE
+              uri: lb://ESHOP-USER-SERVICE
+              predicates:
+              - Path=/customers/**,/admin/customers/**,/signup/customers
+            - id: ESHOP-INVENTORY-SERVICE
+              uri: lb://ESHOP-INVENTORY-SERVICE
+              predicates:
+              - Path=/admin/inventory/**
+            - id: ESHOP-ORDER-SERVICE
+              uri: lb://ESHOP-ORDER-SERVICE
+              predicates:
+              - Path=/orders/**,/admin/orders/**
+            - id: ESHOP-COMMUNICATIONS-SERVICE
+              uri: lb://ESHOP-COMMUNICATIONS-SERVICE
+              predicates:
+              - Path=/communications/**
+    messages:
+        basename: messages
+        
+logging:
+    level:
+        org:
+            springframework: info
+            springframework.security: TRACE
+
+jwt:
+    cookie:
+        name: ${JWT_COOKIE_NAME}
+    expiration:
+        time: ${JWT_EXPIRATION_TIME}
+    secret:
+        key: ${JWT_SECRET_KEY}
