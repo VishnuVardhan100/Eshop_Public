@@ -1,0 +1,38 @@
+server:
+#    port:${SPRING_USERSER_PORT}
+    port: 8081
+
+spring:
+    application:
+#        name:eshop-user-service
+        name: eshop-user-service
+    datasource:
+        continue-on-error: true
+        initialization-mode: always
+        initialize: true
+        password: ${SPRING_DATASOURCE_PASSWORD}
+        schema: classpath:/schema.sql
+        url: jdbc:postgresql://${SPRING_DATASOURCE_HOST}:${SPRING_DATASOURCE_PORT}/${SPRING_DATASOURCE_DBNAME}
+        username: ${SPRING_DATASOURCE_USERNAME}
+    jpa:
+        hibernate:
+            ddl-auto: update
+            show-sql: true
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+    messages:
+        basename: messages
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://${eureka.instance.hostname}:8761/eureka
+    instance:
+        hostname: localhost
+
+logging:
+    level:
+        org:
+            springframework: info
+            springframework.security: TRACE

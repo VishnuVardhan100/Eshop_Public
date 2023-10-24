@@ -10,7 +10,7 @@ import org.springframework.core.env.Environment;
  */
 
 @Configuration
-@PropertySource(value = {"classpath:application.properties"})
+@PropertySource(value = {"classpath:application.yml"})
 public class ConfigProperties implements EnvironmentAware{
 
 	private Environment env;

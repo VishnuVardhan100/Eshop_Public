@@ -1,0 +1,21 @@
+server:
+#    port:${SPRING_EURSER_PORT}
+    port: 8761
+
+spring:
+    application:
+#        name:${SPRING_EURSER_NAME}
+        name: eshop-service-registry
+    messages:
+        basename: messages
+
+eureka:
+    client:
+        fetch-registry: false
+        register-with-eureka: false
+
+logging:
+    level:
+        org:
+            springframework: info
+            springframework.security: TRACE
