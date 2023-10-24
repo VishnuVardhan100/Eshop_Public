@@ -2,6 +2,10 @@ package com.eshop.eshopstandardgateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+import io.netty.resolver.DefaultAddressResolverGroup;
+import reactor.netty.http.client.HttpClient;
 
 @SpringBootApplication
 public class EshopStandardGatewayApplication {
@@ -10,4 +14,8 @@ public class EshopStandardGatewayApplication {
 		SpringApplication.run(EshopStandardGatewayApplication.class, args);
 	}
 
+	@Bean
+	public HttpClient httpClient() {
+	    return HttpClient.create().resolver(DefaultAddressResolverGroup.INSTANCE);
+	}
 }

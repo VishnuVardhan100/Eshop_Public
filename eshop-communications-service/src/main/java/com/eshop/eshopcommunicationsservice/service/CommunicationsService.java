@@ -25,9 +25,9 @@ public class CommunicationsService implements CommunicationsServiceInterface {
 	@Override
 	public void sendOrderSummaryViaMail(long customerID, long orderID) throws CustomerException, AddressException, MessagingException {
 
-		Customer customerObject = customerInterface.getCustomerByID(customerID);
+		Customer customerObject = customerInterface.getCustomerByID(customerID).getBody();
 		
-		Order orderObject = logisticsInterface.retrieveOrderObjectByCustomerID(customerID, orderID);
+		Order orderObject = logisticsInterface.retrieveOrderObjectByCustomerID(customerID, orderID).getBody();
 
 		orderMailService.sendOrderSummaryViaMail(customerObject, orderObject);
 	}
