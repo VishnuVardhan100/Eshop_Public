@@ -3,7 +3,7 @@ HELP.md
 # Eclipse
 .settings/
 .project
-eshop-user-service.jar
+eshop-standard-gateway.jar
 
 target/
 .mvn/timing.properties
