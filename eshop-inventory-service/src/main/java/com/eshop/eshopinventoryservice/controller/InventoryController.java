@@ -1,5 +1,6 @@
 package com.eshop.eshopinventoryservice.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.eshop.eshopinventoryservice.exception.InventoryProductException;
 import com.eshop.eshopinventoryservice.model.inventory.InventoryProductDTO;
+import com.eshop.eshopinventoryservice.model.inventory.WrapperPerformCheckAndAdjust;
 import com.eshop.eshopinventoryservice.model.logistics.OrderProduct;
 import com.eshop.eshopinventoryservice.service.InventoryService;
-import com.eshop.eshopinventoryservice.model.inventory.WrapperPerformCheckAndAdjust;
-import com.eshop.eshopinventoryservice.exception.InventoryProductException;
+import com.eshop.eshopinventoryservice.service.helper.InventoryExcelHelper;
 
 import jakarta.validation.Valid;
 
@@ -38,6 +41,22 @@ public class InventoryController {
 		return new ResponseEntity<InventoryProductDTO> (inventoryService.addInventoryProduct(inventoryProductDTOObject),HttpStatus.CREATED);
 	}
 
+	/**
+	 * ADMIN PRIVILEGE : Create a list of new products in the inventory for customer to purchase
+	 * @param file containing list of inventoryProductDTO objects to be created
+	 * @return list of inventoryProductDTO objects which were created in inventory
+	 */
+	@PostMapping("/admin/inventory/addMultiple")
+	public ResponseEntity<List<InventoryProductDTO>> addMultipleInventoryProducts(@RequestParam(name="file", required=true) MultipartFile file)
+			throws IOException {
+		if(InventoryExcelHelper.isExcelFormat(file)) {
+			return new ResponseEntity<List<InventoryProductDTO>> (inventoryService.addMultipleInventoryProducts(file),HttpStatus.CREATED);
+		}
+		else {
+			return new ResponseEntity<List<InventoryProductDTO>> (HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	/**
 	 * ADMIN PRIVILEDGE : Get all Inventory Products
 	 * @return list of inventoryProductDTO objects

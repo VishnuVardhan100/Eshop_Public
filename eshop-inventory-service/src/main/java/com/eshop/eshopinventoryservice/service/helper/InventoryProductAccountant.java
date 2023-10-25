@@ -42,6 +42,18 @@ public class InventoryProductAccountant {
 	
 	private long requestedNumberOfitems = 0;
 	
+	/**
+	 * Performs adjustment of the Inventory Product Quantity after all checks and persists info to database
+	 * @param existingQuantity
+	 * @param requestedNumberOfitems
+	 * @param inventoryRetrieveProduct
+	 */
+	private void adjustInventoryProdutQuantity(long existingQuantity, long requestedNumberOfitems,
+		InventoryProduct inventoryRetrieveProduct) {
+		long newQuantity = existingQuantity - requestedNumberOfitems;
+		inventoryRetrieveProduct.setInventoryProductQuantity(newQuantity);
+		inventoryProductRepository.save(inventoryRetrieveProduct);
+	}
 	
 	/**
 	 * Performs various checks on both lists to see if concurrent order items and Inventory product IDs match 
@@ -100,16 +112,21 @@ public class InventoryProductAccountant {
 	}
 	
 	/**
-	 * Performs adjustment of the Inventory Product Quantity after all checks and persists info to database
-	 * @param existingQuantity
-	 * @param requestedNumberOfitems
-	 * @param inventoryRetrieveProduct
+	 * Check if quantity needs to be adjusted when inventory product is to be added
+	 * @param inventoryProductObjectToAdd
+	 * @return inventory product object to be added with updated quantity
 	 */
-	private void adjustInventoryProdutQuantity(long existingQuantity, long requestedNumberOfitems,
-		InventoryProduct inventoryRetrieveProduct) {
-		long newQuantity = existingQuantity - requestedNumberOfitems;
-		inventoryRetrieveProduct.setInventoryProductQuantity(newQuantity);
-		inventoryProductRepository.save(inventoryRetrieveProduct);
+	public InventoryProduct adjustNewAdditionQuantity(InventoryProduct inventoryProductObjectToAdd) {
+		InventoryProduct inventoryProductRetrieve = inventoryProductRepository.findByInventoryProductname(inventoryProductObjectToAdd.getInventoryProductName());
+
+		if(inventoryProductRetrieve != null) {
+			long presentQuantityInInventory = inventoryProductRetrieve.getInventoryProductQuantity();
+			long toAddQuantityToInventory = inventoryProductObjectToAdd.getInventoryProductQuantity();
+			inventoryProductRetrieve.setInventoryProductQuantity(presentQuantityInInventory + toAddQuantityToInventory);
+			return inventoryProductRetrieve;
+		}
+
+		return inventoryProductObjectToAdd;
 	}
 	
 }

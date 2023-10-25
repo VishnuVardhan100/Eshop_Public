@@ -33,6 +33,13 @@ public interface InventoryProductRepository extends JpaRepository<InventoryProdu
 	@Query(value="Select * from Inventory_Product inv_Pro where inv_Pro.Inventory_Product_Price "
 			+ "between :lowerBoundPrice and :upperBoundPrice", nativeQuery=true)
 	public List<InventoryProduct> getAllInventoryProductsByPriceRange(@Param("lowerBoundPrice") long lowerBoundPrice,
-			@Param("upperBoundPrice") long upperBoundPrice);	
+			@Param("upperBoundPrice") long upperBoundPrice);
+	
+	
+	/**
+	 * @param inventoryProductName
+	 * @return inventory product with matching inventory product name
+	 */
+	public InventoryProduct findByInventoryProductname(String inventoryProductName);
 	
 }

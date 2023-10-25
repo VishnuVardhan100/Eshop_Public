@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -20,7 +21,11 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="Inventory_Product")
+@Table( name="Inventory_Product",
+uniqueConstraints= {
+		@UniqueConstraint(name="UniqueInventoryProductName", columnNames = { "Inventory_Product_Name" })
+})
+
 @Validated
 public class InventoryProduct {
 

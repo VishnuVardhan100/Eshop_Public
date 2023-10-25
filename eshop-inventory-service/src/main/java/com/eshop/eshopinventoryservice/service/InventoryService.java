@@ -1,5 +1,7 @@
 package com.eshop.eshopinventoryservice.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.eshop.eshopinventoryservice.exception.InventoryProductException;
 import com.eshop.eshopinventoryservice.model.inventory.InventoryProduct;
 import com.eshop.eshopinventoryservice.model.inventory.InventoryProductDTO;
 import com.eshop.eshopinventoryservice.model.logistics.OrderProduct;
 import com.eshop.eshopinventoryservice.repository.InventoryProductRepository;
+import com.eshop.eshopinventoryservice.service.helper.InventoryExcelHelper;
 import com.eshop.eshopinventoryservice.service.helper.InventoryModelMapper;
 import com.eshop.eshopinventoryservice.service.helper.InventoryProductAccountant;
 
@@ -33,8 +37,11 @@ public class InventoryService implements InventoryServiceInterface {
 	private InventoryProductAccountant inventoryProductAccountant;
 	
 	@Autowired
+	private InventoryExcelHelper inventoryExcelHelper;
+	
+	@Autowired
 	private InventoryProductRepository  inventoryProductRepository;
-
+	
 	/**
 	 * ADMIN PRIVILEDGE : Create a new product in the inventory for customer to purchase
 	 * @param inventoryProductDTO object to create
@@ -43,9 +50,30 @@ public class InventoryService implements InventoryServiceInterface {
 	@Override
 	public InventoryProductDTO addInventoryProduct(InventoryProductDTO inventoryProductDTOObject) {
 		InventoryProduct inventoryProductObject = inventoryModelMapper.mapInventoryProductDTOToInventoryProduct(inventoryProductDTOObject);
+		inventoryProductObject = inventoryProductAccountant.adjustNewAdditionQuantity(inventoryProductObject);
 		InventoryProduct inventoryProductReturnObject = inventoryProductRepository.save(inventoryProductObject);
 		inventoryProductObject = null;
 		return inventoryModelMapper.mapInventoryProductToInventoryProductDTO(inventoryProductReturnObject);
+	}
+
+	/**
+	 * ADMIN PRIVILEDGE : Create a list of new products in the inventory for customer to purchase
+	 * @param file containing list of inventoryProductDTO objects to create
+	 * @return inventoryProductDTO objects which were created in inventory
+	 */
+	public List<InventoryProductDTO> addMultipleInventoryProducts(MultipartFile file) throws IOException {
+		List<InventoryProductDTO> inventoryProductDTOs = inventoryExcelHelper.excelToInventoryProductDTOs(file.getInputStream());
+		List<InventoryProductDTO> savedInventoryProductDTOs = new ArrayList<InventoryProductDTO>();
+
+		for(InventoryProductDTO inventoryProductDTOObject : inventoryProductDTOs) {
+			InventoryProduct inventoryProductObject = inventoryModelMapper.mapInventoryProductDTOToInventoryProduct(inventoryProductDTOObject);
+			inventoryProductObject = inventoryProductAccountant.adjustNewAdditionQuantity(inventoryProductObject);
+			InventoryProduct savedInventoryProductObject = inventoryProductRepository.save(inventoryProductObject);
+			savedInventoryProductDTOs.add(inventoryModelMapper.mapInventoryProductToInventoryProductDTO(savedInventoryProductObject));
+		}
+
+		inventoryProductDTOs = null;
+		return savedInventoryProductDTOs;
 	}
 
 	/**
