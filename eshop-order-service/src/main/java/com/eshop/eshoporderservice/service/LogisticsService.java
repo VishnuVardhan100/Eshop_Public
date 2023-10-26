@@ -60,7 +60,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 			List<OrderProductDTO> orderProductDTOList) throws CustomerException, InventoryProductException, OrderException, InvalidInputException {
 		
 		//first check for Customer
-		Customer customerRetrieveObject = customerInterface.getCustomerByID(customerID).getBody();
+		Customer customerRetrieveObject = customerInterface.getCustomerObjectByID(customerID).getBody();
 		
 		//map orderDTO to order and set Customer
 		Order orderObject = logisticsModelMapper.mapOrderDTOToOrder(orderDTOObject);
@@ -125,7 +125,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 	public OrderDTO retrieveOrderByCustomerID(long customerID, long orderID) throws CustomerException {
 		
 		//first check for Customer
-		Customer customerObject = customerInterface.getCustomerByID(customerID).getBody();
+		Customer customerObject = customerInterface.getCustomerObjectByID(customerID).getBody();
 		
 		//get the order
 		Order orderObject = orderRepository.findOrderByCustomerID(customerID, orderID);
@@ -144,7 +144,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 	public Order retrieveOrderObjectByCustomerID(long customerID, long orderID) throws CustomerException {
 		
 		//first check for customer
-		Customer customerObject = customerInterface.getCustomerByID(customerID).getBody();
+		Customer customerObject = customerInterface.getCustomerObjectByID(customerID).getBody();
 		
 		//get the order
 		Order orderObject = orderRepository.findOrderByCustomerID(customerID, orderID);
@@ -161,7 +161,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 	public List<OrderDTO> retrieveAllOrdersByCustomerID(long customerID) throws CustomerException {
 		
 		//first check for Customer
-		Customer customerObject = customerInterface.getCustomerByID(customerID).getBody();
+		Customer customerObject = customerInterface.getCustomerObjectByID(customerID).getBody();
 
 		//get List of orders
 		//List<Order> orderList = orderRepository.findAllOrdersByCustomerID(customerID);

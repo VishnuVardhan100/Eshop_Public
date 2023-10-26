@@ -47,13 +47,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
 	 */
 	@Query(value = "select * from Customer c where c.Customer_Last_Name ilike :lastname", nativeQuery = true)
 	public List<Customer> retrieveCustomersByLastName(@Param("lastname") String lastname);
-
-	/**
-	 * Get customers by first name
-	 * @param email
-	 * @return list of matching customers
-	 */
-	@Query(value = "select * from Customer c where c.Customer_Email ilike :email", nativeQuery = true)
-	public List<Customer> retrieveCustomersByEmail(@Param("email") String email);
 	
 }

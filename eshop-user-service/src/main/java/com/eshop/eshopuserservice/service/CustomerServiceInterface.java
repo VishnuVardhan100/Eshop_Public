@@ -28,8 +28,6 @@ public interface CustomerServiceInterface {
 
 	List<CustomerDTO> retrieveCustomersByLastName(String lastName);	
 
-	List<CustomerDTO> retrieveCustomersByEmail(String email);
-
 	List<CustomerDTO> retrieveAllCustomers();
 
 	CustomerDTO updateCustomerInfo(long customerID, CustomerDTO customerDTO) throws CustomerException;

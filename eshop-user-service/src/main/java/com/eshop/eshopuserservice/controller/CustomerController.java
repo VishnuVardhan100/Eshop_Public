@@ -130,7 +130,7 @@ public class CustomerController {
 	 * @throws CustomerException
 	 */
 	@GetMapping(path= "/customers/searchbyid" , params= {"customerID"})
-	public ResponseEntity<Customer> getCustomerByID(@RequestParam(name="customerID", required=true) long customerID
+	public ResponseEntity<Customer> getCustomerObjectByID(@RequestParam(name="customerID", required=true) long customerID
 			) throws CustomerException {
 		return new ResponseEntity<Customer> (customerService.retrieveCustomerByID(customerID),HttpStatus.OK);
 	}
@@ -153,16 +153,6 @@ public class CustomerController {
 	@GetMapping(path="/admin/customers/search", params={"lastName"})
 	public ResponseEntity<List<CustomerDTO>> getCustomersByLastName(@RequestParam(value="lastName", required=true) String lastName) {
 		return new ResponseEntity<List<CustomerDTO>> (customerService.retrieveCustomersByLastName(lastName), HttpStatus.OK);
-	}
-
-	/**
-	 * ADMIN PRIVILEDGE : Get Customers based on email
-	 * @param email
-	 * @return list of Customers matching email criteria
-	 */
-	@GetMapping(path="/admin/customers/search", params={"email"})
-	public ResponseEntity<List<CustomerDTO>> getCustomersByEmail(@RequestParam(value="email", required=true) String email) {
-		return new ResponseEntity<List<CustomerDTO>> (customerService.retrieveCustomersByEmail(email), HttpStatus.OK);
 	}
 
 	/**

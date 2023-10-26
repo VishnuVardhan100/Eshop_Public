@@ -186,23 +186,6 @@ public class CustomerService implements CustomerServiceInterface{
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : To retrieve Customers based on email
-	 * @param email of Customer
-	 * @return list of matched Customer DTOs
-	 */
-	@Override
-	public List<CustomerDTO> retrieveCustomersByEmail(String email) {
-		List<Customer> customersByEmail = customerRepository.retrieveCustomersByEmail("%" + email + "%");
-		List<CustomerDTO> allReturnCustomerDTO = new ArrayList<CustomerDTO>(5);
-
-		for(Customer customer : customersByEmail) {
-			allReturnCustomerDTO.add(customerModelMapper.mapCustomerToCustomerDTO(customer));
-		}
-		customersByEmail = null;
-		return allReturnCustomerDTO;
-	}
-
-	/**
 	 * ADMIN PRIVILEDGE : Retrieve all Customers
 	 * @return list of all Customer DTOs
 	 */
