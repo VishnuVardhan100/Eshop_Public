@@ -83,7 +83,7 @@ public class CustomerAddressController {
 	public ResponseEntity<Object> deleteCustomerAddress (@RequestParam(name="customerID", required=true) long customerID, 
 			@RequestParam(name="customerAddressID", required=true) long customerAddressID) throws CustomerException, CustomerAddressException {
 		customerAddressService.deleteCustomerAddress(customerID, customerAddressID);
-		return new ResponseEntity<Object> (HttpStatus.OK);
+		return new ResponseEntity<Object> ("Selected customer address has been deleted successfully", HttpStatus.OK);
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class CustomerAddressController {
 	public ResponseEntity<Object> deleteAllCustomerAddresses(@RequestParam(name="customerID", required=true) long customerID, 
 			@RequestBody(required=true) List<Long> customerAddressIDs) throws CustomerException, CustomerAddressException {
 		customerAddressService.deleteAllCustomerAddresses(customerID, customerAddressIDs);		
-		return new ResponseEntity<Object> (HttpStatus.OK);
+		return new ResponseEntity<Object> ("All selected customer addresses have been deleted successfully", HttpStatus.OK);
 	}
 
 }

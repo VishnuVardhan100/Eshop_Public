@@ -103,7 +103,7 @@ public class InventoryController {
 		List<Long> inventoryProductIDList = wrapperPerformCheckAndAdjustObject.getInventoryProductIDList();
 		List<OrderProduct> orderProductList = wrapperPerformCheckAndAdjustObject.getOrderProductList();
 		inventoryService.performInventoryQuantityCheckAndAdjust(inventoryProductIDList, orderProductList);
-		return new ResponseEntity<Object> (HttpStatus.OK);
+		return new ResponseEntity<Object> ("Inventory Products Quantity check and adjust performed successfully", HttpStatus.OK);
 	}
 	
 	/**
@@ -129,7 +129,7 @@ public class InventoryController {
 	@DeleteMapping("/admin/inventory/delete/{inventoryProductID}")	
 	public ResponseEntity<Object> removeInventoryProduct(@PathVariable(name="inventoryProductID", required=true) long inventoryProductID) throws InventoryProductException  {
 		inventoryService.removeInventoryProduct(inventoryProductID);
-		return new ResponseEntity<Object>(HttpStatus.OK);
+		return new ResponseEntity<Object>("Select Inventory Products have been deleted", HttpStatus.OK);
 	}
 
 }

@@ -40,7 +40,7 @@ public class CommunicationController {
 		long orderID = wrapperCommunicationObject.getOrderID();
 		
 		communicationsService.sendOrderSummaryViaMail(customerID, orderID);
-		return new ResponseEntity<Object>(HttpStatus.OK);
+		return new ResponseEntity<Object>("Customer's Order Summary sent via Mail", HttpStatus.OK);
 	}
 
 }
