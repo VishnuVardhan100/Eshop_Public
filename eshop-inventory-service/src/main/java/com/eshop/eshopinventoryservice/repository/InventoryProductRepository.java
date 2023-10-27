@@ -40,6 +40,6 @@ public interface InventoryProductRepository extends JpaRepository<InventoryProdu
 	 * @param inventoryProductName
 	 * @return inventory product with matching inventory product name
 	 */
-	public InventoryProduct findByInventoryProductname(String inventoryProductName);
+	public InventoryProduct findByInventoryProductName(String inventoryProductName);
 	
 }

@@ -53,7 +53,7 @@ public class InventoryController {
 			return new ResponseEntity<List<InventoryProductDTO>> (inventoryService.addMultipleInventoryProducts(file),HttpStatus.CREATED);
 		}
 		else {
-			return new ResponseEntity<List<InventoryProductDTO>> (HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<InventoryProductDTO>> (HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 	

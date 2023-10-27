@@ -117,7 +117,7 @@ public class InventoryProductAccountant {
 	 * @return inventory product object to be added with updated quantity
 	 */
 	public InventoryProduct adjustNewAdditionQuantity(InventoryProduct inventoryProductObjectToAdd) {
-		InventoryProduct inventoryProductRetrieve = inventoryProductRepository.findByInventoryProductname(inventoryProductObjectToAdd.getInventoryProductName());
+		InventoryProduct inventoryProductRetrieve = inventoryProductRepository.findByInventoryProductName(inventoryProductObjectToAdd.getInventoryProductName());
 
 		if(inventoryProductRetrieve != null) {
 			long presentQuantityInInventory = inventoryProductRetrieve.getInventoryProductQuantity();
