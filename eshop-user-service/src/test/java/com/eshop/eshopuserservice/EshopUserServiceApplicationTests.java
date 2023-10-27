@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.assertj.core.util.Arrays;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -398,6 +399,18 @@ class EshopUserServiceApplicationTests {
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
 
 		assertThrows(CustomerException.class, () -> Mockito.when(customerController.deleteCustomer(Mockito.any(long.class))).thenReturn(response));
+	}
+	
+	@AfterAll
+	public static void cleanSetUpBeans() {
+		customerSignUpDTOObj1 = null;
+		customerDTOObj1 = null;
+		customerSignUpDTOObj2 = null;
+		customerDTOObj2 = null;
+		customerAddressDTOObj1 = null;
+		customerAddressDTOObj2 = null;
+		wrapperCustomerAddressObj1 = null;
+		wrapperCustomerAddressObj2 = null;
 	}
 	
 }
