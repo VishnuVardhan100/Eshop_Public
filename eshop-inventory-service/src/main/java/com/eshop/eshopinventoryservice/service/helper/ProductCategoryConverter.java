@@ -2,6 +2,8 @@ package com.eshop.eshopinventoryservice.service.helper;
 
 import java.util.stream.Stream;
 
+import org.springframework.stereotype.Service;
+
 import com.eshop.eshopinventoryservice.model.inventory.ProductCategory;
 
 import jakarta.persistence.AttributeConverter;
@@ -11,6 +13,7 @@ import jakarta.persistence.Converter;
  * Product Category Enumeration Converter for Database Column and Entity Attribute
  */
 
+@Service
 @Converter(autoApply = true)
 public class ProductCategoryConverter implements AttributeConverter<ProductCategory, String> {
 
