@@ -7,6 +7,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -16,23 +17,6 @@ import lombok.Data;
 @Data
 @Validated
 public class InventoryProductDTO {
-
-	public InventoryProductDTO() {
-		
-	}
-
-	public InventoryProductDTO(long inventoryProductID,
-			@NotBlank(message = "Inventory Product name cannot be empty or blank") String inventoryProductName,
-			@Min(value = 1, message = "Inventory Product Quantity cannot be less than one") long inventoryProductQuantity,
-			@Min(value = 1, message = "Inventory Product Price cannot be less than one") long inventoryProductPrice,
-			@NotBlank(message = "Inventory Product category cannot be empty or blank") ProductCategory inventoryProductCategory) {
-		super();
-		this.inventoryProductID = inventoryProductID;
-		this.inventoryProductName = inventoryProductName;
-		this.inventoryProductQuantity = inventoryProductQuantity;
-		this.inventoryProductPrice = inventoryProductPrice;
-		this.inventoryProductCategory = inventoryProductCategory;
-	}
 
 	private long inventoryProductID;
 
@@ -45,10 +29,27 @@ public class InventoryProductDTO {
 	@Min(value=1, message="Inventory Product Price cannot be less than one")
 	private long inventoryProductPrice;
 	
-	@NotBlank(message="Inventory Product category cannot be empty or blank")
+	@NotNull(message="Inventory Product category cannot be empty or blank")
 	@Enumerated(EnumType.STRING)
 	private ProductCategory inventoryProductCategory;
 
+	public InventoryProductDTO() {
+		
+	}
+
+	public InventoryProductDTO(long inventoryProductID,
+			@NotBlank(message = "Inventory Product name cannot be empty or blank") String inventoryProductName,
+			@Min(value = 1, message = "Inventory Product Quantity cannot be less than one") long inventoryProductQuantity,
+			@Min(value = 1, message = "Inventory Product Price cannot be less than one") long inventoryProductPrice,
+			@NotNull(message = "Inventory Product category cannot be empty or blank") ProductCategory inventoryProductCategory) {
+		super();
+		this.inventoryProductID = inventoryProductID;
+		this.inventoryProductName = inventoryProductName;
+		this.inventoryProductQuantity = inventoryProductQuantity;
+		this.inventoryProductPrice = inventoryProductPrice;
+		this.inventoryProductCategory = inventoryProductCategory;
+	}
+	
 	public long getInventoryProductID() {
 		return inventoryProductID;
 	}

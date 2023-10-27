@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -46,7 +47,7 @@ public class InventoryProduct {
 	@Min(value=1, message="Inventory Product Price cannot be less than one")
 	private long inventoryProductPrice;
 	
-	@NotBlank(message="Inventory Product category cannot be empty or blank")
+	@NotNull(message="Inventory Product category cannot be empty or blank")
 	@Enumerated(EnumType.STRING)
 	@Column(name="InventoryProductCategory")
 	private ProductCategory inventoryProductCategory;
@@ -69,7 +70,7 @@ public class InventoryProduct {
 			@NotBlank(message = "Inventory Product name cannot be empty or blank") String inventoryProductName,
 			@Min(value = 1, message = "Inventory Product Quantity cannot be less than one") long inventoryProductQuantity,
 			@Min(value = 1, message="Inventory Product Price cannot be less than one") long inventoryProductPrice,
-			@NotBlank(message = "Inventory Product category cannot be empty or blank") ProductCategory inventoryProductCategory){
+			@NotNull(message = "Inventory Product category cannot be empty or blank") ProductCategory inventoryProductCategory){
 		super();
 		this.inventoryProductID = inventoryProductID;
 		this.inventoryProductName = inventoryProductName;
