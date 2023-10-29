@@ -6,6 +6,8 @@ spring:
     application:
 #        name:eshop-user-service
         name: eshop-user-service
+    banner:
+        location: classpath:eshopUserBanner.txt
     datasource:
         continue-on-error: true
         initialization-mode: always

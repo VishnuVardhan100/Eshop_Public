@@ -6,6 +6,8 @@ spring:
     application:
 #       name:${SPRING_ORDSER_NAME}
         name: eshop-order-service
+    banner:
+        location: classpath:eshopOrderBanner.txt
     datasource:
         continue-on-error: true
         initialization-mode: always

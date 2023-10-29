@@ -10,6 +10,8 @@ spring:
     application:
 #    	name=${SPRING_COMSER_NAME}
         name: eshop-communications-service
+    banner:
+        location: classpath:eshopCommunicationsBanner.txt
     datasource:
         continue-on-error: true
         initialization-mode: always

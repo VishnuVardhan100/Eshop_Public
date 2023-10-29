@@ -6,6 +6,8 @@ spring:
     application:
 #        name:${SPRING_EURSER_NAME}
         name: eshop-service-registry
+    banner:
+        location: classpath:eshopServerBanner.txt
     messages:
         basename: messages
 
