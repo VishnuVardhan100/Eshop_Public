@@ -1,6 +1,5 @@
 server:
-#    port=${SPRING_COMSER_PORT}
-    port: 8084
+    port: ${SPRING_COMSER_PORT}
 
 eureka:
     instance:
@@ -8,8 +7,7 @@ eureka:
 
 spring:
     application:
-#    	name=${SPRING_COMSER_NAME}
-        name: eshop-communications-service
+        name: ${SPRING_COMSER_NAME}
     banner:
         location: classpath:eshopCommunicationsBanner.txt
     datasource:

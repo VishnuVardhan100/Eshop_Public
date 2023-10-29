@@ -1,11 +1,9 @@
 server:
-#   port=${SPRING INVSER_PORT}
-    port: 8082
+   port: ${SPRING_INVSER_PORT}
 
 spring:
     application:
-#       name=${SPRING_INVSER_NAME}
-        name: eshop-inventory-service
+       name: ${SPRING_INVSER_NAME}
     banner:
         location: classpath:eshopInventoryBanner.txt
     datasource:

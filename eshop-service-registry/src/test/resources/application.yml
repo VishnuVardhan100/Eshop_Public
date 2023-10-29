@@ -1,11 +1,9 @@
 server:
-#    port:${SPRING_EURSER_PORT}
-    port: 8761
+    port: ${SPRING_SERVER_PORT}
 
 spring:
     application:
-#        name:${SPRING_EURSER_NAME}
-        name: eshop-service-registry
+        name: ${SPRING_SERVER_NAME}
     banner:
         location: classpath:eshopServerBanner.txt
     messages:

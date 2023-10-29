@@ -1,11 +1,9 @@
 server:
-#   port:${SPRING_ORDSER_PORT}
-    port: 8083
+   port: ${SPRING_ORDSER_PORT}
 
 spring:
     application:
-#       name:${SPRING_ORDSER_NAME}
-        name: eshop-order-service
+       name: ${SPRING_ORDSER_NAME}
     banner:
         location: classpath:eshopOrderBanner.txt
     datasource:
