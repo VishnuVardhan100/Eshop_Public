@@ -33,6 +33,7 @@ logging:
         org:
             springframework: info
             springframework.security: TRACE
+        eshop-communications-service: TRACE
 
 send:
     mail:

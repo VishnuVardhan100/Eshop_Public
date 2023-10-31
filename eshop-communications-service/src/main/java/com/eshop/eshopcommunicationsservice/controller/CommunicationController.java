@@ -1,5 +1,7 @@
 package com.eshop.eshopcommunicationsservice.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,9 @@ import jakarta.validation.Valid;
 public class CommunicationController {
 	
 	@Autowired
-	private CommunicationsService communicationsService; 
+	private CommunicationsService communicationsService;
+
+	private Logger logger = LoggerFactory.getLogger(CommunicationController.class.getName());
 	
 	/**
 	 * Send a mail to customer about an order. Can be after placing order or separately too.
@@ -38,8 +42,11 @@ public class CommunicationController {
 		throws CustomerException, AddressException, MessagingException {
 		long customerID = wrapperCommunicationObject.getCustomerID();
 		long orderID = wrapperCommunicationObject.getOrderID();
-		
+
+		logger.trace("Preparing to send mail to {0}", new Object[] {customerID});
 		communicationsService.sendOrderSummaryViaMail(customerID, orderID);
+		logger.trace("Mail sent to {0} for the order with ID {1} ", new Object[] {customerID, orderID} );
+
 		return new ResponseEntity<Object>("Customer's Order Summary sent via Mail", HttpStatus.OK);
 	}
 

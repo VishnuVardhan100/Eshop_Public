@@ -4,6 +4,7 @@ HELP.md
 .settings/
 .project
 eshop-communications-service.jar
+/logs
 
 target/
 .mvn/timing.properties
