@@ -4,6 +4,7 @@ HELP.md
 .settings/
 .project
 eshop-order-service.jar
+/logs
 
 target/
 .mvn/timing.properties

@@ -19,3 +19,4 @@ logging:
         org:
             springframework: info
             springframework.security: TRACE
+        eshop-service-registry: TRACE

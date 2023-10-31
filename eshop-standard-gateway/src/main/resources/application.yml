@@ -62,6 +62,7 @@ logging:
         org:
             springframework: info
             springframework.security: TRACE
+        eshop-standard-gateway: TRACE
 
 jwt:
     cookie:
