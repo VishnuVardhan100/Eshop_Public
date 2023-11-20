@@ -23,6 +23,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -49,6 +51,7 @@ import com.eshop.eshopuserservice.model.customer.WrapperCustomerAddress;
 import com.eshop.eshopuserservices.service.helper.CustomerModelMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.ws.rs.core.Response.Status;
 
 /**
@@ -75,6 +78,13 @@ class EshopUserServiceApplicationTests {
 
 	@MockBean
 	private CustomerAddressController customerAddressController;
+
+	public static Logger logger  = LoggerFactory.getLogger(EshopUserServiceApplicationTests.class);
+	
+	@PostConstruct
+	void init() {
+		logger.info("User Service has started ...");
+	}
 	
 	private static CustomerSignUpDTO customerSignUpDTOObj1 = null;
 	private static CustomerDTO customerDTOObj1 = null;
@@ -87,6 +97,9 @@ class EshopUserServiceApplicationTests {
 
 	@BeforeAll
 	public static void setUpRequiredBean() {
+
+		logger.info("All User Service tests have started");
+		
 		customerSignUpDTOObj1 = new CustomerSignUpDTO();
 		customerSignUpDTOObj1.setCustomerID(1l);
 		customerSignUpDTOObj1.setCustomerPassword("yesH0wdy1");
@@ -411,6 +424,7 @@ class EshopUserServiceApplicationTests {
 		customerAddressDTOObj2 = null;
 		wrapperCustomerAddressObj1 = null;
 		wrapperCustomerAddressObj2 = null;
+		logger.info("All User Service tests have been executed");
 	}
 	
 }
