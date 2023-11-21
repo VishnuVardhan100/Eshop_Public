@@ -1,4 +1,4 @@
-FROM java:17
+FROM openjdk:17
 
 EXPOSE 8083
 
