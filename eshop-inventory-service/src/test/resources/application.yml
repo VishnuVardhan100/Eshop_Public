@@ -31,6 +31,6 @@ eureka:
 logging:
     level:
         org:
-            springframework: info
+            springframework: INFO
             springframework.security: TRACE
-        eshop-inventory-service: TRACE
+        eshop-inventory-service: INFO

@@ -31,9 +31,9 @@ spring:
 logging:
     level:
         org:
-            springframework: info
+            springframework: INFO
             springframework.security: TRACE
-        eshop-communications-service: TRACE
+        eshop-communications-service: INFO
 
 send:
     mail:

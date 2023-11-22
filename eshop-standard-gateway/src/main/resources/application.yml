@@ -60,9 +60,9 @@ spring:
 logging:
     level:
         org:
-            springframework: info
+            springframework: INFO
             springframework.security: TRACE
-        eshop-standard-gateway: TRACE
+        eshop-standard-gateway: INFO
 
 jwt:
     cookie:
