@@ -4,10 +4,13 @@ server:
 eureka:
     instance:
         hostname: localhost
+        preferIpAddress: true
+#        lease-expiration-duration-in-seconds=1
+#        lease-renewal-interval-in-seconds=2
     client:
         fetchRegistry: true
         serviceUrl:
-            defaultZone: http://${eureka.instance.hostname}:8761/eureka
+            defaultZone: http://${eureka.instance.hostname}:${SPRING_SERVER_PORT}/eureka
 
 spring:
     application:
