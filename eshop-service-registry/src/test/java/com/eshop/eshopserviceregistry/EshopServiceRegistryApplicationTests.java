@@ -1,6 +1,8 @@
 package com.eshop.eshopserviceregistry;
 
-//@SpringBootTest
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
 class EshopServiceRegistryApplicationTests {
 
 	//@Test
