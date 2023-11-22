@@ -38,7 +38,8 @@ services:
                 ports:
                         - "8081:8081"
                 extra_hosts:
-                        - "mysqldb:192.168.0.33"
+#                        - "mysqldb:192.168.0.33"
+                         - "host.docker.internal"
                 links:
                         - eshop-service-registry
                         - eshop-standard-gateway
@@ -73,7 +74,8 @@ services:
                 ports:
                         - "8082:8082"
                 extra_hosts:
-                        - "itemdb:192.168.0.33"
+#                        - "itemdb:192.168.0.33"
+                         - "host.docker.internal"
                 links:
                         - eshop-service-registry
                         - eshop-standard-gateway
@@ -106,7 +108,8 @@ services:
                 ports:
                         - "8083:8083"
                 extra_hosts:
-                        - "salesdb:192.168.0.33"
+#                        - "salesdb:192.168.0.33"
+                         - "host.docker.internal"
                 links:
                         - eshop-service-registry
                         - eshop-user-service
@@ -141,13 +144,14 @@ services:
                             SEND_MAIL_PASSWORD: $SEND_MAIL_PASSWORD
                 ports:
                         - "8084:8084"
-                extra_hosts:
-                        - "salesdb:192.168.0.33"
+#               extra_hosts:
+#                        - "salesdb:192.168.0.33"
+#                         - "host.docker.internal"
                 links:
-                        - eshop-service-registry
-                        - eshop-user-service
-                        - eshop-order-service
-                        - eshop-standard-gateway
+                         - eshop-service-registry
+                         - eshop-user-service
+                         - eshop-order-service
+                         - eshop-standard-gateway
                 volumes:
                         - /opt/docker/log:/app/log
                 networks:
