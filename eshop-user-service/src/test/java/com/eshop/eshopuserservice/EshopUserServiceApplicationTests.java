@@ -163,15 +163,20 @@ class EshopUserServiceApplicationTests {
 		Mockito.when(customerController.createCustomer(Mockito.any(CustomerSignUpDTO.class), Mockito.any(Locale.class)))
 				.thenReturn(response);
 
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(url).header("accept-language", "en-us")
-							.contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(customerSignUpDTOObj1)).accept(MediaType.APPLICATION_JSON))
-							.andExpect(MockMvcResultMatchers.status().isCreated()).andDo(MockMvcResultHandlers.print()).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(url)
+							.header("accept-language", "en-us")
+							.contentType(MediaType.APPLICATION_JSON)
+							.content(objectMapper.writeValueAsString(customerSignUpDTOObj1))
+							.accept(MediaType.APPLICATION_JSON))
+							.andExpect(MockMvcResultMatchers.status().isCreated())
+							.andDo(MockMvcResultHandlers.print())
+							.andReturn();
 
 		MockHttpServletResponse mockResponse = result.getResponse();
 		String responseAsString = mockResponse.getContentAsString();
 
 		assertThat(responseAsString).isEqualTo(objectMapper.writeValueAsString(customerDTOObj1));
-		assertEquals(response.getStatusCode(), HttpStatusCode.valueOf(201));
+		assertEquals(mockResponse.getStatus(), HttpStatusCode.valueOf(201).value());
 	}
 
 	@Test
@@ -183,15 +188,20 @@ class EshopUserServiceApplicationTests {
 		Mockito.when(customerController.createCustomer(Mockito.any(CustomerSignUpDTO.class), Mockito.any(Locale.class)))
 				.thenReturn(response);
 
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(url).header("accept-language", "en-us")
-							.contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(customerSignUpDTOObj2)).accept(MediaType.APPLICATION_JSON))
-							.andExpect(MockMvcResultMatchers.status().isCreated()).andDo(MockMvcResultHandlers.print()).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(url)
+							.header("accept-language", "en-us")
+							.contentType(MediaType.APPLICATION_JSON)
+							.content(objectMapper.writeValueAsString(customerSignUpDTOObj2))
+							.accept(MediaType.APPLICATION_JSON))
+							.andExpect(MockMvcResultMatchers.status().isCreated())
+							.andDo(MockMvcResultHandlers.print())
+							.andReturn();
 
 		MockHttpServletResponse mockResponse = result.getResponse();
 		String responseAsString = mockResponse.getContentAsString();
 
 		assertThat(responseAsString).isEqualTo(objectMapper.writeValueAsString(customerDTOObj2));
-		assertEquals(response.getStatusCode(), HttpStatusCode.valueOf(201));
+		assertEquals(mockResponse.getStatus(), HttpStatusCode.valueOf(201).value());
 	}
 
 	@Test
@@ -202,12 +212,18 @@ class EshopUserServiceApplicationTests {
 		ResponseEntity<CustomerDTO> response = new ResponseEntity<CustomerDTO>(customerDTOObj1, HttpStatus.OK);
 		Mockito.when(customerController.getCustomerByEmail(Mockito.any(String.class))).thenReturn(response);
 		
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url).param("customerEmail", "abc@gmail.com").accept(MediaType.APPLICATION_JSON))
-							.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url)
+							.param("customerEmail", "abc@gmail.com")
+							.accept(MediaType.APPLICATION_JSON))
+							.andExpect(MockMvcResultMatchers.status().isOk())
+							.andDo(MockMvcResultHandlers.print())
+							.andReturn();
 
 		String expectedJson = objectMapper.writeValueAsString(customerDTOObj1);
 		String outputJson = result.getResponse().getContentAsString();
+
 		assertThat(expectedJson).isEqualTo(outputJson);
+		assertEquals(result.getResponse().getStatus(), HttpStatusCode.valueOf(200).value());
 	}
 
 	@Test
@@ -218,12 +234,18 @@ class EshopUserServiceApplicationTests {
 		ResponseEntity<CustomerDTO> response = new ResponseEntity<CustomerDTO>(customerDTOObj1, HttpStatus.OK);
 		Mockito.when(customerController.getCustomerByID(Mockito.any(Long.class),Mockito.any(Locale.class))).thenReturn(response);
 		
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url,1l).header("accept-language", "en-us").accept(MediaType.APPLICATION_JSON))
-							.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url,1l)
+							.header("accept-language", "en-us")
+							.accept(MediaType.APPLICATION_JSON))
+							.andExpect(MockMvcResultMatchers.status().isOk())
+							.andDo(MockMvcResultHandlers.print())
+							.andReturn();
 
 		String expectedJson = objectMapper.writeValueAsString(customerDTOObj1);
 		String outputJson = result.getResponse().getContentAsString();
+
 		assertThat(expectedJson).isEqualTo(outputJson);
+		assertEquals(result.getResponse().getStatus(), HttpStatusCode.valueOf(200).value());
 	}
 
 	@Test
@@ -235,12 +257,18 @@ class EshopUserServiceApplicationTests {
 		ResponseEntity<List<CustomerDTO>> response = new ResponseEntity<List<CustomerDTO>>(responseList, HttpStatus.OK);
 		Mockito.when(customerController.getCustomersByFirstName(Mockito.any(String.class))).thenReturn(response);
 		
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url).param("firstName", "User").accept(MediaType.APPLICATION_JSON))
-							.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url)
+							.param("firstName", "User")
+							.accept(MediaType.APPLICATION_JSON))
+							.andExpect(MockMvcResultMatchers.status().isOk())
+							.andDo(MockMvcResultHandlers.print())
+							.andReturn();
 
 		String expectedJson = objectMapper.writeValueAsString(List.of(customerDTOObj1,customerDTOObj2));
 		String outputJson = result.getResponse().getContentAsString();
+
 		assertThat(expectedJson).isEqualTo(outputJson);
+		assertEquals(result.getResponse().getStatus(), HttpStatusCode.valueOf(200).value());
 	}
 	
 	@Test
@@ -252,12 +280,18 @@ class EshopUserServiceApplicationTests {
 		ResponseEntity<List<CustomerDTO>> response = new ResponseEntity<List<CustomerDTO>>(responseList, HttpStatus.OK);
 		Mockito.when(customerController.getCustomersByLastName(Mockito.any(String.class))).thenReturn(response);
 		
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url).param("lastName", "ABD").accept(MediaType.APPLICATION_JSON))
-							.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url)
+							.param("lastName", "ABD")
+							.accept(MediaType.APPLICATION_JSON))
+							.andExpect(MockMvcResultMatchers.status().isOk())
+							.andDo(MockMvcResultHandlers.print())
+							.andReturn();
 
 		String expectedJson = objectMapper.writeValueAsString(List.of(customerDTOObj2));
 		String outputJson = result.getResponse().getContentAsString();
+
 		assertThat(expectedJson).isEqualTo(outputJson);
+		assertEquals(result.getResponse().getStatus(), HttpStatusCode.valueOf(200).value());
 	}
 	
 	@Test
@@ -269,12 +303,17 @@ class EshopUserServiceApplicationTests {
 		ResponseEntity<List<CustomerDTO>> response = new ResponseEntity<List<CustomerDTO>>(responseList, HttpStatus.OK);
 		Mockito.when(customerController.getAllCustomers()).thenReturn(response);
 		
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url).accept(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk())
-							.andDo(MockMvcResultHandlers.print()).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url)
+							.accept(MediaType.APPLICATION_JSON))
+							.andExpect(MockMvcResultMatchers.status().isOk())
+							.andDo(MockMvcResultHandlers.print())
+							.andReturn();
 
 		String expectedJson = objectMapper.writeValueAsString(List.of(customerDTOObj1,customerDTOObj2));
 		String outputJson = result.getResponse().getContentAsString();
+
 		assertThat(expectedJson).isEqualTo(outputJson);
+		assertEquals(result.getResponse().getStatus(), HttpStatusCode.valueOf(200).value());
 	}
 	
 	@Test
@@ -289,11 +328,15 @@ class EshopUserServiceApplicationTests {
 		ResponseEntity<CustomerDTO> response = new ResponseEntity<CustomerDTO>(customerDTOUpdateObj1, HttpStatus.OK);
 		Mockito.when(customerController.updateCustomerInfo(Mockito.any(Long.class), Mockito.any(CustomerDTO.class))).thenReturn(response);
 		
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(url, customerID).contentType(MediaType.APPLICATION_JSON)
-							.content(expectedJSON).accept(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk())
-							.andDo(MockMvcResultHandlers.print()).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(url, customerID)
+							.contentType(MediaType.APPLICATION_JSON)
+							.content(expectedJSON).accept(MediaType.APPLICATION_JSON))
+							.andExpect(MockMvcResultMatchers.status().isOk())
+							.andDo(MockMvcResultHandlers.print())
+							.andReturn();
 	
 		assertThat(expectedJSON).isEqualTo(result.getResponse().getContentAsString());
+		assertEquals(result.getResponse().getStatus(), HttpStatusCode.valueOf(200).value());
 	}
 
 	@Test
@@ -311,14 +354,18 @@ class EshopUserServiceApplicationTests {
 		
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON)
 							.content(inputJson).accept(MediaType.APPLICATION_JSON))
-							.andExpect(MockMvcResultMatchers.status().isCreated()).andDo(MockMvcResultHandlers.print()).andReturn();
+							.andExpect(MockMvcResultMatchers.status().isCreated())
+							.andDo(MockMvcResultHandlers.print())
+							.andReturn();
 
 		String outputJson = result.getResponse().getContentAsString();
+
 		assertThat(expectedJson).isEqualTo(outputJson);
+		assertEquals(result.getResponse().getStatus(), HttpStatusCode.valueOf(201).value());
 	}
 
 	@Test
-	@Order(9)
+	@Order(10)
 	public void testAddCustomerAddress2() throws Exception {
 		customerAddressDTOObj2.setCustomer(customerModelMapper.mapCustomerDTOToCustomer(customerDTOObj2));
 		wrapperCustomerAddressObj2 = new WrapperCustomerAddress(customerDTOObj2, customerAddressDTOObj2);
@@ -330,16 +377,21 @@ class EshopUserServiceApplicationTests {
 		ResponseEntity<CustomerAddressDTO> response = new ResponseEntity<CustomerAddressDTO> (customerAddressDTOObj2, HttpStatus.CREATED);
 		Mockito.when(customerAddressController.addCustomerAddress(Mockito.any(WrapperCustomerAddress.class))).thenReturn(response);
 		
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON)
-							.content(inputJson).accept(MediaType.APPLICATION_JSON))
-							.andExpect(MockMvcResultMatchers.status().isCreated()).andDo(MockMvcResultHandlers.print()).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(uri)
+							.contentType(MediaType.APPLICATION_JSON)
+							.content(inputJson)
+							.accept(MediaType.APPLICATION_JSON))
+							.andExpect(MockMvcResultMatchers.status().isCreated())
+							.andDo(MockMvcResultHandlers.print())
+							.andReturn();
 		
 		String outputJson = result.getResponse().getContentAsString();
 		assertThat(expectedJson).isEqualTo(outputJson);
+		assertEquals(result.getResponse().getStatus(), HttpStatusCode.valueOf(201).value());
 	}
 	
 	@Test
-	@Order(10)
+	@Order(11)
 	public void testGetAllCustomerAddressesForCustomer() throws Exception {
 		String uri = "/customers/addresses/search/{customerID}";
 		List<CustomerAddressDTO> responseList = Stream.of(customerAddressDTOObj1, customerAddressDTOObj2).collect(Collectors.toList());
@@ -348,14 +400,18 @@ class EshopUserServiceApplicationTests {
 		ResponseEntity<List<CustomerAddressDTO>> response = new ResponseEntity<List<CustomerAddressDTO>> (responseList, HttpStatus.OK);
 		Mockito.when(customerAddressController.retrieveAllCustomerAddressesByCustomerID(Mockito.any(long.class))).thenReturn(response);
 		
-		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(uri, 1l).accept(MediaType.APPLICATION_JSON))
-								.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(uri, 1l)
+								.accept(MediaType.APPLICATION_JSON))
+								.andExpect(MockMvcResultMatchers.status().isOk())
+								.andDo(MockMvcResultHandlers.print())
+								.andReturn();
 		
-		assertThat(expectedJson).isEqualTo(mvcResult.getResponse().getContentAsString());
+		assertThat(expectedJson).isEqualTo(result.getResponse().getContentAsString());
+		assertEquals(result.getResponse().getStatus(), HttpStatusCode.valueOf(200).value());
 	}
 	
 	@Test
-	@Order(11)
+	@Order(12)
 	public void testUpdateCustomerAddress() throws Exception {
 		String url = "/customers/addresses/{customerID}";
 		long customerID = customerDTOObj1.getCustomerID();
@@ -366,48 +422,64 @@ class EshopUserServiceApplicationTests {
 		ResponseEntity<CustomerAddressDTO> response = new ResponseEntity<CustomerAddressDTO>(customerAddressDTOUpdateObj1, HttpStatus.OK);
 		Mockito.when(customerAddressController.updateCustomerAddressInfo(Mockito.any(Long.class), Mockito.any(CustomerAddressDTO.class))).thenReturn(response);
 		
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(url, customerID).contentType(MediaType.APPLICATION_JSON)
-							.content(expectedJSON).accept(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk())
-							.andDo(MockMvcResultHandlers.print()).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(url, customerID)
+							.contentType(MediaType.APPLICATION_JSON)
+							.content(expectedJSON)
+							.accept(MediaType.APPLICATION_JSON))
+							.andExpect(MockMvcResultMatchers.status().isOk())
+							.andDo(MockMvcResultHandlers.print())
+							.andReturn();
 	
 		assertThat(expectedJSON).isEqualTo(result.getResponse().getContentAsString());
+		assertEquals(result.getResponse().getStatus(), HttpStatusCode.valueOf(200).value());
 	}
 
 	//@Test
-	@Order(12)
+	@Order(13)
 	public void testDeleteCustomerAddress() throws Exception {
 		
 	}
 	
 	//@Test
-	@Order(13)
+	@Order(14)
 	public void testDeleteCustomer() throws Exception {
 		String url = "/customers/{customerID}";
 		
 		ResponseEntity<Object> response = new ResponseEntity<Object>(HttpStatus.OK);
 		Mockito.when(customerController.deleteCustomer(Mockito.any(long.class))).thenReturn(response);
 		
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(url, 1).accept(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(url, 1)
+							.accept(MediaType.APPLICATION_JSON))
+							.andExpect(MockMvcResultMatchers.status().isOk())
+							.andDo(MockMvcResultHandlers.print())
+							.andReturn();
 
 		String expectedJSON = "Customer deleted successfully";
 		String outputJSON = result.getResponse().getContentAsString();
+
 		assertEquals(expectedJSON,outputJSON);
+		assertEquals(result.getResponse().getStatus(), HttpStatusCode.valueOf(200).value());
 	}
 
 	//@Test
-	@Order(14)
+	@Order(15)
 	public void testDeleteCustomerThrowsCustomerException() throws Exception {
 		String url = "/customers/{customerID}";
 		
 		ResponseEntity<Object> response = new ResponseEntity<Object>(HttpStatus.OK);
 		Mockito.when(customerController.deleteCustomer(Mockito.any(long.class))).thenReturn(response);
 		
-//		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(url, 1000).accept(MediaType.APPLICATION_JSON))
-//				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
+//		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(url, 1000)
+//									.accept(MediaType.APPLICATION_JSON))
+//									.andExpect(MockMvcResultMatchers.status().isOk())
+//									.andDo(MockMvcResultHandlers.print())
+//									.andReturn();
 
-		mockMvc.perform(MockMvcRequestBuilders.delete(url, 1000).accept(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
+		mockMvc.perform(MockMvcRequestBuilders.delete(url, 1000)
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andDo(MockMvcResultHandlers.print())
+				.andReturn();
 
 		assertThrows(CustomerException.class, () -> Mockito.when(customerController.deleteCustomer(Mockito.any(long.class))).thenReturn(response));
 	}
