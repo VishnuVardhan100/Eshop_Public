@@ -1,5 +1,6 @@
 package com.eshop.eshopstandardgateway.authentication;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import com.eshop.eshopstandardgateway.model.customer.login.CustomerLoginDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-//import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 
@@ -122,8 +123,8 @@ public class JwtUtil {
 	 */
 	@PostConstruct
     public void init() {
-        this.key = Keys.hmacShaKeyFor(jwtSecretKey.getBytes());
-    }
+		this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecretKey));
+	}
 	
 	/*@SuppressWarnings("unused")
 	private Key key() {
