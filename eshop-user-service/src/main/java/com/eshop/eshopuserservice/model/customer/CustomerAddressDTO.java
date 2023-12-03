@@ -15,7 +15,6 @@ import lombok.Data;
 @Validated
 public class CustomerAddressDTO {
 
-	@SuppressWarnings("unused")
 	private long addressID;
 	
 	@NotBlank(message="Cannot be Blank")

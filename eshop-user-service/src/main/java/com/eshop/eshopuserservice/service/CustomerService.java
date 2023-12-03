@@ -28,7 +28,7 @@ import com.eshop.eshopuserservices.service.helper.CustomerModelMapper;
 @Service
 public class CustomerService implements CustomerServiceInterface{
 
-	@Autowired   
+	@Autowired
 	private MessageSource messageSource;
 
 	@Autowired

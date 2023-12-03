@@ -2,18 +2,14 @@ package com.eshop.eshopuserservice;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -52,7 +48,6 @@ import com.eshop.eshopuserservices.service.helper.CustomerModelMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.ws.rs.core.Response.Status;
 
 /**
  * Unit test class for Eshop User Service
@@ -408,7 +403,10 @@ class EshopUserServiceApplicationTests {
 		ResponseEntity<Object> response = new ResponseEntity<Object>(HttpStatus.OK);
 		Mockito.when(customerController.deleteCustomer(Mockito.any(long.class))).thenReturn(response);
 		
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(url, 1000).accept(MediaType.APPLICATION_JSON))
+//		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(url, 1000).accept(MediaType.APPLICATION_JSON))
+//				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
+
+		mockMvc.perform(MockMvcRequestBuilders.delete(url, 1000).accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
 
 		assertThrows(CustomerException.class, () -> Mockito.when(customerController.deleteCustomer(Mockito.any(long.class))).thenReturn(response));
