@@ -33,6 +33,24 @@ spring:
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.PostgreSQLDialect
+#    kafka:
+#       bootstrap-servers: localhost:9092
+#       template:
+#             default-topic: OrderNotificationTopic
+#       consumer:
+#             group-id: OrderNotificationId
+#             key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#            value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#             value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+#             properties:
+#                 spring:
+#                     deserializer:
+#                              value:
+#                                 delegate:
+#                                     class: org.apache.kafka.common.serialization.StringDeserializer
+#                     json:
+#                         type:
+#                             mapping: 'event: com.eshop.eshopcommunicationsservice.model.logistics.event.OrderPlacedEvent'
     messages:
         basename: messages
 

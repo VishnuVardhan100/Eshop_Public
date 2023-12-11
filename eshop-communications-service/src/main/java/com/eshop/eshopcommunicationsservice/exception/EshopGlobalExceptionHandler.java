@@ -31,7 +31,7 @@ public class EshopGlobalExceptionHandler extends ResponseEntityExceptionHandler 
 
 	@ExceptionHandler(value = Exception.class)
 	public ResponseEntity<Object> eshopGlobalExceptionHandler(Exception exception, WebRequest webRequest){
-		return new ResponseEntity<>(exception.getStackTrace(), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(exception. getStackTrace(), HttpStatus.BAD_REQUEST);
 	}
 	
 }
