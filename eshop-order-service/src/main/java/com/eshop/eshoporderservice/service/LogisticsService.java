@@ -3,9 +3,13 @@ package com.eshop.eshoporderservice.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.eshop.eshoporderservice.exception.CustomerException;
@@ -14,6 +18,7 @@ import com.eshop.eshoporderservice.exception.InventoryProductException;
 import com.eshop.eshoporderservice.exception.OrderException;
 import com.eshop.eshoporderservice.model.customer.Customer;
 import com.eshop.eshoporderservice.model.inventory.WrapperPerformCheckAndAdjust;
+import com.eshop.eshoporderservice.model.logisitics.event.OrderPlacedEvent;
 import com.eshop.eshoporderservice.model.logistics.Order;
 import com.eshop.eshoporderservice.model.logistics.OrderDTO;
 import com.eshop.eshoporderservice.model.logistics.OrderProduct;
@@ -46,7 +51,12 @@ public class LogisticsService implements LogisticsServiceInterface {
 
 	@Autowired
 	private OrderRepository orderRepository;
-
+	
+	@Autowired
+	private KafkaTemplate<String, String> kafkaTemplate;
+	
+	Logger logger = LoggerFactory.getLogger(getClass());
+	
 	/**
 	 * Place an Order
 	 * @param Customer ID for whom to place order
@@ -65,11 +75,14 @@ public class LogisticsService implements LogisticsServiceInterface {
 		//map orderDTO to order and set Customer
 		Order orderObject = logisticsModelMapper.mapOrderDTOToOrder(orderDTOObject);
 		orderObject.setCustomer(customerRetrieveObject);
-		
+
 		//check number of products in order product list
 		if(orderProductDTOList.size()<1) {
 			throw new OrderException(messageSource.getMessage("OrderProductListSizeLessThanZero", null, LocaleContextHolder.getLocale()));
 		}
+
+		//create the order object
+		Order orderSavedObject = orderRepository.save(orderObject);
 		
 		//perform map orderProductDTO to orderProduct
 		List<OrderProduct> orderProductList= orderProductDTOList.
@@ -86,11 +99,10 @@ public class LogisticsService implements LogisticsServiceInterface {
 		orderProductList.forEach(orderProduct -> 
 		orderProduct.setOrderProductTotalCost(orderTotalCostCalculator.getOrderProductTotalCost(orderProduct.getOrderProductQuantity(), 
 				orderProduct.getOrderProductUnitCost())));
-		orderObject.setOrderTotalAmount(orderTotalCostCalculator.getOrderTotalAmount(orderProductList));
+		orderSavedObject.setOrderTotalAmount(orderTotalCostCalculator.getOrderTotalAmount(orderProductList));
 		
-		//create the order object
-		Order orderReturnObject = orderRepository.save(orderObject);
-		
+		Order orderReturnObject = orderRepository.save(orderSavedObject);
+
 		//With the persisted orderID , set it to all products in list
 		//And conversely , set list to order
 		orderProductList.forEach(orderProduct -> orderProduct.setOrder(orderReturnObject));
@@ -98,10 +110,14 @@ public class LogisticsService implements LogisticsServiceInterface {
 		
 		//Merge or Update the order object
 		Order orderSecondReturnObject = orderRepository.save(orderReturnObject);
+		
+		OrderPlacedEvent orderPlacedEvent = new OrderPlacedEvent(customerID, orderSecondReturnObject.getOrderID());
 		orderProductList = null;
 		orderObject = null;
 		customerRetrieveObject = null;
 		
+		sendOrderNotification("OrderNotificationTopic" + "_Order_Placed", orderPlacedEvent);
+
 		return logisticsModelMapper.mapOrderToOrderDTO(orderSecondReturnObject);
 	}
 
@@ -169,6 +185,12 @@ public class LogisticsService implements LogisticsServiceInterface {
 		//return orderList.stream().map(order -> logisticsModelMapper.mapOrderToOrderDTO(order)).collect(Collectors.toList());
 		return customerObject.getOrdersList().stream().
 				map(order -> logisticsModelMapper.mapOrderToOrderDTO(order)).collect(Collectors.toList());		
+	}
+
+	@Scheduled(cron = "0/10 * * * * *")
+	public void sendOrderNotification(String topic, OrderPlacedEvent orderPlacedEvent) {
+		logger.info("send Order notification executed for customer: " + orderPlacedEvent.getCustomerID());
+		kafkaTemplate.send(topic, Long.toString(orderPlacedEvent.getOrderID()));
 	}
 	
 }

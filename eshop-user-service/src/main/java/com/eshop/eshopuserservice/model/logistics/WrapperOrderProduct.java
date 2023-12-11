@@ -2,14 +2,15 @@ package com.eshop.eshopuserservice.model.logistics;
 
 import java.util.List;
 
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor
 public class WrapperOrderProduct {
 	
 	private OrderDTO orderDTOObject;
 	private List<Long> listOfInventoryProductIDs;
 	private List<OrderProductDTO> listOfOrderProductDTOs;
+	
+	public WrapperOrderProduct() {
+		
+	}
 	
 	public WrapperOrderProduct( OrderDTO orderDTOObject, List<Long> listOfInventoryProductIDs,
 			List<OrderProductDTO> listOfOrderProductDTOs) {
@@ -41,5 +42,5 @@ public class WrapperOrderProduct {
 	public void setListOfOrderProductDTOs(List<OrderProductDTO> listOfOrderProductDTOs) {
 		this.listOfOrderProductDTOs = listOfOrderProductDTOs;
 	}
-
+	
 }

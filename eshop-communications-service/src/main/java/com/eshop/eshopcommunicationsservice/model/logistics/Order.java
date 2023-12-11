@@ -49,7 +49,6 @@ public class Order implements Serializable {
 	@Column(name="Order_Placed_Date")
 	private Date orderPlacedDate;
 
-	@NotNull(message="Order Delivery Date is mandatory")
 	@Column(name="Order_Delivery_Date")
 	private Date orderDeliveryDate;
 	
@@ -89,7 +88,7 @@ public class Order implements Serializable {
 	 */
 	public Order(long orderID, 
 			@NotNull(message = "Order Date is mandatory") Date orderPlacedDate,
-			@NotNull(message="Order Delivery Date is mandatory") Date orderDeliveryDate,
+			Date orderDeliveryDate,
 			@Min(value = 1, message = "Order total amount cannot be less than one") long orderTotalAmount,
 			boolean orderDeliveryStatus,
 			List<OrderProduct> orderProductList,

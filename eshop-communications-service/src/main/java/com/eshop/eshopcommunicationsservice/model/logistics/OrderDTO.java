@@ -16,13 +16,54 @@ import lombok.Data;
 @Validated
 public class OrderDTO {
 
-	@SuppressWarnings("unused")
 	private long orderID;
 
-	@NotNull(message="Order Date is mandatory")
-	private Date orderDate;
+	@NotNull(message="Order Placed Date is mandatory")
+	private Date orderPlacedDate;
 
 	@Min(value=1, message="Order total amount cannot be less than one")
 	private long orderTotalAmount;
 
+	public OrderDTO() {
+		super();
+	}
+
+	public OrderDTO(long orderID, @NotNull(message = "Order Placed Date is mandatory") Date orderPlacedDate,
+			@Min(value = 1, message = "Order total amount cannot be less than one") long orderTotalAmount) {
+		super();
+		this.orderID = orderID;
+		this.orderPlacedDate = orderPlacedDate;
+		this.orderTotalAmount = orderTotalAmount;
+	}
+
+	public long getOrderID() {
+		return orderID;
+	}
+
+	public void setOrderID(long orderID) {
+		this.orderID = orderID;
+	}
+
+	public Date getOrderPlacedDate() {
+		return orderPlacedDate;
+	}
+
+	public void setOrderPlacedDate(Date orderPlacedDate) {
+		this.orderPlacedDate = orderPlacedDate;
+	}
+
+	public long getOrderTotalAmount() {
+		return orderTotalAmount;
+	}
+
+	public void setOrderTotalAmount(long orderTotalAmount) {
+		this.orderTotalAmount = orderTotalAmount;
+	}
+
+	@Override
+	public String toString() {
+		return "OrderDTO [orderID=" + orderID + ", orderPlacedDate=" + orderPlacedDate + ", orderTotalAmount=" + orderTotalAmount
+				+ "]";
+	}
+	
 }
