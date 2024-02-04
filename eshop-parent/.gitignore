@@ -1,2 +1,5 @@
 # ECLIPSE
 .settings/
+
+# Intellij
+.idea/
