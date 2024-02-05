@@ -12,11 +12,11 @@ public enum CustomerSubscription implements Serializable{
 	
 	private String subscriptionType;
 
-	private CustomerSubscription() {
+	CustomerSubscription() {
 		
 	}
 	
-	private CustomerSubscription(String subscriptionType) {
+	CustomerSubscription(String subscriptionType) {
         this.subscriptionType = subscriptionType;
     }
 	

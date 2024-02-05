@@ -1,5 +1,6 @@
 package com.eshop.eshopuserservice.model.customer;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import org.springframework.validation.annotation.Validated;
@@ -37,6 +38,7 @@ public class CustomerAddress implements Serializable {
 	/**
 	 * Default Version
 	 */
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -78,13 +80,13 @@ public class CustomerAddress implements Serializable {
 
 	/**
 	 * Parameterized constructor
-	 * @param id
-	 * @param houseNo
-	 * @param street
-	 * @param city
-	 * @param state
-	 * @param pincode
-	 * @param customer
+	 * @param AddressID addressID
+	 * @param HouseNo houseNo
+	 * @param Street street
+	 * @param City city
+	 * @param State state
+	 * @param Pincode pincode
+	 * @param Customer customer
 	 */
 	public CustomerAddress(long addressID,
 			@NotBlank(message = "Cannot be Blank") @Pattern(regexp = "^[-_:0-9 ]{1,8}$", message = "Digits allowed and special characters(_ , -) allowed. Between 1 to 8 characters") String houseNo,
@@ -112,7 +114,7 @@ public class CustomerAddress implements Serializable {
 
 	/**
 	 * set customer address id
-	 * @param id
+	 * @param AddressID addressID
 	 */
 	public void setAddressID(long addressID) {
 		this.addressID = addressID;
@@ -127,7 +129,7 @@ public class CustomerAddress implements Serializable {
 
 	/**
 	 * set customer address house number (can be flat number too)
-	 * @param houseNo
+	 * @param HouseNo houseNo
 	 */
 	public void setHouseNo(String houseNo) {
 		this.houseNo = houseNo;
@@ -142,7 +144,7 @@ public class CustomerAddress implements Serializable {
 
 	/**
 	 * set customer address street
-	 * @param street
+	 * @param Street street
 	 */
 	public void setStreet(String street) {
 		this.street = street;
@@ -157,7 +159,7 @@ public class CustomerAddress implements Serializable {
 
 	/**
 	 * set customer address city
-	 * @param city
+	 * @param City city
 	 */
 	public void setCity(String city) {
 		this.city = city;
@@ -172,7 +174,7 @@ public class CustomerAddress implements Serializable {
 
 	/**
 	 * set customer address state
-	 * @param state
+	 * @param State state
 	 */
 	public void setState(String state) {
 		this.state = state;
@@ -187,7 +189,7 @@ public class CustomerAddress implements Serializable {
 
 	/**
 	 * set customer address pin code
-	 * @param pincode
+	 * @param Pincode pincode
 	 */
 	public void setPincode(String pincode) {
 		this.pincode = pincode;
@@ -202,7 +204,7 @@ public class CustomerAddress implements Serializable {
 
 	/**
 	 * set respective customer
-	 * @param customer
+	 * @param Customer customer
 	 */
 	public void setCustomer(Customer customer) {
 		this.customer = customer;

@@ -1,11 +1,10 @@
 package com.eshop.eshopstandardgateway.service.helper;
 
-import java.util.stream.Stream;
-
-import com.eshop.eshopstandardgateway.model.customer.CustomerSubscription;
-
+import com.eshop.eshopuserservice.model.customer.CustomerSubscription;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+
+import java.util.stream.Stream;
 
 /**
  * Subscription Type Enumeration Converter for Database Column and Entity Attribute
@@ -15,11 +14,11 @@ import jakarta.persistence.Converter;
 public class CustomerSubscriptionConverter implements AttributeConverter<CustomerSubscription, String> {
  
     @Override
-    public String convertToDatabaseColumn(CustomerSubscription subscriptionType) {
-        if (subscriptionType == null) {
+    public String convertToDatabaseColumn(CustomerSubscription customerSubscription) {
+        if (customerSubscription == null) {
             return null;
         }
-        return subscriptionType.getSubscriptionType();
+        return customerSubscription.getSubscriptionType();
     }
 
     @Override

@@ -15,11 +15,11 @@ import jakarta.persistence.Converter;
 public class CustomerSubscriptionConverter implements AttributeConverter<CustomerSubscription, String> {
  
     @Override
-    public String convertToDatabaseColumn(CustomerSubscription subscriptionType) {
-        if (subscriptionType == null) {
+    public String convertToDatabaseColumn(CustomerSubscription customerSubscription) {
+        if (customerSubscription == null) {
             return null;
         }
-        return subscriptionType.getSubscriptionType();
+        return customerSubscription.getSubscriptionType();
     }
 
     @Override

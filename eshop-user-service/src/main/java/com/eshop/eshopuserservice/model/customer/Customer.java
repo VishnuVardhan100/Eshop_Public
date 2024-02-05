@@ -1,5 +1,6 @@
 package com.eshop.eshopuserservice.model.customer;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class Customer implements Serializable{
 	/**
 	 * Default Version
 	 */
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@jakarta.persistence.Id
@@ -52,7 +54,7 @@ public class Customer implements Serializable{
 	private long customerID;
 	
 	@NotBlank(message="Password cannot be empty or white space blanks")
-	//@Pattern(regexp="^[a-zA-Z0-9 ]{8,20}$" , message="Password can be lower , upper alphabets, digits and whitespace. Length must be between 8 and 20 ,both inclusive")
+	//@Pattern(regexp="^[a-zA-Z0-9 ]{8,20}$" , message="Password can be lowercase , uppercase alphabets, digits and whitespace. Length must be between 8 and 20 ,both inclusive")
 	@Column(name="Customer_Password")
 	private String customerPassword;
 
@@ -72,7 +74,7 @@ public class Customer implements Serializable{
 	private String customerEmail;
 
 	@NotBlank(message="Mobile Number cannot be blank")
-	@Pattern(regexp="^[6-9]{1}[0-9]{9}$", message="Must start with 6,7,8 or 9 and be 10 digits long")
+	@Pattern(regexp="^[6-9][0-9]{9}$", message="Must start with 6,7,8 or 9 and be 10 digits long")
 	@Digits(fraction=0, integer=10)
 	@Column(name="Customer_Mobile_Number")
 	private String customerMobileNumber;
@@ -82,11 +84,11 @@ public class Customer implements Serializable{
 
 	@OneToMany(mappedBy="customer",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JsonProperty(access = Access.WRITE_ONLY)
-	private List<CustomerAddress> customerAddresses = new ArrayList<CustomerAddress>();
+	private List<CustomerAddress> customerAddresses = new ArrayList<>();
 	
 	@OneToMany(mappedBy="customer",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JsonProperty(access = Access.WRITE_ONLY)
-	private List<Order> ordersList = new ArrayList<Order>();
+	private List<Order> ordersList = new ArrayList<>();
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name="Customer_Subscription")
@@ -105,26 +107,26 @@ public class Customer implements Serializable{
 
 	/**
 	 * Parameterized Constructor
-	 * @param customerID
-	 * @param customerPassword
-	 * @param customerFirstName
-	 * @param customerLastName
-	 * @param customerEmail
-	 * @param customerMobileNumber
-	 * @param customerCreatedDate
-	 * @param customerAddresses
-	 * @param ordersList
-	 * @param customerSubscription
-	 * @param roles
+	 * @param CustomerID customerID
+	 * @param CustomerPassword customerPassword
+	 * @param CustomerFirstName customerFirstName
+	 * @param CustomerLastName customerLastName
+	 * @param CustomerEmail customerEmail
+	 * @param CustomerMobileNumber customerMobileNumber
+	 * @param CustomerCreatedDate customerCreatedDate
+	 * @param CustomerAddresses customerAddresses
+	 * @param OrdersList ordersList
+	 * @param CustomerSubscription customerSubscription
+	 * @param Roles roles
 	 */
 	public Customer(long customerID,
 			@NotBlank(message="Password cannot be empty or white space blanks") 
-			/*@Pattern(regexp="^[a-zA-Z0-9 ]{8,20}$" , message="Password can be lower , upper alphabets, digits and whitespace. Length must be between 8 and 20 ,both inclusive")*/
+			/*@Pattern(regexp="^[a-zA-Z0-9 ]{8,20}$" , message="Password can be lowercase , uppercase alphabets, digits and whitespace. Length must be between 8 and 20 ,both inclusive")*/
 			String customerPassword,
 			@NotBlank(message = "First Name cannot be blank") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String customerFirstName,
 			@NotBlank(message = "Last Name cannot be blank") @Pattern(regexp = "^[a-zA-Z ]{3,20}$", message = "For Last name, regular alphabet and spaces are allowed. Between 3-20 characters") String customerLastName,
 			@NotBlank(message = "Email cannot be blank") @Email(message = "Email must be valid") String customerEmail,
-			@NotBlank(message = "Mobile Number cannot be blank") @Pattern(regexp = "^[6-9]{1}[0-9]{9}$", message = "Must start with 6,7,8 or 9 and be 10 digits long") @Digits(fraction = 0, integer = 10) String customerMobileNumber,
+			@NotBlank(message = "Mobile Number cannot be blank") @Pattern(regexp = "^[6-9][0-9]{9}$", message = "Must start with 6,7,8 or 9 and be 10 digits long") @Digits(fraction = 0, integer = 10) String customerMobileNumber,
 			Date customerCreatedDate, 
 			List<CustomerAddress> customerAddresses, 
 			List<Order> ordersList,
@@ -153,7 +155,7 @@ public class Customer implements Serializable{
 
 	/**
 	 * Set customer id
-	 * @param id
+	 * @param Long customerId
 	 */
 	public void setCustomerID(long customerID) {
 		this.customerID = customerID;
@@ -183,7 +185,7 @@ public class Customer implements Serializable{
 
 	/**
 	 * set customer first name
-	 * @param firstName
+	 * @param FirstName firstName
 	 */
 	public void setCustomerFirstName(String customerFirstName) {
 		this.customerFirstName = customerFirstName;
@@ -198,7 +200,7 @@ public class Customer implements Serializable{
 
 	/**
 	 * set customer last name
-	 * @param lastName
+	 * @param LastName lastName
 	 */
 	public void setCustomerLastName(String customerLastName) {
 		this.customerLastName = customerLastName;
@@ -213,7 +215,7 @@ public class Customer implements Serializable{
 
 	/**
 	 * set customer email
-	 * @param email
+	 * @param Email email
 	 */
 	public void setCustomerEmail(String customerEmail) {
 		this.customerEmail = customerEmail;
@@ -228,7 +230,7 @@ public class Customer implements Serializable{
 
 	/**
 	 * set customer mobile number
-	 * @param mobileNumber
+	 * @param MobileNumber mobileNumber
 	 */
 	public void setCustomerMobileNumber(String customerMobileNumber) {
 		this.customerMobileNumber = customerMobileNumber;
@@ -243,7 +245,7 @@ public class Customer implements Serializable{
 
 	/**
 	 * set customer create date
-	 * @param createdDate
+	 * @param CreatedDate createdDate
 	 */
 	public void setCustomerCreatedDate(Date customerCreatedDate) {
 		this.customerCreatedDate = customerCreatedDate;
@@ -258,7 +260,7 @@ public class Customer implements Serializable{
 
 	/**
 	 * set customer addresses list
-	 * @param customerAddresses
+	 * @param CustomerAddresses customerAddresses
 	 */
 	public void setCustomerAddresses(List<CustomerAddress> customerAddresses) {
 		this.customerAddresses = customerAddresses;
@@ -273,7 +275,7 @@ public class Customer implements Serializable{
 
 	/**
 	 * set customer orders list
-	 * @param ordersList
+	 * @param OrdersList ordersList
 	 */
 	public void setOrdersList(List<Order> ordersList) {
 		this.ordersList = ordersList;
@@ -288,7 +290,7 @@ public class Customer implements Serializable{
 
 	/**
 	 * set customer Subscription
-	 * @param customerSubscription
+	 * @param CustomerSubscription customerSubscription
 	 */
 	public void setCustomerSubscription(CustomerSubscription customerSubscription) {
 		this.customerSubscription = customerSubscription;

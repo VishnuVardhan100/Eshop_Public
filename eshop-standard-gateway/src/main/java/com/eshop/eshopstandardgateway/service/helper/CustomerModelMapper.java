@@ -1,14 +1,9 @@
 package com.eshop.eshopstandardgateway.service.helper;
 
+import com.eshop.eshopuserservice.model.customer.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.eshop.eshopstandardgateway.model.customer.Customer;
-import com.eshop.eshopstandardgateway.model.customer.CustomerAddress;
-import com.eshop.eshopstandardgateway.model.customer.CustomerAddressDTO;
-import com.eshop.eshopstandardgateway.model.customer.CustomerDTO;
-import com.eshop.eshopstandardgateway.model.customer.CustomerSignUpDTO;
 
 /**
  * Custom Model Mapper class to map:
@@ -35,8 +30,7 @@ public class CustomerModelMapper {
 	 * @return CustomerDTO Object
 	 */
 	public CustomerDTO mapCustomerToCustomerDTO(Customer customerObject) {
-		CustomerDTO customerDTOReturnObject = modelMapper.map(customerObject, CustomerDTO.class);
-		return  customerDTOReturnObject;
+        return modelMapper.map(customerObject, CustomerDTO.class);
 	}
 	
 	/**
@@ -44,9 +38,8 @@ public class CustomerModelMapper {
 	 * @param CustomerDTO Object
 	 * @return Customer Object
 	 */
-	public Customer mapCustomerDTOToCustomer(CustomerDTO CustomerDTOObject) {
-		Customer customerReturnObject = modelMapper.map(CustomerDTOObject, Customer.class);
-		return  customerReturnObject;
+	public Customer mapCustomerDTOToCustomer(CustomerDTO customerDTOObject) {
+        return modelMapper.map(customerDTOObject, Customer.class);
 	}
 
 	/**
@@ -54,9 +47,8 @@ public class CustomerModelMapper {
 	 * @param CustomerSignUpDTO Object
 	 * @return Customer Object
 	 */
-	public Customer mapCustomerSignUpDTOToCustomer(CustomerSignUpDTO CustomerSignUpDTOObject) {
-		Customer customerReturnObject = modelMapper.map(CustomerSignUpDTOObject, Customer.class);
-		return  customerReturnObject;
+	public Customer mapCustomerSignUpDTOToCustomer(CustomerSignUpDTO customerSignUpDTOObject) {
+        return modelMapper.map(customerSignUpDTOObject, Customer.class);
 	}
 
 	/**
@@ -65,8 +57,7 @@ public class CustomerModelMapper {
 	 * @return CustomerAddressDTO Object
 	 */
 	public CustomerAddressDTO mapCustomerAddressToCustomerAddressDTO(CustomerAddress customerAddressObject) {
-		CustomerAddressDTO customerAddressDTOReturnObject = modelMapper.map(customerAddressObject, CustomerAddressDTO.class);
-		return  customerAddressDTOReturnObject;
+        return modelMapper.map(customerAddressObject, CustomerAddressDTO.class);
 	}
 	
 	/**
@@ -75,8 +66,7 @@ public class CustomerModelMapper {
 	 * @return CustomerAddress Object
 	 */
 	public CustomerAddress mapCustomerAddressDTOToCustomerAddress(CustomerAddressDTO customerAddressDTOObject) {
-		CustomerAddress customerAddressObject = modelMapper.map(customerAddressDTOObject, CustomerAddress.class);
-		return  customerAddressObject;
+        return modelMapper.map(customerAddressDTOObject, CustomerAddress.class);
 	}
 	
 }
