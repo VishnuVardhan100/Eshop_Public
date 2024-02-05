@@ -13,7 +13,7 @@ import jakarta.validation.Valid;
 public interface InventoryInterface {
 
 	@PostMapping(value= "/admin/inventory/update/checkandadjust")
-	public void performInventoryQuantityCheckAndAdjust(@RequestBody(required=true) @Valid WrapperPerformCheckAndAdjust wrapperPerformCheckAndAdjustObject) 
+	void performInventoryQuantityCheckAndAdjust(@RequestBody(required=true) @Valid WrapperPerformCheckAndAdjust wrapperPerformCheckAndAdjustObject)
 			throws InventoryProductException;
 	
 }

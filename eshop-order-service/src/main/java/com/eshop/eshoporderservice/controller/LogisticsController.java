@@ -36,12 +36,12 @@ public class LogisticsController {
 	
 	/**
 	 * Place an order from customer
-	 * @param customerID
+	 * @param CustomerID customerID
 	 * @param wrapperOrderProduct having OrderDTO object, list of Inventory Product IDs, list of concurrent Order Products
 	 * @return OrderDTO object if create successful
-	 * @throws CustomerException
-	 * @throws OrderException
-	 * @throws InvalidInputException
+	 * @throws CustomerException customerException
+	 * @throws OrderException orderException
+	 * @throws InvalidInputException invalidInputException
 	 */
 	@PostMapping("/orders/{customerID}")
 	public ResponseEntity<OrderDTO> placeOrder(@PathVariable(name="customerID", required=true) long customerID, 
@@ -50,54 +50,54 @@ public class LogisticsController {
 		OrderDTO orderDTOObject = wrapperOrderProduct.getOrderDTOObject();
 		List<Long> inventoryProductIDList = wrapperOrderProduct.getListOfInventoryProductIDs();
 		List<OrderProductDTO> orderProductDTOList = wrapperOrderProduct.getListOfOrderProductDTOs();
-		return new ResponseEntity<OrderDTO> (logisticsService.placeOrder(customerID, orderDTOObject, inventoryProductIDList, orderProductDTOList), HttpStatus.CREATED);
+		return new ResponseEntity<> (logisticsService.placeOrder(customerID, orderDTOObject, inventoryProductIDList, orderProductDTOList), HttpStatus.CREATED);
 	}
 
 	
 	/**
-	 * ADMIN PRIVILEDGE : Get all orders
+	 * ADMIN PRIVILEGE : Get all orders
 	 * @return all orders
 	 */
 	@GetMapping(path = "/admin/orders/search")
 	public ResponseEntity<List<OrderDTO>> retrieveAllOrders() {
-		return new ResponseEntity<List<OrderDTO>> (logisticsService.retrieveAllOrders(), HttpStatus.OK);
+		return new ResponseEntity<> (logisticsService.retrieveAllOrders(), HttpStatus.OK);
 	}
 	
 	/**
 	 * Get order based on customer ID and order ID
-	 * @param customerID
-	 * @param orderID
+	 * @param CustomerID customerID
+	 * @param OrderID orderID
 	 * @return OrderDTO object if get successful
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@GetMapping(path = "/orders/search/" , params = {"customerID","orderID"})
 	public ResponseEntity<OrderDTO> getOrderByCustomerID(@RequestParam(name="customerID", required=true) long customerID, 
 			@RequestParam(name="orderID", required=true) long orderID) throws CustomerException {
-		return new ResponseEntity<OrderDTO> (logisticsService.retrieveOrderByCustomerID(customerID, orderID), HttpStatus.OK);
+		return new ResponseEntity<> (logisticsService.retrieveOrderByCustomerID(customerID, orderID), HttpStatus.OK);
 	}
 
 	/**
 	 * CAUTION : INTERNAL USE ONLY
 	 * Get the raw order object based on customerID and orderID
-	 * @param customerID
-	 * @param orderID
+	 * @param CustomerID customerID
+	 * @param OrderID orderID
 	 * @return Raw order object
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@GetMapping(value = "/orders/search/ordersobject", params= {"customerID", "orderID"})
 	public ResponseEntity<Order> getOrderObjectByCustomerID(@RequestParam(name="customerID", required=true) long customerID,
 			@RequestParam(name="orderID", required=true) long orderID) throws CustomerException {
-		return new ResponseEntity<Order> (logisticsService.retrieveOrderObjectByCustomerID(customerID, orderID), HttpStatus.OK);
+		return new ResponseEntity<> (logisticsService.retrieveOrderObjectByCustomerID(customerID, orderID), HttpStatus.OK);
 	}
 	
 	/**
 	 * Get all orders of particular customer
-	 * @param customerID
+	 * @param CustomerID customerID
 	 * @return list of all orderDTOs for particular customer
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@GetMapping("/orders/search/{customerID}")
 	public ResponseEntity<List<OrderDTO>> getAllOrdersByCustomerID(@PathVariable(name="customerID", required=true) long customerID) throws CustomerException {
-		return new ResponseEntity<List<OrderDTO>> (logisticsService.retrieveAllOrdersByCustomerID(customerID),HttpStatus.OK);
+		return new ResponseEntity<> (logisticsService.retrieveAllOrdersByCustomerID(customerID),HttpStatus.OK);
 	}
 }

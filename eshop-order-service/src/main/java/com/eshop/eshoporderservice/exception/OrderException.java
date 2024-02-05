@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * Exception with suitable message for Order issues.
  */
 
-@SuppressWarnings("serial")
 @ResponseStatus(value=HttpStatus.OK)
 public class OrderException extends Exception {
 
@@ -20,7 +19,7 @@ public class OrderException extends Exception {
 
 	/**
 	 * Parameterized constructor. Sets message appropriate for invalid input.
-	 * @param message
+	 * @param message message
 	 */
 	public OrderException(String message) {
 		super(message);

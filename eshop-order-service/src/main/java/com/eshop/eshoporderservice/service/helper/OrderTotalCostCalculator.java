@@ -15,8 +15,8 @@ public class OrderTotalCostCalculator {
 	
 	/**
 	 * Calculate total cost of a product in order by quantity and base per unit cost
-	 * @param order product quantity
-	 * @param order product unit cost
+	 * @param orderProductQuantity product quantity
+	 * @param orderProductUnitCost product unit cost
 	 * @return total cost of an order item in order
 	 */
 	public long getOrderProductTotalCost(long orderProductQuantity, long orderProductUnitCost) {

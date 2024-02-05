@@ -77,7 +77,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 		orderObject.setCustomer(customerRetrieveObject);
 
 		//check number of products in order product list
-		if(orderProductDTOList.size()<1) {
+		if(orderProductDTOList.isEmpty()) {
 			throw new OrderException(messageSource.getMessage("OrderProductListSizeLessThanZero", null, LocaleContextHolder.getLocale()));
 		}
 
@@ -112,17 +112,14 @@ public class LogisticsService implements LogisticsServiceInterface {
 		Order orderSecondReturnObject = orderRepository.save(orderReturnObject);
 		
 		OrderPlacedEvent orderPlacedEvent = new OrderPlacedEvent(customerID, orderSecondReturnObject.getOrderID());
-		orderProductList = null;
-		orderObject = null;
-		customerRetrieveObject = null;
-		
+
 		sendOrderNotification("OrderNotificationTopic" + "_Order_Placed", orderPlacedEvent);
 
 		return logisticsModelMapper.mapOrderToOrderDTO(orderSecondReturnObject);
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : Retrieve all orders from all customers
+	 * ADMIN PRIVILEGE : Retrieve all orders from all customers
 	 * @return list of all OrderDTOs
 	 */
 	@Override
@@ -163,9 +160,7 @@ public class LogisticsService implements LogisticsServiceInterface {
 		Customer customerObject = customerInterface.getCustomerObjectByID(customerID).getBody();
 		
 		//get the order
-		Order orderObject = orderRepository.findOrderByCustomerID(customerID, orderID);
-		
-		return orderObject;
+        return orderRepository.findOrderByCustomerID(customerID, orderID);
 	}
 	
 	/**
@@ -183,8 +178,11 @@ public class LogisticsService implements LogisticsServiceInterface {
 		//List<Order> orderList = orderRepository.findAllOrdersByCustomerID(customerID);
 		
 		//return orderList.stream().map(order -> logisticsModelMapper.mapOrderToOrderDTO(order)).collect(Collectors.toList());
-		return customerObject.getOrdersList().stream().
-				map(order -> logisticsModelMapper.mapOrderToOrderDTO(order)).collect(Collectors.toList());		
+		if(customerObject != null){
+			return customerObject.getOrdersList().stream().
+					map(order -> logisticsModelMapper.mapOrderToOrderDTO(order)).collect(Collectors.toList());
+		}
+		else return null;
 	}
 
 	@Scheduled(cron = "0/10 * * * * *")
