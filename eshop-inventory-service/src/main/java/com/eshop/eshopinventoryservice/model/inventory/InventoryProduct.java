@@ -61,10 +61,10 @@ public class InventoryProduct {
 
 	/**
 	 * Parameterized Constructor
-	 * @param inventoryProductID
-	 * @param inventoryProductName
-	 * @param inventoryProductQuantity
-	 * @param inventoryProductCategory
+	 * @param InventoryProductID inventoryProductID
+	 * @param InventoryProductName inventoryProductName
+	 * @param InventoryProductQuantity inventoryProductQuantity
+	 * @param InventoryProductCategory inventoryProductCategory
 	 */
 	public InventoryProduct(long inventoryProductID,
 			@NotBlank(message = "Inventory Product name cannot be empty or blank") String inventoryProductName,
@@ -88,7 +88,7 @@ public class InventoryProduct {
 
 	/**
 	 * set Inventory Product ID
-	 * @param inventoryProductID
+	 * @param InventoryProductID inventoryProductID
 	 */
 	public void setInventoryProductID(long inventoryProductID) {
 		this.inventoryProductID = inventoryProductID;
@@ -103,7 +103,7 @@ public class InventoryProduct {
 
 	/**
 	 * set Inventory Product Name
-	 * @param inventoryProductName
+	 * @param InventoryProductName inventoryProductName
 	 */
 	public void setInventoryProductName(String inventoryProductName) {
 		this.inventoryProductName = inventoryProductName;
@@ -118,7 +118,7 @@ public class InventoryProduct {
 
 	/**
 	 * set Inventory Product Quantity
-	 * @param inventoryProductQuantity
+	 * @param InventoryProductQuantity inventoryProductQuantity
 	 */
 	public void setInventoryProductQuantity(long inventoryProductQuantity) {
 		this.inventoryProductQuantity = inventoryProductQuantity;
@@ -133,7 +133,7 @@ public class InventoryProduct {
 
 	/**
 	 * set Inventory Product Price
-	 * @param inventoryProductPrice
+	 * @param InventoryProductPrice inventoryProductPrice
 	 */
 	public void setInventoryProductPrice(long inventoryProductPrice) {
 		this.inventoryProductPrice = inventoryProductPrice;

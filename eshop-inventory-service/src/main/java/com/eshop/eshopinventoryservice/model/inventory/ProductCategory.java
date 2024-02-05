@@ -12,11 +12,11 @@ public enum ProductCategory {
 
 	private String category;
 
-	private ProductCategory() {
+	ProductCategory() {
 		
 	}
 	
-	private ProductCategory(String category) {
+	ProductCategory(String category) {
 		this.category = category;
 	}
 	
