@@ -18,34 +18,34 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
 	
 	/**
 	 * Return Email if exists
-	 * @param customerEmail
+	 * @param CustomerEmail customerEmail
 	 * @return matching email
 	 */
 	@Query(value = "select cu.Customer_Email from Customer cu where cu.Customer_Email ilike :customerEmail", nativeQuery=true)
-	public String emailExists(@Param("customerEmail") String customerEmail);
+	String emailExists(@Param("customerEmail") String customerEmail);
 	
 	/**
 	 * Return Customer by checking email
-	 * @param customerEmail
+	 * @param CustomerEmail customerEmail
 	 * @return customer
 	 */
 	@Query(value = "select * from Customer cu where cu.Customer_Email ilike :customerEmail", nativeQuery=true)
-	public Customer loadCustomerByEmail(@Param("customerEmail") String customerEmail);
+	Customer loadCustomerByEmail(@Param("customerEmail") String customerEmail);
 
 	/**
 	 * Get customers by first name
-	 * @param firstname
+	 * @param FirstName firstname
 	 * @return list of matching customers
 	 */
 	@Query(value = "select * from Customer c where c.Customer_First_Name ilike :firstname", nativeQuery = true)
-	public List<Customer> retrieveCustomersByFirstName(@Param("firstname") String firstname);
+	List<Customer> retrieveCustomersByFirstName(@Param("firstname") String firstname);
 
 	/**
 	 * Get customers by last name
-	 * @param lastname
+	 * @param LastName lastname
 	 * @return list of matching customers
 	 */
 	@Query(value = "select * from Customer c where c.Customer_Last_Name ilike :lastname", nativeQuery = true)
-	public List<Customer> retrieveCustomersByLastName(@Param("lastname") String lastname);
+	List<Customer> retrieveCustomersByLastName(@Param("lastname") String lastname);
 	
 }

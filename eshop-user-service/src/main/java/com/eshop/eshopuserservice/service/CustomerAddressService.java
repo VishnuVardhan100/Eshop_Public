@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.eshop.eshopuserservice.exception.CustomerAddressException;
 import com.eshop.eshopuserservice.exception.CustomerException;
-import com.eshop.eshopuserservice.exception.InvalidInputException;
 import com.eshop.eshopuserservice.model.customer.Customer;
 import com.eshop.eshopuserservice.model.customer.CustomerAddress;
 import com.eshop.eshopuserservice.model.customer.CustomerAddressDTO;
@@ -39,12 +38,10 @@ public class CustomerAddressService implements CustomerAddressServiceInterface {
 	 * @param customerDTO Object
 	 * @param customerAddress DTO object
 	 * @return the added customerAddress DTO object
-	 * @throws CustomerAddressException
-	 * @throws InvalidInputException
+	 * @throws CustomerException customerException
 	 */
 	@Override
-	public CustomerAddressDTO addCustomerAddress(CustomerDTO customerDTOObject, CustomerAddressDTO customerAddressDTOObject) throws CustomerException, 
-		InvalidInputException {
+	public CustomerAddressDTO addCustomerAddress(CustomerDTO customerDTOObject, CustomerAddressDTO customerAddressDTOObject) throws CustomerException {
 		Customer customerObject = customerModelMapper.mapCustomerDTOToCustomer(customerDTOObject);
 		if(!customerRepository.existsById(customerObject.getCustomerID())) {
 			throw new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale()));
@@ -53,9 +50,7 @@ public class CustomerAddressService implements CustomerAddressServiceInterface {
 		CustomerAddress customerAddressObject = customerModelMapper.mapCustomerAddressDTOToCustomerAddress(customerAddressDTOObject);
 		customerAddressObject.setCustomer(customerObject);
 		CustomerAddress customerAddressReturnObject = customerAddressRepository.save(customerAddressObject);
-		customerObject = null;
-		customerAddressObject = null;
-		
+
 		return customerModelMapper.mapCustomerAddressToCustomerAddressDTO(customerAddressReturnObject);
 	}	
 	
@@ -64,7 +59,7 @@ public class CustomerAddressService implements CustomerAddressServiceInterface {
 	 * Get all the added Customer addresses for a valid Customer
 	 * @param customerID of valid Customer
 	 * @return list of customer address DTOs for said Customer
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@Override
 	public List<CustomerAddressDTO> retrieveAllCustomerAddressesByCustomerID(long customerID) throws CustomerException {
@@ -72,13 +67,11 @@ public class CustomerAddressService implements CustomerAddressServiceInterface {
 				orElseThrow(() -> new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale())));
 
 		List<CustomerAddress> allCustomerAddresses = customer.getCustomerAddresses();
-		List<CustomerAddressDTO> allReturnCustomerAddressDTO = new ArrayList<CustomerAddressDTO>(5);
+		List<CustomerAddressDTO> allReturnCustomerAddressDTO = new ArrayList<>(5);
 
 		for(CustomerAddress customerAddress : allCustomerAddresses) {
 			allReturnCustomerAddressDTO.add(customerModelMapper.mapCustomerAddressToCustomerAddressDTO(customerAddress));
 		}
-		allCustomerAddresses = null;
-		customer = null;
 		return allReturnCustomerAddressDTO;
 	}
 
@@ -86,8 +79,8 @@ public class CustomerAddressService implements CustomerAddressServiceInterface {
 	 * Update an existing Customer address for valid Customer
 	 * @param the customerAddress DTO object
 	 * @return the updated customerAddress DTO object
-	 * @throws CustomerException
-	 * @throws CustomerAddresssException
+	 * @throws CustomerException customerException
+	 * @throws CustomerAddressException customerAddressException
 	 */
 	@Override
 	public CustomerAddressDTO updateCustomerAddressInfo(long customerID, CustomerAddressDTO customerAddressDTOObject) throws CustomerException, CustomerAddressException {
@@ -112,8 +105,6 @@ public class CustomerAddressService implements CustomerAddressServiceInterface {
 		//CAUTION: We should not change the Customer Entity - It should be created/updated/deleted separately.
 
 		CustomerAddress customerAddressReturnObject = customerAddressRepository.save(customerAddressRetrieveObject);
-		customerAddressRetrieveObject = null;
-		customerAddressObject = null;
 
 		return customerModelMapper.mapCustomerAddressToCustomerAddressDTO(customerAddressReturnObject);
 	}
@@ -121,8 +112,8 @@ public class CustomerAddressService implements CustomerAddressServiceInterface {
 	/**
 	 * Delete a Customer address by given Customer address ID
 	 * @param Customer address ID
-	 * @throws CustomerException
-	 * @throws CustomerAddressException
+	 * @throws CustomerException customerException
+	 * @throws CustomerAddressException customerAddressException
 	 */
 	@Override
 	public void deleteCustomerAddress(long customerID, long customerAddressID) throws CustomerException, CustomerAddressException {
@@ -140,16 +131,14 @@ public class CustomerAddressService implements CustomerAddressServiceInterface {
 		customerRepository.save(customerObject);
 		//customerAddressObject.setCustomer(null);
 		customerAddressRepository.deleteById(customerAddressID);
-		customerAddressObject = null;
-		customerObject = null;
 	}
 
 	/**
 	 * Delete a list of Customer addresses by their IDs
 	 * @param Customer ID for whom the Customer addresses need to be deleted
 	 * @param list of Customer address IDs
-	 * @throws CustomerException
-	 * @throws CustomerAddressException
+	 * @throws CustomerException customerException
+	 * @throws CustomerAddressException customerAddressException
 	 */
 	@Override
 	public void deleteAllCustomerAddresses(long customerID, List<Long> customerAddressIDs) throws CustomerException, CustomerAddressException {
@@ -168,9 +157,7 @@ public class CustomerAddressService implements CustomerAddressServiceInterface {
 			customerRepository.save(customerObject);
 			//customerAddressObject.setCustomer(null);
 			customerAddressRepository.deleteById(customerAddressID);
-			customerAddressObject = null;
 		}
-		customerObject = null;
 	}
 
 }

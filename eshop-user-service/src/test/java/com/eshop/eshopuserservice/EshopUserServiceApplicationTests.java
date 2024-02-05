@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.sql.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -97,7 +96,7 @@ class EshopUserServiceApplicationTests {
 		logger.info("All User Service tests have started");
 		
 		customerSignUpDTOObj1 = new CustomerSignUpDTO();
-		customerSignUpDTOObj1.setCustomerID(1l);
+		customerSignUpDTOObj1.setCustomerID(1L);
 		customerSignUpDTOObj1.setCustomerPassword("yesH0wdy1");
 		customerSignUpDTOObj1.setCustomerFirstName("User");
 		customerSignUpDTOObj1.setCustomerLastName("ABC");
@@ -108,7 +107,7 @@ class EshopUserServiceApplicationTests {
 		customerSignUpDTOObj1.setRoles("ROLE_CUSTOMER");
 
 		customerDTOObj1 = new CustomerDTO();
-		customerDTOObj1.setCustomerID(1l);
+		customerDTOObj1.setCustomerID(1L);
 		customerDTOObj1.setCustomerFirstName("User");
 		customerDTOObj1.setCustomerLastName("ABC");
 		customerDTOObj1.setCustomerEmail("abc@gmail.com");
@@ -118,7 +117,7 @@ class EshopUserServiceApplicationTests {
 		customerDTOObj1.setRoles("ROLE_CUSTOMER");
 
 		customerSignUpDTOObj2 = new CustomerSignUpDTO();
-		customerSignUpDTOObj2.setCustomerID(2l);
+		customerSignUpDTOObj2.setCustomerID(2L);
 		customerSignUpDTOObj2.setCustomerPassword("yesH0wdy2");
 		customerSignUpDTOObj2.setCustomerFirstName("User");
 		customerSignUpDTOObj2.setCustomerLastName("ABD");
@@ -129,7 +128,7 @@ class EshopUserServiceApplicationTests {
 		customerSignUpDTOObj2.setRoles("ROLE_CUSTOMER");
 
 		customerDTOObj2 = new CustomerDTO();
-		customerDTOObj2.setCustomerID(2l);
+		customerDTOObj2.setCustomerID(2L);
 		customerDTOObj2.setCustomerFirstName("User");
 		customerDTOObj2.setCustomerLastName("ABD");
 		customerDTOObj2.setCustomerEmail("abd@gmail.com");
@@ -139,18 +138,18 @@ class EshopUserServiceApplicationTests {
 		customerDTOObj2.setRoles("ROLE_CUSTOMER");
 		
 		customerAddressDTOObj1 = new CustomerAddressDTO();
-		customerAddressDTOObj1.setAddressID(1l);
+		customerAddressDTOObj1.setAddressID(1L);
 		customerAddressDTOObj1.setHouseNo("133-23");
 		customerAddressDTOObj1.setStreet("2nd Beach Road");
-		customerAddressDTOObj1.setCity("Vizag");
+		customerAddressDTOObj1.setCity("Visakhapatnam");
 		customerAddressDTOObj1.setState("Andhra Pradesh");
 		customerAddressDTOObj1.setPincode("500232");
 		
 		customerAddressDTOObj2 = new CustomerAddressDTO();
-		customerAddressDTOObj2.setAddressID(2l);
+		customerAddressDTOObj2.setAddressID(2L);
 		customerAddressDTOObj2.setHouseNo("78-2");
 		customerAddressDTOObj2.setStreet("4th Hillside");
-		customerAddressDTOObj2.setCity("Vizag");
+		customerAddressDTOObj2.setCity("Visakhapatnam");
 		customerAddressDTOObj2.setState("Andhra Pradesh");
 		customerAddressDTOObj2.setPincode("500234");
 	}
@@ -160,7 +159,7 @@ class EshopUserServiceApplicationTests {
 	public void testSignUpCustomer1() throws Exception {
 		String url = "/signup/customers";
 
-		ResponseEntity<CustomerDTO> response = new ResponseEntity<CustomerDTO>(customerDTOObj1, HttpStatus.CREATED);
+		ResponseEntity<CustomerDTO> response = new ResponseEntity<>(customerDTOObj1, HttpStatus.CREATED);
 		Mockito.when(customerController.createCustomer(Mockito.any(CustomerSignUpDTO.class), Mockito.any(Locale.class)))
 				.thenReturn(response);
 
@@ -185,7 +184,7 @@ class EshopUserServiceApplicationTests {
 	public void testSignUpCustomer2() throws Exception {
 		String url = "/signup/customers";
 
-		ResponseEntity<CustomerDTO> response = new ResponseEntity<CustomerDTO>(customerDTOObj2, HttpStatus.CREATED);
+		ResponseEntity<CustomerDTO> response = new ResponseEntity<>(customerDTOObj2, HttpStatus.CREATED);
 		Mockito.when(customerController.createCustomer(Mockito.any(CustomerSignUpDTO.class), Mockito.any(Locale.class)))
 				.thenReturn(response);
 
@@ -210,7 +209,7 @@ class EshopUserServiceApplicationTests {
 	public void testGetCustomerByEmail() throws Exception {
 		String url = "/customers/load";
 
-		ResponseEntity<CustomerDTO> response = new ResponseEntity<CustomerDTO>(customerDTOObj1, HttpStatus.OK);
+		ResponseEntity<CustomerDTO> response = new ResponseEntity<>(customerDTOObj1, HttpStatus.OK);
 		Mockito.when(customerController.getCustomerByEmail(Mockito.any(String.class))).thenReturn(response);
 		
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url)
@@ -232,10 +231,10 @@ class EshopUserServiceApplicationTests {
 	public void testGetCustomerByID() throws Exception {
 		String url = "/customers/search/{customerID}";
 
-		ResponseEntity<CustomerDTO> response = new ResponseEntity<CustomerDTO>(customerDTOObj1, HttpStatus.OK);
+		ResponseEntity<CustomerDTO> response = new ResponseEntity<>(customerDTOObj1, HttpStatus.OK);
 		Mockito.when(customerController.getCustomerByID(Mockito.any(Long.class),Mockito.any(Locale.class))).thenReturn(response);
 		
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url,1l)
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url,1L)
 							.header("accept-language", "en-us")
 							.accept(MediaType.APPLICATION_JSON))
 							.andExpect(MockMvcResultMatchers.status().isOk())
@@ -255,7 +254,7 @@ class EshopUserServiceApplicationTests {
 		String url = "/admin/customers/search";
 
 		List<CustomerDTO> responseList = Stream.of(customerDTOObj1, customerDTOObj2).collect(Collectors.toList());
-		ResponseEntity<List<CustomerDTO>> response = new ResponseEntity<List<CustomerDTO>>(responseList, HttpStatus.OK);
+		ResponseEntity<List<CustomerDTO>> response = new ResponseEntity<>(responseList, HttpStatus.OK);
 		Mockito.when(customerController.getCustomersByFirstName(Mockito.any(String.class))).thenReturn(response);
 		
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url)
@@ -278,7 +277,7 @@ class EshopUserServiceApplicationTests {
 		String url = "/admin/customers/search";
 
 		List<CustomerDTO> responseList = Stream.of(customerDTOObj2).collect(Collectors.toList());
-		ResponseEntity<List<CustomerDTO>> response = new ResponseEntity<List<CustomerDTO>>(responseList, HttpStatus.OK);
+		ResponseEntity<List<CustomerDTO>> response = new ResponseEntity<>(responseList, HttpStatus.OK);
 		Mockito.when(customerController.getCustomersByLastName(Mockito.any(String.class))).thenReturn(response);
 		
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url)
@@ -301,7 +300,7 @@ class EshopUserServiceApplicationTests {
 		String url = "/admin/customers/search";
 
 		List<CustomerDTO> responseList = Stream.of(customerDTOObj1, customerDTOObj2).collect(Collectors.toList());
-		ResponseEntity<List<CustomerDTO>> response = new ResponseEntity<List<CustomerDTO>>(responseList, HttpStatus.OK);
+		ResponseEntity<List<CustomerDTO>> response = new ResponseEntity<>(responseList, HttpStatus.OK);
 		Mockito.when(customerController.getAllCustomers()).thenReturn(response);
 		
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url)
@@ -321,17 +320,18 @@ class EshopUserServiceApplicationTests {
 	@Order(8)
 	public void testUpdateCustomerInfo() throws Exception {
 		String url = "/customers/update/info/{customerID}";
-		long customerID = customerDTOObj1.getCustomerID();
+
 		CustomerDTO customerDTOUpdateObj1 = customerDTOObj1;
 		customerDTOUpdateObj1.setCustomerMobileNumber("9000080001");
 		String expectedJSON = objectMapper.writeValueAsString(customerDTOUpdateObj1);
 		
-		ResponseEntity<CustomerDTO> response = new ResponseEntity<CustomerDTO>(customerDTOUpdateObj1, HttpStatus.OK);
-		Mockito.when(customerController.updateCustomerInfo(Mockito.any(Long.class), Mockito.any(CustomerDTO.class))).thenReturn(response);
+		ResponseEntity<CustomerDTO> response = new ResponseEntity<>(customerDTOUpdateObj1, HttpStatus.OK);
+		Mockito.when(customerController.updateCustomerInfo(Mockito.any(CustomerDTO.class))).thenReturn(response);
 		
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(url, customerID)
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(url)
 							.contentType(MediaType.APPLICATION_JSON)
-							.content(expectedJSON).accept(MediaType.APPLICATION_JSON))
+							.content(expectedJSON)
+							.accept(MediaType.APPLICATION_JSON))
 							.andExpect(MockMvcResultMatchers.status().isOk())
 							.andDo(MockMvcResultHandlers.print())
 							.andReturn();
@@ -350,7 +350,7 @@ class EshopUserServiceApplicationTests {
 		String inputJson = objectMapper.writeValueAsString(wrapperCustomerAddressObj1);
 		String expectedJson = objectMapper.writeValueAsString(customerAddressDTOObj1);
 
-		ResponseEntity<CustomerAddressDTO> response = new ResponseEntity<CustomerAddressDTO> (customerAddressDTOObj1, HttpStatus.CREATED);
+		ResponseEntity<CustomerAddressDTO> response = new ResponseEntity<> (customerAddressDTOObj1, HttpStatus.CREATED);
 		Mockito.when(customerAddressController.addCustomerAddress(Mockito.any(WrapperCustomerAddress.class))).thenReturn(response);
 		
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON)
@@ -375,7 +375,7 @@ class EshopUserServiceApplicationTests {
 		String inputJson = objectMapper.writeValueAsString(wrapperCustomerAddressObj2);
 		String expectedJson = objectMapper.writeValueAsString(customerAddressDTOObj2);
 		
-		ResponseEntity<CustomerAddressDTO> response = new ResponseEntity<CustomerAddressDTO> (customerAddressDTOObj2, HttpStatus.CREATED);
+		ResponseEntity<CustomerAddressDTO> response = new ResponseEntity<> (customerAddressDTOObj2, HttpStatus.CREATED);
 		Mockito.when(customerAddressController.addCustomerAddress(Mockito.any(WrapperCustomerAddress.class))).thenReturn(response);
 		
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(uri)
@@ -398,10 +398,10 @@ class EshopUserServiceApplicationTests {
 		List<CustomerAddressDTO> responseList = Stream.of(customerAddressDTOObj1, customerAddressDTOObj2).collect(Collectors.toList());
 		String expectedJson = objectMapper.writeValueAsString(responseList);
 		
-		ResponseEntity<List<CustomerAddressDTO>> response = new ResponseEntity<List<CustomerAddressDTO>> (responseList, HttpStatus.OK);
+		ResponseEntity<List<CustomerAddressDTO>> response = new ResponseEntity<> (responseList, HttpStatus.OK);
 		Mockito.when(customerAddressController.retrieveAllCustomerAddressesByCustomerID(Mockito.any(long.class))).thenReturn(response);
 		
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(uri, 1l)
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(uri, 1L)
 								.accept(MediaType.APPLICATION_JSON))
 								.andExpect(MockMvcResultMatchers.status().isOk())
 								.andDo(MockMvcResultHandlers.print())
@@ -420,7 +420,7 @@ class EshopUserServiceApplicationTests {
 		customerAddressDTOUpdateObj1.setPincode("500235");
 		String expectedJSON = objectMapper.writeValueAsString(customerAddressDTOUpdateObj1);
 		
-		ResponseEntity<CustomerAddressDTO> response = new ResponseEntity<CustomerAddressDTO>(customerAddressDTOUpdateObj1, HttpStatus.OK);
+		ResponseEntity<CustomerAddressDTO> response = new ResponseEntity<>(customerAddressDTOUpdateObj1, HttpStatus.OK);
 		Mockito.when(customerAddressController.updateCustomerAddressInfo(Mockito.any(Long.class), Mockito.any(CustomerAddressDTO.class))).thenReturn(response);
 		
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(url, customerID)
@@ -441,12 +441,12 @@ class EshopUserServiceApplicationTests {
 		
 	}
 	
-	//@Test
+	@Test
 	@Order(14)
 	public void testDeleteCustomer() throws Exception {
 		String url = "/customers/{customerID}";
 		
-		ResponseEntity<Object> response = new ResponseEntity<Object>(HttpStatus.OK);
+		ResponseEntity<Object> response = new ResponseEntity<>("Customer deleted successfully",HttpStatus.OK);
 		Mockito.when(customerController.deleteCustomer(Mockito.any(long.class))).thenReturn(response);
 		
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(url, 1)
@@ -467,7 +467,7 @@ class EshopUserServiceApplicationTests {
 	public void testDeleteCustomerThrowsCustomerException() throws Exception {
 		String url = "/customers/{customerID}";
 		
-		ResponseEntity<Object> response = new ResponseEntity<Object>(HttpStatus.OK);
+		ResponseEntity<Object> response = new ResponseEntity<>(HttpStatus.OK);
 		Mockito.when(customerController.deleteCustomer(Mockito.any(long.class))).thenReturn(response);
 		
 //		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(url, 1000)

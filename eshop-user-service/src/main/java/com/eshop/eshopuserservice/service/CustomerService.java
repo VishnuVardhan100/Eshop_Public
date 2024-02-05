@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.eshop.eshopuserservice.exception.CustomerException;
-import com.eshop.eshopuserservice.exception.InvalidInputException;
 import com.eshop.eshopuserservice.model.customer.Customer;
 import com.eshop.eshopuserservice.model.customer.CustomerDTO;
 import com.eshop.eshopuserservice.model.customer.CustomerSignUpDTO;
@@ -34,7 +33,7 @@ public class CustomerService implements CustomerServiceInterface{
 	@Autowired
 	private CustomerModelMapper customerModelMapper;
 
-	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Autowired
 	private CustomerRepository customerRepository;
@@ -42,17 +41,16 @@ public class CustomerService implements CustomerServiceInterface{
 	/**
 	 * Connects to Repository to create Customer
 	 * @param CustomerSignUpDTO Object from Client side
-	 * @param locale
+	 * @param Locale locale
 	 * @return CustomerDTO Object after successful Customer creation
-	 * @throws InvalidInputException
-	 * @throws CustomerException 
-	 * @throws NoSuchMessageException 
+	 * @throws CustomerException customerException
+	 * @throws NoSuchMessageException noSuchMessageException
 	 */
 	@Override
 	public CustomerDTO createCustomer(CustomerSignUpDTO customerSignUpDTOObject, Locale locale) throws CustomerException{
-		String hashedPassword = "";
-		Customer customerObject = null;
-		Customer customerReturnObject = null;
+		String hashedPassword ;
+		Customer customerObject ;
+		Customer customerReturnObject ;
 		
 		customerObject = customerModelMapper.mapCustomerSignUpDTOToCustomer(customerSignUpDTOObject);
 		if(emailExists(customerObject.getCustomerEmail())) {
@@ -61,7 +59,6 @@ public class CustomerService implements CustomerServiceInterface{
 		hashedPassword = passwordEncoder.encode(customerObject.getCustomerPassword());
 		customerObject.setCustomerPassword(hashedPassword);
 		customerReturnObject = customerRepository.save(customerObject);
-		customerObject = null;
 
 		//customerMailService.sendCustomerCreatedMail(customerReturnObject);
 
@@ -85,7 +82,7 @@ public class CustomerService implements CustomerServiceInterface{
 	 * Retrieve Customer by email
 	 * @param Customer Email
 	 * @return CustomerDTO object, if customer exists
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@Override
 	public CustomerDTO loadCustomerByEmail(String customerEmail) throws CustomerException {
@@ -93,8 +90,7 @@ public class CustomerService implements CustomerServiceInterface{
 		if(customerRetrieveObject == null) {
 			throw new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale()));
 		}
-		CustomerDTO customerDTOObject = customerModelMapper.mapCustomerToCustomerDTO(customerRetrieveObject);
-		return customerDTOObject;
+        return customerModelMapper.mapCustomerToCustomerDTO(customerRetrieveObject);
 	}
 
 	/**
@@ -102,7 +98,7 @@ public class CustomerService implements CustomerServiceInterface{
 	 * Retrieve Customer raw object by email
 	 * @param Customer Email
 	 * @return CustomerDTO object, if customer exists
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@Override
 	public Customer loadCustomerObjectByEmail(String customerEmail) throws CustomerException {
@@ -116,9 +112,9 @@ public class CustomerService implements CustomerServiceInterface{
 	/**
 	 * Retrieve a Customer by their ID
 	 * @param long Customer ID
-	 * @param locale
+	 * @param Locale locale
 	 * @return CustomerDTO object
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@Override
 	public CustomerDTO retrieveCustomerByID(long customerID, Locale locale) throws CustomerException {
@@ -132,7 +128,7 @@ public class CustomerService implements CustomerServiceInterface{
 	 * Retrieve a Customer by their ID
 	 * @param long Customer ID
 	 * @return Customer object
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@Override
 	public Customer retrieveCustomerByID(long customerID) throws CustomerException {
@@ -143,93 +139,91 @@ public class CustomerService implements CustomerServiceInterface{
 
 	/**
 	 * Check if customer exists by ID
-	 * @param customerID
+	 * @param CustomerID customerID
 	 * @return true or false of customer exists
 	 */
 	@Override
-	public boolean customerExists(long customerID) throws CustomerException {
+	public boolean customerExists(long customerID) {
 		return customerRepository.existsById(customerID);
 	}
 	
 	/**
-	 * ADMIN PRIVILEDGE : To retrieve Customers based on first name
+	 * ADMIN PRIVILEGE : To retrieve Customers based on first name
 	 * @param First Name of Customer
 	 * @return list of matched Customer DTOs
 	 */
 	@Override
 	public List<CustomerDTO> retrieveCustomersByFirstName(String firstName) {
 		List<Customer> customersByFirstName = customerRepository.retrieveCustomersByFirstName("%" + firstName + "%");
-		List<CustomerDTO> allReturnCustomerDTO = new ArrayList<CustomerDTO>(5);
+		List<CustomerDTO> allReturnCustomerDTO = new ArrayList<>(5);
 
 		for(Customer customer : customersByFirstName) {
 			allReturnCustomerDTO.add(customerModelMapper.mapCustomerToCustomerDTO(customer));
 		}
-		customersByFirstName = null;
 		return allReturnCustomerDTO;
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : To retrieve Customers based on last name
+	 * ADMIN PRIVILEGE : To retrieve Customers based on last name
 	 * @param Last Name of Customer
 	 * @return list of matched Customer DTOs
 	 */
 	@Override
 	public List<CustomerDTO> retrieveCustomersByLastName(String lastName) {
 		List<Customer> customersByLastName = customerRepository.retrieveCustomersByLastName("%" + lastName + "%");
-		List<CustomerDTO> allReturnCustomerDTO = new ArrayList<CustomerDTO>(5);
+		List<CustomerDTO> allReturnCustomerDTO = new ArrayList<>(5);
 
 		for(Customer customer : customersByLastName) {
 			allReturnCustomerDTO.add(customerModelMapper.mapCustomerToCustomerDTO(customer));
 		}
-		customersByLastName = null;
 		return allReturnCustomerDTO;
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : Retrieve all Customers
+	 * ADMIN PRIVILEGE : Retrieve all Customers
 	 * @return list of all Customer DTOs
 	 */
 	@Override
 	public List<CustomerDTO> retrieveAllCustomers() {
 		List<Customer> allCustomers = customerRepository.findAll();
-		List<CustomerDTO> allReturnCustomerDTO = new ArrayList<CustomerDTO>(5);
+		List<CustomerDTO> allReturnCustomerDTO = new ArrayList<>(5);
 
 		for(Customer customer : allCustomers) {
 			allReturnCustomerDTO.add(customerModelMapper.mapCustomerToCustomerDTO(customer));
 		}
-		allCustomers = null;
 		return allReturnCustomerDTO;
 	}
 
 	/**
 	 * Update any Customer specific base info
-	 * @param customerID to find if Customer exists
 	 * @param customerDTO object to take Customer info from
 	 * @return updated instance of customer as customerDTO
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@Override
-	public CustomerDTO updateCustomerInfo(long customerID, CustomerDTO customerDTOObject) throws CustomerException {
-		Customer customerRetrieveObject = customerRepository.findById(customerID).
-				orElseThrow(() -> new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale())));
+	public CustomerDTO updateCustomerInfo(CustomerDTO customerDTOObject) throws CustomerException {
+		Optional<Customer> customerObject = Optional.of(customerRepository.findById(customerDTOObject.getCustomerID()))
+				.orElseThrow(() -> new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale())));
 
-		Customer customerObject = customerModelMapper.mapCustomerDTOToCustomer(customerDTOObject);
-		if(customerID != customerObject.getCustomerID()) {
-			throw new CustomerException(messageSource.getMessage("CustomerIDAndCustomerMismatch", null, LocaleContextHolder.getLocale()));
+		Customer customerRetrieveObject ;
+
+		if(customerObject.isEmpty()){
+			throw new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale()));
+		}
+		else{
+			customerRetrieveObject = customerObject.get();
 		}
 
 		//CAUTION: We should not change the Customer ID - primary identifier. It stays same as when created
 		//CAUTION: We should not change the Customer password .It stays hashed unless we want it changed.
-		customerRetrieveObject.setCustomerFirstName(customerObject.getCustomerFirstName());
-		customerRetrieveObject.setCustomerLastName(customerObject.getCustomerLastName());
-		customerRetrieveObject.setCustomerEmail(customerObject.getCustomerEmail());
-		customerRetrieveObject.setCustomerMobileNumber(customerObject.getCustomerMobileNumber());
+		customerRetrieveObject.setCustomerFirstName(customerDTOObject.getCustomerFirstName());
+		customerRetrieveObject.setCustomerLastName(customerDTOObject.getCustomerLastName());
+		customerRetrieveObject.setCustomerEmail(customerDTOObject.getCustomerEmail());
+		customerRetrieveObject.setCustomerMobileNumber(customerDTOObject.getCustomerMobileNumber());
 		//CAUTION: We should not change the Customer Created Date. It stays same as when created
 		//CAUTION: We should not change roles of customer as well. It stays same as when created
 
 		Customer customerReturnObject = customerRepository.save(customerRetrieveObject);
-		customerRetrieveObject = null;
-		customerObject = null;
 
 		return customerModelMapper.mapCustomerToCustomerDTO(customerReturnObject);
 	}
@@ -241,12 +235,21 @@ public class CustomerService implements CustomerServiceInterface{
 	 * @param new password to be updated
 	 */
 	@Override
-	public void updateCustomerPassword(long customerID, String customerOldPasword, String customerNewPasword) throws CustomerException {
-		Customer customerRetrieveObject = customerRepository.findById(customerID)
+	public void updateCustomerPassword(long customerID, String customerOldPassword, String customerNewPassword) throws CustomerException {
+		Optional<Customer> customerObject = Optional.of(customerRepository.findById(customerID))
 				.orElseThrow(() -> new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale())));
-		
-		if(passwordEncoder.matches(customerOldPasword, customerRetrieveObject.getCustomerPassword())) {
-			customerRetrieveObject.setCustomerPassword(passwordEncoder.encode(customerNewPasword));
+
+		Customer customerRetrieveObject ;
+
+		if(customerObject.isEmpty()){
+			throw new CustomerException(messageSource.getMessage("CustomerNotFound", null, LocaleContextHolder.getLocale()));
+		}
+		else{
+			customerRetrieveObject = customerObject.get();
+		}
+
+		if(passwordEncoder.matches(customerOldPassword, customerRetrieveObject.getCustomerPassword())) {
+			customerRetrieveObject.setCustomerPassword(passwordEncoder.encode(customerNewPassword));
 			customerRepository.save(customerRetrieveObject);
 			//customerMailService.sendCustomerPasswordResetMail(customerRetrieveObject);
 		}
@@ -257,9 +260,9 @@ public class CustomerService implements CustomerServiceInterface{
 
 	/**
 	 * Delete the Customer based on CustomerID
-	 * @param customerID
-	 * @throws CustomerException
-	 * @throws IllegalArgumentException
+	 * @param CustomerID customerID
+	 * @throws CustomerException customerException
+	 * @throws IllegalArgumentException illegalArgumentException
 	 */
 	@Override
 	public void deleteCustomer(long customerID) throws CustomerException, IllegalArgumentException {		

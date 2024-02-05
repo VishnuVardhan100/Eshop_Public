@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * Exception related to Customer Address
  */
 
-@SuppressWarnings("serial")
 @ResponseStatus(value=HttpStatus.OK)
 public class CustomerAddressException extends Exception {
 	
@@ -20,7 +19,7 @@ public class CustomerAddressException extends Exception {
 	
 	/**
 	 * Parameterized constructor. Sets message appropriate for invalid input.
-	 * @param message
+	 * @param message explains why exception was thrown
 	 */
 	public CustomerAddressException(String message) {
 		super(message);

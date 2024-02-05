@@ -30,7 +30,7 @@ public interface CustomerServiceInterface {
 
 	List<CustomerDTO> retrieveAllCustomers();
 
-	CustomerDTO updateCustomerInfo(long customerID, CustomerDTO customerDTO) throws CustomerException;
+	CustomerDTO updateCustomerInfo(CustomerDTO customerDTO) throws CustomerException;
 	
 	void updateCustomerPassword(long customerID, String customerOldPassword, String customerNewPassword) throws CustomerException;
 

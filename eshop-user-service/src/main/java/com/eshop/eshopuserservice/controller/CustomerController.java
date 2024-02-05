@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eshop.eshopuserservice.exception.CustomerException;
-import com.eshop.eshopuserservice.exception.InvalidInputException;
 import com.eshop.eshopuserservice.model.customer.Customer;
 import com.eshop.eshopuserservice.model.customer.CustomerDTO;
 import com.eshop.eshopuserservice.model.customer.CustomerPasswordUpdateDTO;
@@ -34,17 +33,17 @@ import jakarta.validation.Valid;
 public class CustomerController {
 
 	/*@Autowired
-	private AuthenticationManager authenticationManager; 
-		
+	private AuthenticationManager authenticationManager;
+
 	@Autowired
 	private CustomerLoginService customerLoginService;*/
-	
+
 	@Autowired
 	private CustomerService customerService;
 	
-	/**
+	/*
 	 * Sign in end point for customers
-	 * @param customerSignInAuthenticationRequest object containing user name and password
+	 * @param customerSignInAuthenticationRequest object containing username and password
 	 * @return JSON Web Token if successful
 	 * @throws Exception
 	 */
@@ -74,114 +73,111 @@ public class CustomerController {
 	/**
 	 * Method to create new Customer
 	 * @param CustomerSignUpDTO Object
-	 * @param locale
+	 * @param Locale locale
 	 * @return Response Entity Object having new CustomerDTO object and created status
-	 * @throws InvalidInputException
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@PostMapping("/signup/customers")
 	public ResponseEntity<CustomerDTO> createCustomer(@RequestBody(required=true) @Valid CustomerSignUpDTO customerSignUpDTOObject,
 			@RequestHeader(name="Accept-Language", required=false) Locale locale) throws CustomerException {
 		CustomerDTO customerDTOReturnObject = customerService.createCustomer(customerSignUpDTOObject, locale);
-		return new ResponseEntity<CustomerDTO> (customerDTOReturnObject, HttpStatus.CREATED);
+		return new ResponseEntity<> (customerDTOReturnObject, HttpStatus.CREATED);
 	}
 
 	/**
 	 * Get Customer by email
-	 * @param customerEmail
+	 * @param CustomerEmail customerEmail
 	 * @return CustomerDTO object, if such customer exists
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@GetMapping(path= "/customers/load", params={"customerEmail"})
 	public ResponseEntity<CustomerDTO> getCustomerByEmail(@RequestParam(name="customerEmail", required=true) String customerEmail) throws CustomerException {
-		return new ResponseEntity<CustomerDTO> (customerService.loadCustomerByEmail(customerEmail), HttpStatus.OK);
+		return new ResponseEntity<> (customerService.loadCustomerByEmail(customerEmail), HttpStatus.OK);
 	}
 
 	/**
 	 * CAUTION: INTERNAL USE ONLY
 	 * Get Customer by email
-	 * @param customerEmail
+	 * @param CustomerEmail customerEmail
 	 * @return Customer raw object, if such customer exists
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@GetMapping(path= "/customers/loadobject", params={"customerEmail"})
 	public ResponseEntity<Customer> getCustomerObjectByEmail(@RequestParam(name="customerEmail", required=true) String customerEmail) throws CustomerException {
-		return new ResponseEntity<Customer> (customerService.loadCustomerObjectByEmail(customerEmail), HttpStatus.OK);
+		return new ResponseEntity<> (customerService.loadCustomerObjectByEmail(customerEmail), HttpStatus.OK);
 	}
 	
 	/**
 	 * Retrieve CustomerDTO by ID
 	 * @param Customer ID
-	 * @param locale
+	 * @param Locale locale
 	 * @return CustomerDTO object if exists
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@GetMapping("/customers/search/{customerID}")
 	public ResponseEntity<CustomerDTO> getCustomerByID(@PathVariable(name="customerID", required=true) long customerID,
 			@RequestHeader(name="Accept-Language", required=false) Locale locale) throws CustomerException {
-		return new ResponseEntity<CustomerDTO> (customerService.retrieveCustomerByID(customerID, locale),HttpStatus.OK);
+		return new ResponseEntity<> (customerService.retrieveCustomerByID(customerID, locale),HttpStatus.OK);
 	}
 
 	/**
-	 * CAUION: INTERNAL USE ONLY
+	 * CAUTION: INTERNAL USE ONLY
 	 * Retrieve Customer by ID
-	 * @param customerID
+	 * @param CustomerID customerID
 	 * @return customer object if exists
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@GetMapping(path= "/customers/searchbyid" , params= {"customerID"})
 	public ResponseEntity<Customer> getCustomerObjectByID(@RequestParam(name="customerID", required=true) long customerID
 			) throws CustomerException {
-		return new ResponseEntity<Customer> (customerService.retrieveCustomerByID(customerID),HttpStatus.OK);
+		return new ResponseEntity<> (customerService.retrieveCustomerByID(customerID),HttpStatus.OK);
 	}
 	
 	/**
-	 * ADMIN PRIVILEDGE : Get Customers based on first name
+	 * ADMIN PRIVILEGE : Get Customers based on first name
 	 * @param first name
 	 * @return list of Customers matching first name criteria
 	 */
 	@GetMapping(path="/admin/customers/search", params={"firstName"})
 	public ResponseEntity<List<CustomerDTO>> getCustomersByFirstName(@RequestParam(value="firstName", required=true) String firstName) {
-		return new ResponseEntity<List<CustomerDTO>> (customerService.retrieveCustomersByFirstName(firstName), HttpStatus.OK);
+		return new ResponseEntity<> (customerService.retrieveCustomersByFirstName(firstName), HttpStatus.OK);
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : Get Customers based on last name
-	 * @param lastName
+	 * ADMIN PRIVILEGE : Get Customers based on last name
+	 * @param LastName lastName
 	 * @return list of Customers matching last name criteria
 	 */
 	@GetMapping(path="/admin/customers/search", params={"lastName"})
 	public ResponseEntity<List<CustomerDTO>> getCustomersByLastName(@RequestParam(value="lastName", required=true) String lastName) {
-		return new ResponseEntity<List<CustomerDTO>> (customerService.retrieveCustomersByLastName(lastName), HttpStatus.OK);
+		return new ResponseEntity<> (customerService.retrieveCustomersByLastName(lastName), HttpStatus.OK);
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : Get all Customers
+	 * ADMIN PRIVILEGE : Get all Customers
 	 * @return list of all Customers present
 	 */
 	@GetMapping(path="/admin/customers/search")
 	public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
-		return new ResponseEntity<List<CustomerDTO>> (customerService.retrieveAllCustomers(), HttpStatus.OK);
+		return new ResponseEntity<> (customerService.retrieveAllCustomers(), HttpStatus.OK);
 	}
 	
 	/**
 	 * Update Customer info
-	 * @param Customer ID to identify Customer to update
 	 * @param CustomerDTO Object
 	 * @return CustomerDTO updated object
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
-	@PutMapping("/customers/update/info/{customerID}")
-	public ResponseEntity<CustomerDTO> updateCustomerInfo(@PathVariable(value="customerID", required=true) long customerID, 
-			@RequestBody(required=true) @Valid CustomerDTO customerDTOObject) throws CustomerException {
-		return new ResponseEntity<CustomerDTO> (customerService.updateCustomerInfo(customerID, customerDTOObject),HttpStatus.OK);
+	@PutMapping("/customers/update/info/")
+	public ResponseEntity<CustomerDTO> updateCustomerInfo( @RequestBody(required=true) @Valid CustomerDTO customerDTOObject) throws CustomerException {
+		return new ResponseEntity<> (customerService.updateCustomerInfo(customerDTOObject),HttpStatus.OK);
 	}
 	
 	/**
 	 * Update the customer password
 	 * @param CustomerPasswordUpdateDTO Object containing id and passwords 
 	 * @return confirmation message 
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@PutMapping("/customers/update/credential")
 	public ResponseEntity<Object> updateCustomerPassword(@RequestBody(required = true) @Valid CustomerPasswordUpdateDTO CustomerPasswordUpdateDTOObject) 
@@ -197,13 +193,13 @@ public class CustomerController {
 	 * Delete Customer based on Customer ID
 	 * @param Customer ID
 	 * @return OK status if successful
-	 * @throws CustomerException
+	 * @throws CustomerException customerException
 	 */
 	@DeleteMapping("/customers/{customerID}")
 	public ResponseEntity<Object> deleteCustomer(@PathVariable(value="customerID", required=true) long customerID) throws CustomerException,
 		IllegalArgumentException {
 		customerService.deleteCustomer(customerID);
-		return new ResponseEntity<Object>("Customer deleted successfully", HttpStatus.OK);
+		return new ResponseEntity<>("Customer deleted successfully", HttpStatus.OK);
 	}
 
 }

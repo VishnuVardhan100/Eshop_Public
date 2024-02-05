@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * Exception with suitable message for Customer issues.
  */
 
-@SuppressWarnings("serial")
 @ResponseStatus(value=HttpStatus.OK)
 public class CustomerException extends Exception {
 
@@ -20,7 +19,7 @@ public class CustomerException extends Exception {
 
 	/**
 	 * Parameterized constructor. Used to set message shown to customer
-	 * @param message
+	 * @param message explains why exception was thrown
 	 */
 	public CustomerException(String message) {
 		super(message);
