@@ -8,7 +8,7 @@ import com.eshop.eshopinventoryservice.model.inventory.InventoryProduct;
 import com.eshop.eshopinventoryservice.model.inventory.InventoryProductDTO;
 
 /**
- * Custom Model Mapper class to map InventoryPoduct to its DTO and vice versa.
+ * Custom Model Mapper class to map InventoryProduct to its DTO and vice versa.
  */
 
 @Service

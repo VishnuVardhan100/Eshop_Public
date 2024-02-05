@@ -43,7 +43,7 @@ public class InventoryService implements InventoryServiceInterface {
 	private InventoryProductRepository  inventoryProductRepository;
 	
 	/**
-	 * ADMIN PRIVILEDGE : Create a new product in the inventory for customer to purchase
+	 * ADMIN PRIVILEGE : Create a new product in the inventory for customer to purchase
 	 * @param inventoryProductDTO object to create
 	 * @return inventoryProductDTO object which was created in inventory
 	 */
@@ -52,18 +52,17 @@ public class InventoryService implements InventoryServiceInterface {
 		InventoryProduct inventoryProductObject = inventoryModelMapper.mapInventoryProductDTOToInventoryProduct(inventoryProductDTOObject);
 		inventoryProductObject = inventoryProductAccountant.adjustNewAdditionQuantity(inventoryProductObject);
 		InventoryProduct inventoryProductReturnObject = inventoryProductRepository.save(inventoryProductObject);
-		inventoryProductObject = null;
 		return inventoryModelMapper.mapInventoryProductToInventoryProductDTO(inventoryProductReturnObject);
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : Create a list of new products in the inventory for customer to purchase
+	 * ADMIN PRIVILEGE : Create a list of new products in the inventory for customer to purchase
 	 * @param file containing list of inventoryProductDTO objects to create
 	 * @return inventoryProductDTO objects which were created in inventory
 	 */
 	public List<InventoryProductDTO> addMultipleInventoryProducts(MultipartFile file) throws IOException {
 		List<InventoryProductDTO> inventoryProductDTOs = inventoryExcelHelper.excelToInventoryProductDTOs(file.getInputStream());
-		List<InventoryProductDTO> savedInventoryProductDTOs = new ArrayList<InventoryProductDTO>();
+		List<InventoryProductDTO> savedInventoryProductDTOs = new ArrayList<>();
 
 		for(InventoryProductDTO inventoryProductDTOObject : inventoryProductDTOs) {
 			InventoryProduct inventoryProductObject = inventoryModelMapper.mapInventoryProductDTOToInventoryProduct(inventoryProductDTOObject);
@@ -72,12 +71,11 @@ public class InventoryService implements InventoryServiceInterface {
 			savedInventoryProductDTOs.add(inventoryModelMapper.mapInventoryProductToInventoryProductDTO(savedInventoryProductObject));
 		}
 
-		inventoryProductDTOs = null;
 		return savedInventoryProductDTOs;
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : Get all InventoryProducts
+	 * ADMIN PRIVILEGE : Get all InventoryProducts
 	 * @return list of inventoryProductDTO objects
 	 */
 	@Override
@@ -88,7 +86,7 @@ public class InventoryService implements InventoryServiceInterface {
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : Get all Inventory Products By name criteria
+	 * ADMIN PRIVILEGE : Get all Inventory Products By name criteria
 	 * @param inventoryProduct name
 	 * @return matching list of inventory products
 	 */
@@ -100,7 +98,7 @@ public class InventoryService implements InventoryServiceInterface {
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : Get all Inventory Products By price criteria
+	 * ADMIN PRIVILEGE : Get all Inventory Products By price criteria
 	 * @param lower price
 	 * @param upper price
 	 * @return matching list of inventory products
@@ -113,11 +111,11 @@ public class InventoryService implements InventoryServiceInterface {
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : Update the inventory product
+	 * ADMIN PRIVILEGE : Update the inventory product
 	 * @param inventoryProduct ID
 	 * @param inventoryProductDTO object
 	 * @return updated inventoryProductDTO object
-	 * @throws InventoryProductException
+	 * @throws InventoryProductException inventoryProductException
 	 */
 	@Override
 	public InventoryProductDTO updateInventoryProduct(long inventoryProductID, InventoryProductDTO inventoryProductDTOObject) 
@@ -137,16 +135,14 @@ public class InventoryService implements InventoryServiceInterface {
 		inventoryProductRetrieveObject.setInventoryProductQuantity(inventoryProductObject.getInventoryProductQuantity());
 		
 		InventoryProduct inventoryProductReturnObject = inventoryProductRepository.save(inventoryProductRetrieveObject);
-		inventoryProductObject = null;
-		inventoryProductRetrieveObject = null;
-		
+
 		return inventoryModelMapper.mapInventoryProductToInventoryProductDTO(inventoryProductReturnObject);
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : Delete a specific inventory Product
+	 * ADMIN PRIVILEGE : Delete a specific inventory Product
 	 * @param inventoryProduct ID
-	 * @throws InventoryProductException
+	 * @throws InventoryProductException inventoryProductException
 	 */
 	@Override
 	public void removeInventoryProduct(long inventoryProductID) throws InventoryProductException {
@@ -159,8 +155,8 @@ public class InventoryService implements InventoryServiceInterface {
 	/**
 	 * Perform necessary checking if product is available in inventory and adjust quantity
 	 * based on user order requirements
-	 * @param list of inventory product IDs
-	 * @param list of order products
+	 * @param InventoryProductIDList - list of inventory product IDs
+	 * @param OrderProductList - list of order products
 	 * @throws Inventory product exception
 	 */
 	@Override

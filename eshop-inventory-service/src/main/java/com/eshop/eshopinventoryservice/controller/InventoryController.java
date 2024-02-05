@@ -32,13 +32,13 @@ public class InventoryController {
 	private InventoryService inventoryService;
 	
 	/**
-	 * ADMIN PRIVILEDGE : Create a new product in the inventory for customer to purchase
+	 * ADMIN PRIVILEGE : Create a new product in the inventory for customer to purchase
 	 * @param inventoryProductDTO object to create
 	 * @return inventoryProductDTO object which was created in inventory
 	 */
 	@PostMapping("/admin/inventory/add")
 	public ResponseEntity<InventoryProductDTO> addInventoryProduct(@RequestBody(required=true) @Valid InventoryProductDTO inventoryProductDTOObject) {
-		return new ResponseEntity<InventoryProductDTO> (inventoryService.addInventoryProduct(inventoryProductDTOObject),HttpStatus.CREATED);
+		return new ResponseEntity<> (inventoryService.addInventoryProduct(inventoryProductDTOObject),HttpStatus.CREATED);
 	}
 
 	/**
@@ -50,35 +50,35 @@ public class InventoryController {
 	public ResponseEntity<List<InventoryProductDTO>> addMultipleInventoryProducts(@RequestParam(name="file", required=true) MultipartFile file)
 			throws IOException {
 		if(InventoryExcelHelper.isExcelFormat(file)) {
-			return new ResponseEntity<List<InventoryProductDTO>> (inventoryService.addMultipleInventoryProducts(file),HttpStatus.CREATED);
+			return new ResponseEntity<> (inventoryService.addMultipleInventoryProducts(file),HttpStatus.CREATED);
 		}
 		else {
-			return new ResponseEntity<List<InventoryProductDTO>> (HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<> (HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 	
 	/**
-	 * ADMIN PRIVILEDGE : Get all Inventory Products
+	 * ADMIN PRIVILEGE : Get all Inventory Products
 	 * @return list of inventoryProductDTO objects
 	 */
 	@GetMapping(value = "/admin/inventory/search")
 	public ResponseEntity<List<InventoryProductDTO>> getAllInventoryProducts()  {
-		return new ResponseEntity<List<InventoryProductDTO>> (inventoryService.getAllInventoryProducts(), HttpStatus.OK);
+		return new ResponseEntity<> (inventoryService.getAllInventoryProducts(), HttpStatus.OK);
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : Get all Inventory Products By name criteria
+	 * ADMIN PRIVILEGE : Get all Inventory Products By name criteria
 	 * @param inventoryProduct name
 	 * @return matching list of inventory products
 	 */
 	@GetMapping(value = "/admin/inventory/search", params = {"inventoryProductName"})
 	public ResponseEntity<List<InventoryProductDTO>> getAllInventoryProductsByName(
 			@RequestParam(name="inventoryProductName", required=true) String inventoryProductName){
-		return new ResponseEntity<List<InventoryProductDTO>> (inventoryService.getAllInventoryProductsByName(inventoryProductName), HttpStatus.OK);
+		return new ResponseEntity<> (inventoryService.getAllInventoryProductsByName(inventoryProductName), HttpStatus.OK);
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : Get all Inventory Products By price criteria
+	 * ADMIN PRIVILEGE : Get all Inventory Products By price criteria
 	 * @param lower price
 	 * @param upper price
 	 * @return matching list of inventory products
@@ -86,16 +86,16 @@ public class InventoryController {
 	@GetMapping(value = "/admin/inventory/search", params = {"lowerBound, upperBound"})
 	public ResponseEntity<List<InventoryProductDTO>> getAllInventoryProductsByPriceRange(
 			@RequestParam(name="lowerBound", required=true) long lowerBoundPrice, @RequestParam(name="upperBound", required=true) long upperBoundPrice) {
-		return new ResponseEntity<List<InventoryProductDTO>> (inventoryService.getAllInventoryProductsByPriceRange(lowerBoundPrice, 
+		return new ResponseEntity<> (inventoryService.getAllInventoryProductsByPriceRange(lowerBoundPrice,
 				upperBoundPrice), HttpStatus.OK);
 	}
 
 	/**
 	 * Check inventory for products ordered by customer and do needful adjustments
-	 * @param inventoryProductIDList
-	 * @param orderProductList
+	 * @param InventoryProductIDList inventoryProductIDList
+	 * @param OrderProductList orderProductList
 	 * @return OK status upon successful operation
-	 * @throws InventoryProductException
+	 * @throws InventoryProductException inventoryProductException
 	 */
 	@PostMapping(value= "/admin/inventory/update/checkandadjust")
 	public ResponseEntity<Object> performInventoryQuantityCheckAndAdjust(@RequestBody(required=true) @Valid WrapperPerformCheckAndAdjust wrapperPerformCheckAndAdjustObject)
@@ -103,33 +103,33 @@ public class InventoryController {
 		List<Long> inventoryProductIDList = wrapperPerformCheckAndAdjustObject.getInventoryProductIDList();
 		List<OrderProduct> orderProductList = wrapperPerformCheckAndAdjustObject.getOrderProductList();
 		inventoryService.performInventoryQuantityCheckAndAdjust(inventoryProductIDList, orderProductList);
-		return new ResponseEntity<Object> ("Inventory Products Quantity check and adjust performed successfully", HttpStatus.OK);
+		return new ResponseEntity<> ("Inventory Products Quantity check and adjust performed successfully", HttpStatus.OK);
 	}
 	
 	/**
-	 * ADMIN PRIVILEDGE : Update the inventory product
+	 * ADMIN PRIVILEGE : Update the inventory product
 	 * @param inventoryProduct ID
 	 * @param inventoryProductDTO object
 	 * @return updated inventoryProductDTO object
-	 * @throws InventoryProductException
+	 * @throws InventoryProductException inventoryProductException
 	 */
 	@PutMapping("/admin/inventory/update/{inventoryProductID}")	
 	public ResponseEntity<InventoryProductDTO> updateInventoryProduct(
 			@PathVariable(name="inventoryProductID", required=true) long inventoryProductID, @RequestBody @Valid InventoryProductDTO inventoryProductDTOObject) 
 			throws InventoryProductException {
-		return new ResponseEntity<InventoryProductDTO>(inventoryService.updateInventoryProduct(inventoryProductID, inventoryProductDTOObject),
+		return new ResponseEntity<>(inventoryService.updateInventoryProduct(inventoryProductID, inventoryProductDTOObject),
 				HttpStatus.OK);
 	}
 
 	/**
-	 * ADMIN PRIVILEDGE : Delete a specific inventory Product
+	 * ADMIN PRIVILEGE : Delete a specific inventory Product
 	 * @param inventoryProduct ID
-	 * @throws InventoryProductException
+	 * @throws InventoryProductException inventoryProductException
 	 */
 	@DeleteMapping("/admin/inventory/delete/{inventoryProductID}")	
 	public ResponseEntity<Object> removeInventoryProduct(@PathVariable(name="inventoryProductID", required=true) long inventoryProductID) throws InventoryProductException  {
 		inventoryService.removeInventoryProduct(inventoryProductID);
-		return new ResponseEntity<Object>("Select Inventory Products have been deleted", HttpStatus.OK);
+		return new ResponseEntity<>("Select Inventory Products have been deleted", HttpStatus.OK);
 	}
 
 }

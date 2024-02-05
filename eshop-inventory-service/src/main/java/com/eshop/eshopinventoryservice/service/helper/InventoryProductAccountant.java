@@ -44,9 +44,9 @@ public class InventoryProductAccountant {
 	
 	/**
 	 * Performs adjustment of the Inventory Product Quantity after all checks and persists info to database
-	 * @param existingQuantity
-	 * @param requestedNumberOfitems
-	 * @param inventoryRetrieveProduct
+	 * @param ExistingQuantity existingQuantity
+	 * @param RequestedNumberOfItems requestedNumberOfItems
+	 * @param InventoryRetrieveProduct inventoryRetrieveProduct
 	 */
 	private void adjustInventoryProdutQuantity(long existingQuantity, long requestedNumberOfitems,
 		InventoryProduct inventoryRetrieveProduct) {
@@ -59,7 +59,7 @@ public class InventoryProductAccountant {
 	 * Performs various checks on both lists to see if concurrent order items and Inventory product IDs match 
 	 * @param inventoryProductID List
 	 * @param orderProduct List
-	 * @throws InventoryProductException
+	 * @throws InventoryProductException inventoryProductException
 	 */
 	public void performInventoryQuantityCheckAndAdjust(List<Long> inventoryProductIDList, List<OrderProduct> orderProductList)
 		throws InventoryProductException {
@@ -113,7 +113,7 @@ public class InventoryProductAccountant {
 	
 	/**
 	 * Check if quantity needs to be adjusted when inventory product is to be added
-	 * @param inventoryProductObjectToAdd
+	 * @param InventoryProductObjectToAdd inventoryProductObjectToAdd
 	 * @return inventory product object to be added with updated quantity
 	 */
 	public InventoryProduct adjustNewAdditionQuantity(InventoryProduct inventoryProductObjectToAdd) {

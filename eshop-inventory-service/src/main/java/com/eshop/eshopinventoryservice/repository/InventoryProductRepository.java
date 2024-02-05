@@ -18,28 +18,28 @@ public interface InventoryProductRepository extends JpaRepository<InventoryProdu
 
 	/**
 	 * Get all Products in inventory by name criteria
-	 * @param inventoryProductName
+	 * @param InventoryProductName inventoryProductName
 	 * @return matching list of inventory products
 	 */
 	@Query(value="Select * from Inventory_Product inv_Pro where inv_Pro.Inventory_Product_Name like :inventoryProductName", nativeQuery=true)
-	public List<InventoryProduct> getAllInventoryProductsByName(@Param("inventoryProductName") String inventoryProductName);
+	List<InventoryProduct> getAllInventoryProductsByName(@Param("inventoryProductName") String inventoryProductName);
 	
 	/**
 	 * Get all Products in inventory by price criteria specified in range
-	 * @param lowerBoundPrice
-	 * @param upperBoundPrice
+	 * @param LowerBoundPrice lowerBoundPrice
+	 * @param UpperBoundPrice upperBoundPrice
 	 * @return matching list of inventory products
 	 */
 	@Query(value="Select * from Inventory_Product inv_Pro where inv_Pro.Inventory_Product_Price "
 			+ "between :lowerBoundPrice and :upperBoundPrice", nativeQuery=true)
-	public List<InventoryProduct> getAllInventoryProductsByPriceRange(@Param("lowerBoundPrice") long lowerBoundPrice,
+	List<InventoryProduct> getAllInventoryProductsByPriceRange(@Param("lowerBoundPrice") long lowerBoundPrice,
 			@Param("upperBoundPrice") long upperBoundPrice);
 	
 	
 	/**
-	 * @param inventoryProductName
+	 * @param InventoryProductName inventoryProductName
 	 * @return inventory product with matching inventory product name
 	 */
-	public InventoryProduct findByInventoryProductName(String inventoryProductName);
+	InventoryProduct findByInventoryProductName(String inventoryProductName);
 	
 }
