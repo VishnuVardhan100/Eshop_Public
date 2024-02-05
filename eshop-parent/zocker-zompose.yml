@@ -1,0 +1,226 @@
+version: "3.8"
+
+services:
+        zookeeper:
+          image: confluentinc/cp-zookeper:7.0.1
+          container_name: zookeeper
+          environment:
+             ZOOKEPER_CLIENT_PORT: 2181
+             ZOOKEEPER_TICK_TIME: 300000
+        
+        broker:
+          image: confluentinc/cp-kafka:7.0.1
+          container_name: broker
+          ports:
+              - "9092:9092"
+          depends_on:
+            - zookeeper
+          environment:
+            KAFKA_BROKER_ID: 1
+            KAFKA_ZOOKEEPER_CONNECT:
+            KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+            KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL:broker//29092
+            KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+            KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+            KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+        eshop-service-registry:
+                build: ../eshop-service-registry/
+                image: eshop-service-registry
+                container_name: eshop-service-registry
+                environment:
+                            SPRING_SERVER_PORT: $SPRING_SERVER_PORT
+                            SPRING_SERVER_NAME: $SPRING_SERVER_NAME
+                ports:
+                        - "8761:8761"
+                networks:
+                        micro_network:
+                                ipv4_address: 172.19.0.2
+#                deploy:
+#                        resources:
+#                                limits:
+#                                        cpus: '0.50'
+#                                        memory: 512M
+        
+
+        eshop-user-service:
+                build: ../eshop-user-service/
+                image: eshop-user-service
+                container_name: eshop-user-service
+                environment:
+                            SPRING_SERVER_PORT: $SPRING_SERVER_PORT
+                            SPRING_SERVER_NAME: $SPRING_SERVER_NAME
+                            SPRING_USERSER_PORT: $SPRING_USERSER_PORT
+                            SPRING_USERSER_NAME: $SPRING_USERSER_NAME
+                            SPRING_DATASOURCE_PASSWORD: $SPRING_DATASOURCE_PASSWORD
+                            SPRING_DATASOURCE_HOST: $SPRING_DATASOURCE_HOST
+                            SPRING_DATASOURCE_PORT: $SPRING_DATASOURCE_PORT
+                            SPRING_DATASOURCE_DBNAME: $SPRING_DATASOURCE_DBNAME
+                            SPRING_DATASOURCE_USERNAME: $SPRING_DATASOURCE_USERNAME
+                ports:
+                        - "8081:8081"
+                extra_hosts:
+#                        - "mysqldb:192.168.0.33"
+                         - "host.docker.internal"
+                links:
+                        - eshop-service-registry
+                        - eshop-standard-gateway
+                # depends_on:
+                #         - eureka
+                volumes:
+                        - /opt/docker/log:/app/log
+                networks:
+                        micro_network:
+                                ipv4_address: 172.19.0.3
+#                deploy:
+#                        resources:
+#                                limits:
+#                                        cpus: '0.50'
+#                                        memory: 1G
+
+
+        eshop-inventory-service:
+                build: ../eshop-inventory-service/
+                image: eshop-inventory-service
+                container_name: eshop-inventory-service
+                environment:
+                            SPRING_SERVER_PORT: $SPRING_SERVER_PORT
+                            SPRING_SERVER_NAME: $SPRING_SERVER_NAME
+                            SPRING_INVSER_PORT: $SPRING_INVSER_PORT
+                            SPRING_INVSER_NAME: $SPRING_INVSER_NAME
+                            SPRING_DATASOURCE_PASSWORD: $SPRING_DATASOURCE_PASSWORD
+                            SPRING_DATASOURCE_HOST: $SPRING_DATASOURCE_HOST
+                            SPRING_DATASOURCE_PORT: $SPRING_DATASOURCE_PORT
+                            SPRING_DATASOURCE_DBNAME: $SPRING_DATASOURCE_DBNAME
+                            SPRING_DATASOURCE_USERNAME: $SPRING_DATASOURCE_USERNAME
+                ports:
+                        - "8082:8082"
+                extra_hosts:
+#                        - "itemdb:192.168.0.33"
+                         - "host.docker.internal"
+                links:
+                        - eshop-service-registry
+                        - eshop-standard-gateway
+                volumes:
+                        - /opt/docker/log:/app/log
+                networks:
+                        micro_network:
+                                ipv4_address: 172.19.0.4
+ #               deploy:
+ #                       resources:
+ #                               limits:
+ #                                       cpus: '0.50'
+ #                                       memory: 512M
+        
+
+        eshop-order-service:
+                build: ../eshop-order-service/
+                image: eshop-order-service
+                container_name: eshop-order-service
+                environment:
+                            SPRING_SERVER_PORT: $SPRING_SERVER_PORT
+                            SPRING_SERVER_NAME: $SPRING_SERVER_NAME
+                            SPRING_ORDSER_PORT: $SPRING_ORDSER_PORT
+                            SPRING_ORDSER_NAME: $SPRING_ORDSER_NAME
+                            SPRING_DATASOURCE_PASSWORD: $SPRING_DATASOURCE_PASSWORD
+                            SPRING_DATASOURCE_HOST: $SPRING_DATASOURCE_HOST
+                            SPRING_DATASOURCE_PORT: $SPRING_DATASOURCE_PORT
+                            SPRING_DATASOURCE_DBNAME: $SPRING_DATASOURCE_DBNAME
+                            SPRING_DATASOURCE_USERNAME: $SPRING_DATASOURCE_USERNAME
+                ports:
+                        - "8083:8083"
+                extra_hosts:
+#                        - "salesdb:192.168.0.33"
+                         - "host.docker.internal"
+                links:
+                        - eshop-service-registry
+                        - eshop-user-service
+                        - eshop-inventory-service
+                        - eshop-standard-gateway
+                volumes:
+                        - /opt/docker/log:/app/log
+                networks:
+                        micro_network:
+                                ipv4_address: 172.19.0.5
+#                deploy:
+#                        resources:
+#                                limits:
+#                                        cpus: '0.50'
+#                                        memory: 512M
+
+        eshop-communications-service:
+                build: ./eshop-communications-service/
+                image: eshop-communications-service
+                container_name: eshop-communications-service
+                environment:
+                            SPRING_SERVER_PORT: $SPRING_SERVER_PORT
+                            SPRING_SERVER_NAME: $SPRING_SERVER_NAME
+                            SPRING_COMSER_PORT: $SPRING_COMSER_PORT
+                            SPRING_COMSER_NAME=: $SPRING_COMSER_NAME
+                            SPRING_DATASOURCE_PASSWORD: $SPRING_DATASOURCE_PASSWORD
+                            SPRING_DATASOURCE_HOST: $SPRING_DATASOURCE_HOST
+                            SPRING_DATASOURCE_PORT: $SPRING_DATASOURCE_PORT
+                            SPRING_DATASOURCE_DBNAME: $SPRING_DATASOURCE_DBNAME
+                            SPRING_DATASOURCE_USERNAME: $SPRING_DATASOURCE_USERNAME
+                            SEND_MAIL_FROM: $SEND_MAIL_FROM
+                            SEND_MAIL_PASSWORD: $SEND_MAIL_PASSWORD
+                ports:
+                        - "8084:8084"
+#               extra_hosts:
+#                        - "salesdb:192.168.0.33"
+#                         - "host.docker.internal"
+                links:
+                         - eshop-service-registry
+                         - eshop-user-service
+                         - eshop-order-service
+                         - eshop-standard-gateway
+                volumes:
+                        - /opt/docker/log:/app/log
+                networks:
+                        micro_network:
+                                ipv4_address: 172.19.0.5
+#                deploy:
+#                        resources:
+#                                limits:
+#                                        cpus: '0.50'
+#                                        memory: 512M
+
+        eshop-standard-gateway:
+                build: ../eshop-standard-gateway/
+                image: eshop-standard-gateway
+                container_name: eshop-standard-gateway
+                environment:
+                            SPRING_SERVER_PORT: $SPRING_SERVER_PORT
+                            SPRING_SERVER_NAME: $SPRING_SERVER_NAME
+                            SPRING_GATEWAY_PORT: $SPRING_GATEWAY_PORT
+                            SPRING_GATEWAY_NAME: $SPRING_GATEWAY_NAME
+                            SPRING_DATASOURCE_PASSWORD: $SPRING_DATASOURCE_PASSWORD
+                            SPRING_DATASOURCE_HOST: $SPRING_DATASOURCE_HOST
+                            SPRING_DATASOURCE_PORT: $SPRING_DATASOURCE_PORT
+                            SPRING_DATASOURCE_DBNAME: $SPRING_DATASOURCE_DBNAME
+                            SPRING_DATASOURCE_USERNAME: $SPRING_DATASOURCE_USERNAME
+                            JWT_COOKIE_NAME: $JWT_COOKIE_NAME
+                            JWT_EXPIRATION_TIME: $JWT_EXPIRATION_TIME
+                            JWT_SECRET_KEY: $JWT_SECRET_KEY
+                links:
+                        - eshop-service-registry
+                ports:
+                        - "8765:8765"
+                networks:
+                        micro_network:
+                                ipv4_address: 172.19.0.6
+ #               deploy:
+ #                       resources:
+ #                               limits:
+ #                                       cpus: '0.50'
+ #                                       memory: 512M
+
+        
+networks:
+        micro_network:
+                driver: bridge  
+                ipam:
+                        driver: default
+                        config:
+                                - subnet: "172.19.0.0/16"
+    

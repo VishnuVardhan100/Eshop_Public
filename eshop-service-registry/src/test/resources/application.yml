@@ -1,0 +1,24 @@
+server:
+    port: ${SPRING_SERVER_PORT}
+
+spring:
+    application:
+        name: ${SPRING_SERVER_NAME}
+    banner:
+        location: classpath:eshopServerBanner.txt
+    messages:
+        basename: messages
+
+eureka:
+    client:
+        fetch-registry: false
+        register-with-eureka: false
+#        healthcheck:
+#                    enabled: true
+
+logging:
+    level:
+        org:
+            springframework: INFO
+            springframework.security: TRACE
+        eshop-service-registry: INFO
