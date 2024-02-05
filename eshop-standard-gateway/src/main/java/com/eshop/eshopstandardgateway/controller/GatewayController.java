@@ -31,15 +31,15 @@ public class GatewayController {
 	
 	/**
 	 * Sign in end point for customers
-	 * @param customerSignInAuthenticationRequest object containing user name and password
+	 * @param customerSignInAuthenticationRequest object containing username and password
 	 * @return JSON Web Token if successful
-	 * @throws Exception
+	 * @throws Exception exception
 	 */
 	@PostMapping("/signin/customers")
 	public Mono<ResponseEntity<?>> customerSignInAuthenticate(@RequestBody(required=true) @Valid CustomerSignInAuthenticationRequest customerSignInAuthenticationRequest)
 		throws Exception {
 
-		String jwt = null;
+		String jwt;
 		CustomerLoginDetails customerLoginDetails = (CustomerLoginDetails) customerLoginService.loadUserByUsername(customerSignInAuthenticationRequest.getUsername());
 		String existingPassword = customerLoginDetails.getPassword();
 		

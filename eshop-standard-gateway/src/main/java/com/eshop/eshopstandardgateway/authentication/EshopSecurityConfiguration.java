@@ -24,8 +24,8 @@ public class EshopSecurityConfiguration {
 
     /**
      * Parameterized Constructor
-     * @param eshopReactiveAuthenticationManager
-     * @param eshopServerSecurityContextRepository
+     * @param EshopReactiveAuthenticationManager eshopReactiveAuthenticationManager
+     * @param EshopServerSecurityContextRepository eshopServerSecurityContextRepository
      */
     public EshopSecurityConfiguration(EshopReactiveAuthenticationManager eshopReactiveAuthenticationManager, 
     		EshopServerSecurityContextRepository eshopServerSecurityContextRepository) {
@@ -44,9 +44,9 @@ public class EshopSecurityConfiguration {
 
 	/**
 	 * HTTP Authorization for endpoints based on different roles
-	 * @param ServerHttpSecurity
+	 * @param ServerHttpSecurity serverHttpSecurity
 	 * @return Security web filter chain
-	 * @throws Exception
+	 * @throws Exception exception
 	 */
 	@Bean
 	public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity serverHttpSecurity) throws Exception {

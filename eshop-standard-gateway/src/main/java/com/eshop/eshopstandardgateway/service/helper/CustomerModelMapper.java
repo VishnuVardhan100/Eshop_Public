@@ -1,6 +1,10 @@
 package com.eshop.eshopstandardgateway.service.helper;
 
-import com.eshop.eshopstandardgateway.model.customer.*;
+import com.eshop.eshopstandardgateway.model.customer.Customer;
+import com.eshop.eshopstandardgateway.model.customer.CustomerAddress;
+import com.eshop.eshopstandardgateway.model.customer.CustomerAddressDTO;
+import com.eshop.eshopstandardgateway.model.customer.CustomerDTO;
+import com.eshop.eshopstandardgateway.model.customer.CustomerSignUpDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,8 +65,8 @@ public class CustomerModelMapper {
 	}
 	
 	/**
-	 * To map CustomerAddressDTO object to a CustomerAddress Object
-	 * @param CustomerAddressDTO Object
+	 * To map Customer Address DTO object to a Customer Address Object
+	 * @param CustomerAddressDTO customerAddressDTOObject
 	 * @return CustomerAddress Object
 	 */
 	public CustomerAddress mapCustomerAddressDTOToCustomerAddress(CustomerAddressDTO customerAddressDTOObject) {

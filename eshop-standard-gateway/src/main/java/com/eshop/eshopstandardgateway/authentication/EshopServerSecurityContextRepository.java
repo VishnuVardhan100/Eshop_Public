@@ -22,7 +22,7 @@ public class EshopServerSecurityContextRepository implements ServerSecurityConte
 
 	/**
 	 * Parameterized Constructor
-	 * @param eshopReactiveAuthenticationManager
+	 * @param EshopReactiveAuthenticationManager eshopReactiveAuthenticationManager
 	 */
 	public EshopServerSecurityContextRepository(EshopReactiveAuthenticationManager eshopReactiveAuthenticationManager) {
 		this.eshopReactiveAuthenticationManager = eshopReactiveAuthenticationManager;

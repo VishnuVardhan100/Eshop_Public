@@ -14,12 +14,11 @@ public class CustomerService {
 	
 	/**
 	 * To get Customer object from repo
-	 * @param customerEmail
+	 * @param CustomerEmail customerEmail
 	 * @return customer class object
 	 */
 	public Customer loadCustomerObjectByEmail(String customerEmail) {
-		Customer customerRetrieveObject  = customerRepository.loadCustomerByEmail(customerEmail);
-		return customerRetrieveObject;
+        return customerRepository.loadCustomerByEmail(customerEmail);
 	}
 
 }

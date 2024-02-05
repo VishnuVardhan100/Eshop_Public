@@ -23,7 +23,7 @@ public class EshopReactiveAuthenticationManager implements ReactiveAuthenticatio
 
 	/**
 	 * Parameterized constructor
-	 * @param jwtUtil
+	 * @param JwtUtil jwtUtil
 	 */
 	public EshopReactiveAuthenticationManager(JwtUtil jwtUtil) {
 		this.jwtUtil = jwtUtil;

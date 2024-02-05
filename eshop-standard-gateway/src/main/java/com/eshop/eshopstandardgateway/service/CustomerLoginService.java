@@ -25,9 +25,8 @@ public class CustomerLoginService implements UserDetailsService {
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		Customer customerObject = null;
 
-		customerObject = customerService.loadCustomerObjectByEmail(email);
+		Customer customerObject = customerService.loadCustomerObjectByEmail(email);
 		
 		if(customerObject == null) {
 			throw new UsernameNotFoundException(email);
