@@ -319,7 +319,7 @@ class EshopUserServiceApplicationTests {
 	@Test
 	@Order(8)
 	public void testUpdateCustomerInfo() throws Exception {
-		String url = "/customers/update/info/{customerID}";
+		String url = "/customers/update/info/";
 
 		CustomerDTO customerDTOUpdateObj1 = customerDTOObj1;
 		customerDTOUpdateObj1.setCustomerMobileNumber("9000080001");

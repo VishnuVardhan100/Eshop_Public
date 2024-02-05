@@ -1,6 +1,6 @@
 package com.eshop.eshopstandardgateway.model.customer;
 
-import com.eshop.eshopuserservice.model.logistics.Order;
+import com.eshop.eshopstandardgateway.model.logistics.Order;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.*;

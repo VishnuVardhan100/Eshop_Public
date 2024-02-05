@@ -1,6 +1,6 @@
 package com.eshop.eshopstandardgateway.service.helper;
 
-import com.eshop.eshopuserservice.model.customer.CustomerSubscription;
+import com.eshop.eshopstandardgateway.model.customer.CustomerSubscription;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

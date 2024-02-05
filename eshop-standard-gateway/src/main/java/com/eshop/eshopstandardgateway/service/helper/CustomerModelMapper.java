@@ -1,6 +1,6 @@
 package com.eshop.eshopstandardgateway.service.helper;
 
-import com.eshop.eshopuserservice.model.customer.*;
+import com.eshop.eshopstandardgateway.model.customer.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
