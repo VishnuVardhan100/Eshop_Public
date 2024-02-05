@@ -1,5 +1,6 @@
 package com.eshop.eshoporderservice.model.logistics;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class Order implements Serializable {
 	/**
 	 * Default Version
 	 */
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -60,7 +62,7 @@ public class Order implements Serializable {
 	boolean orderDeliveryStatus;
 	
 	@OneToMany(mappedBy="order",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
-	private List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
+	private List<OrderProduct> orderProductList = new ArrayList<>();
 
 	@NotNull(message="Order cannot be placed without respective customer")
 	@ManyToOne
@@ -78,13 +80,13 @@ public class Order implements Serializable {
 
 	/**
 	 * Parameterized Constructor
-	 * @param orderID
-	 * @param orderPlacedDate
-	 * @param orderDeliveryDate
-	 * @param orderDeliveryStatus
-	 * @param orderProductList
-	 * @param orderTotalAmount
-	 * @param customer
+	 * @param OrderID orderID
+	 * @param OrderPlacedDate orderPlacedDate
+	 * @param OrderDeliveryDate orderDeliveryDate
+	 * @param OrderDeliveryStatus orderDeliveryStatus
+	 * @param OrderProductList orderProductList
+	 * @param OrderTotalAmount orderTotalAmount
+	 * @param Customer customer
 	 */
 	public Order(long orderID, 
 			@NotNull(message = "Order Date is mandatory") Date orderPlacedDate,
@@ -112,7 +114,7 @@ public class Order implements Serializable {
 
 	/**
 	 * set order id
-	 * @param id
+	 * @param ID id
 	 */
 	public void setOrderID(long orderID) {
 		this.orderID = orderID;
@@ -127,7 +129,7 @@ public class Order implements Serializable {
 
 	/**
 	 * set order placed date
-	 * @param orderPlacedDate
+	 * @param OrderPlacedDate orderPlacedDate
 	 */
 	public void setOrderPlacedDate(Date orderPlacedDate) {
 		this.orderPlacedDate = orderPlacedDate;
@@ -142,7 +144,7 @@ public class Order implements Serializable {
 
 	/**
 	 * set order delivery date
-	 * @param orderDeliveryDate
+	 * @param OrderDeliveryDate orderDeliveryDate
 	 */
 	public void setOrderDeliveryDate(Date orderDeliveryDate) {
 		this.orderDeliveryDate = orderDeliveryDate;
@@ -157,7 +159,7 @@ public class Order implements Serializable {
 
 	/**
 	 * Set Order Total Amount
-	 * @param orderTotalAmount
+	 * @param OrderTotalAmount orderTotalAmount
 	 */
 	public void setOrderTotalAmount(long orderTotalAmount) {
 		this.orderTotalAmount = orderTotalAmount;
@@ -187,7 +189,7 @@ public class Order implements Serializable {
 
 	/**
 	 * set list of products in the order
-	 * @param productsList
+	 * @param ProductsList productsList
 	 */
 	public void setProductsList(List<OrderProduct> orderProductList) {
 		this.orderProductList = orderProductList;
@@ -202,7 +204,7 @@ public class Order implements Serializable {
 
 	/**
 	 * set respective customer for the order
-	 * @param customer
+	 * @param Customer customer
 	 */
 	public void setCustomer(Customer customer) {
 		this.customer = customer;

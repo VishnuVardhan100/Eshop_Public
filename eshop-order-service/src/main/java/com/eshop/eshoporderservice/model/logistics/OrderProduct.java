@@ -1,5 +1,6 @@
 package com.eshop.eshoporderservice.model.logistics;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import org.springframework.validation.annotation.Validated;
@@ -35,6 +36,7 @@ public class OrderProduct implements Serializable{
 	/**
 	 * Default Version
 	 */
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -75,12 +77,12 @@ public class OrderProduct implements Serializable{
 
 	/**
 	 * Parameterized Constructor
-	 * @param orderProductID
-	 * @param orderProductName
-	 * @param orderProductQuantity
-	 * @param orderProductUnitCost,
-	 * @param orderProductTotalCost
-	 * @param order
+	 * @param OrderProductID orderProductID
+	 * @param OrderProductName orderProductName
+	 * @param OrderProductQuantity orderProductQuantity
+	 * @param OrderProductUnitCost orderProductUnitCost,
+	 * @param OrderProductTotalCost orderProductTotalCost
+	 * @param Order order
 	 */
 	public OrderProduct(long orderProductID,
 			@NotBlank(message = "Order Product Name cannot be empty or blank") String orderProductName,
@@ -106,7 +108,7 @@ public class OrderProduct implements Serializable{
 
 	/**
 	 * set Order Product ID
-	 * @param orderProductID
+	 * @param OrderProductID orderProductID
 	 */
 	public void setOrderProductID(long orderProductID) {
 		this.orderProductID = orderProductID;
@@ -122,7 +124,7 @@ public class OrderProduct implements Serializable{
 
 	/**
 	 * set Order Product Name
-	 * @param orderProductName
+	 * @param OrderProductName orderProductName
 	 */
 	public void setOrderProductName(String orderProductName) {
 		this.orderProductName = orderProductName;
@@ -138,35 +140,35 @@ public class OrderProduct implements Serializable{
 
 	/**
 	 * set Order Product Quantity
-	 * @param orderProductQuantity
+	 * @param OrderProductQuantity orderProductQuantity
 	 */
 	public void setOrderProductQuantity(long orderProductQuantity) {
 		this.orderProductQuantity = orderProductQuantity;
 	}
 	
 	/**
-	 * @return
+	 * @return OrderProductUnitCost orderProductUnitCost
 	 */
 	public long getOrderProductUnitCost() {
 		return orderProductUnitCost;
 	}
 
 	/**
-	 * @param orderProductUnitCost
+	 * @param OrderProductUnitCost orderProductUnitCost
 	 */
 	public void setOrderProductUnitCost(long orderProductUnitCost) {
 		this.orderProductUnitCost = orderProductUnitCost;
 	}
 
 	/**
-	 * @return
+	 * @return OrderProductTotalCost orderProductTotalCost
 	 */
 	public long getOrderProductTotalCost() {
 		return orderProductTotalCost;
 	}
 
 	/**
-	 * @param orderProductTotalCost
+	 * @param OrderProductTotalCost orderProductTotalCost
 	 */
 	public void setOrderProductTotalCost(long orderProductTotalCost) {
 		this.orderProductTotalCost = orderProductTotalCost;
@@ -181,7 +183,7 @@ public class OrderProduct implements Serializable{
 
 	/**
 	 * set respective order
-	 * @param order
+	 * @param Order order
 	 */
 	public void setOrder(Order order) {
 		this.order = order;
