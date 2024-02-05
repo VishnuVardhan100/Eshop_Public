@@ -53,8 +53,8 @@ public class CustomerMailService extends EshopMailService {
 	 * Prepare the customer mail's basic parts like session and body with relevant text
 	 * @param Customer Object - for whom mail is being sent
 	 * @param typeOfCustomerMail - mail for customer creation / password reset /deleted
-	 * @throws AddressException
-	 * @throws MessagingException
+	 * @throws AddressException addressException
+	 * @throws MessagingException messagingException
 	 */
 	protected void prepareCustomerMail(Customer customerObject, int typeOfCustomermail) throws AddressException, MessagingException  {
 		session = createSession(properties, from , password);
@@ -80,7 +80,7 @@ public class CustomerMailService extends EshopMailService {
 	
 	/**
 	 * Send the mail
-	 * @throws MessagingException
+	 * @throws MessagingException messagingException
 	 */
 	protected void sendMail() throws MessagingException {
 		mimeMessage.setContent(mimeMultipart);
@@ -90,8 +90,8 @@ public class CustomerMailService extends EshopMailService {
 	/**
 	 * Start the customer created mail sending process
 	 * @param customerObject - for whom mail is being sent
-	 * @throws AddressException
-	 * @throws MessagingException
+	 * @throws AddressException addressException
+	 * @throws MessagingException messagingException
 	 */
 	public void sendCustomerCreatedMail(Customer customerObject) throws AddressException, MessagingException  {
 		prepareCustomerMail(customerObject, customerCreated);
@@ -104,8 +104,8 @@ public class CustomerMailService extends EshopMailService {
 	/**
 	 * Start the customer password reset confirmation mail sending process
 	 * @param customerObject - for whom mail is being sent
-	 * @throws AddressException
-	 * @throws MessagingException
+	 * @throws AddressException addressException
+	 * @throws MessagingException messagingException
 	 */
 	public void sendCustomerPasswordResetMail(Customer customerObject) throws AddressException, MessagingException  {
 		prepareCustomerMail(customerObject, customerPasswordReset);
@@ -118,8 +118,8 @@ public class CustomerMailService extends EshopMailService {
 	/**
 	 * Start the customer deleted mail sending process
 	 * @param customerObject - for whom mail is being sent
-	 * @throws AddressException
-	 * @throws MessagingException
+	 * @throws AddressException addressException
+	 * @throws MessagingException messagingException
 	 */
 	public void sendCustomerDeletedMail(Customer customerObject) throws AddressException, MessagingException  {
 		prepareCustomerMail(customerObject, customerDeleted);

@@ -12,5 +12,5 @@ import com.eshop.eshopcommunicationsservice.model.customer.Customer;
 public interface CustomerInterface {
 
 	@GetMapping(path= "/customers/searchbyid" , params= {"customerID"})
-	public ResponseEntity<Customer> getCustomerObjectByID(@RequestParam(name="customerID", required=true) long customerID) throws CustomerException;
+	ResponseEntity<Customer> getCustomerObjectByID(@RequestParam(name="customerID", required=true) long customerID) throws CustomerException;
 }

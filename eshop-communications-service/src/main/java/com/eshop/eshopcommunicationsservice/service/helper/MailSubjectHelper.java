@@ -27,14 +27,14 @@ public class MailSubjectHelper {
 	 * @return mail subject
 	 */
 	public String setCustomerDeletedMailSubject() {
-		mailSubject = "Customer account deleted succesfully";
+		mailSubject = "Customer account deleted successfully";
 		return mailSubject;
 	}
 	
 	/**
 	 * Set subject for order mail 
-	 * @param order ID - respective order
-	 * @param order Date - date when order was placed
+	 * @param OrderID - respective order
+	 * @param OrderDate - date when order was placed
 	 * @return mail subject
 	 */
 	public String setOrderMailSubject(long orderID, Date orderDate) {

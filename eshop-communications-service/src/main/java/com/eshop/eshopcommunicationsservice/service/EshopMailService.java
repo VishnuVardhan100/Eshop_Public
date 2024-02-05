@@ -26,18 +26,17 @@ public class EshopMailService {
 	/**
 	 * Create a message body part for mail
 	 * @return bodyPart object
-	 * @throws MessagingException
+	 * @throws MessagingException messagingException
 	 */
 	protected BodyPart createMessageBodyPart() throws MessagingException {
-		BodyPart bodyPart = new MimeBodyPart();
-		return bodyPart;
+        return new MimeBodyPart();
 	}
 	
 	/**
 	 * Create a message body part containing relevant files to be sent as attachment
 	 * @param fileFullPathname - file's full path
 	 * @return bodyPart object with attachment
-	 * @throws MessagingException
+	 * @throws MessagingException messagingException
 	 */
 	protected BodyPart createMessageBodyPartWithAttachment(String fileFullPathname) throws MessagingException {
 		BodyPart bodyPartWithAttachment = new MimeBodyPart();
@@ -52,10 +51,10 @@ public class EshopMailService {
 	 * Create the MIME message
 	 * @param session - for session for which to set mime message to
 	 * @param from - EShop sender mail ID
-	 * @param recepientToMail - recipient mail ID
+	 * @param recipientToMail - recipient mail ID
 	 * @param subject - subject for mail
-	 * @throws AddressException
-	 * @throws MessagingException
+	 * @throws AddressException addressException
+	 * @throws MessagingException messagingException
 	 */
 	protected MimeMessage createMIMEMessage(Session session, String from, String recipientToMail, String subject) throws AddressException, MessagingException{
 		MimeMessage mimeMessage = new MimeMessage(session);
@@ -69,10 +68,10 @@ public class EshopMailService {
 	 * Create the MIME message for many recipients
 	 * @param session - for session for which to set mime message to
 	 * @param from - EShop sender mail ID
-	 * @param recepientMailList - list of recipient mail ID
+	 * @param recipientMailList - list of recipient mail ID
 	 * @param subject - subject for mail
-	 * @throws AddressException
-	 * @throws MessagingException
+	 * @throws AddressException addressException
+	 * @throws MessagingException messagingException
 	 */
 	protected MimeMessage createMIMEMessageMultiRecipient(Session session, String from, String[] recipientMailList, String subject) throws AddressException, MessagingException{
 		MimeMessage mimeMessage = new MimeMessage(session);
@@ -89,8 +88,7 @@ public class EshopMailService {
 	 * @return MimeMultipart object 
 	 */
 	protected MimeMultipart createMultipart() {
-		MimeMultipart mimeMultipart = new MimeMultipart();
-		return mimeMultipart;
+        return new MimeMultipart();
 	}	
 
 	/**

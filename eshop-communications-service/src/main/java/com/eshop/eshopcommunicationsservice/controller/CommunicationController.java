@@ -33,9 +33,9 @@ public class CommunicationController {
 	 * Send a mail to customer about an order. Can be after placing order or separately too.
 	 * @param wrapperCommunication Object having customerID and OrderID
 	 * @return OK status, if successful
-	 * @throws CustomerException
-	 * @throws AddressException
-	 * @throws MessagingException
+	 * @throws CustomerException customerException
+	 * @throws AddressException addressException
+	 * @throws MessagingException messagingException
 	 */
 	@GetMapping(value="/communications/customers/sendOrderMail")
 	public ResponseEntity<Object> sendOrderSummaryViaMail(@RequestBody(required=true) @Valid WrapperCommunication wrapperCommunicationObject)
@@ -47,7 +47,7 @@ public class CommunicationController {
 		communicationsService.sendOrderSummaryViaMail(customerID, orderID);
 		logger.trace("Mail sent to {0} for the order with ID {1} ", new Object[] {customerID, orderID} );
 
-		return new ResponseEntity<Object>("Customer's Order Summary sent via Mail", HttpStatus.OK);
+		return new ResponseEntity<>("Customer's Order Summary sent via Mail", HttpStatus.OK);
 	}
 
 }

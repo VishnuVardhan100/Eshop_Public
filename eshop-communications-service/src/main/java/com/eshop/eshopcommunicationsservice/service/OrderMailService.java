@@ -51,8 +51,8 @@ public class OrderMailService extends EshopMailService {
 	 * Prepare the order mail's basic parts like session and body with relevant text
 	 * @param Customer Object - for whom mail is being sent
 	 * @param order Object - the intended order
-	 * @throws AddressException 
-	 * @throws MessagingException
+	 * @throws AddressException addressException
+	 * @throws MessagingException messagingException
 	 */
 	protected void prepareOrderMail(Customer customerObject, Order orderObject) throws AddressException, MessagingException  {
 		session = createSession(properties, from , password);
@@ -64,7 +64,7 @@ public class OrderMailService extends EshopMailService {
 
 	/**
 	 * Send the mail
-	 * @throws MessagingException
+	 * @throws MessagingException messagingException
 	 */
 	protected void sendMail() throws MessagingException {
 		mimeMessage.setContent(mimeMultipart);
@@ -75,8 +75,8 @@ public class OrderMailService extends EshopMailService {
 	 * Start the order mail sending process
 	 * @param customerObject - for whom mail is being sent
 	 * @param orderObject - the intended order
-	 * @throws AddressException
-	 * @throws MessagingException
+	 * @throws AddressException addressException
+	 * @throws MessagingException messagingException
 	 */
 	public void sendOrderSummaryViaMail(Customer customerObject, Order orderObject) throws AddressException, MessagingException  {
 		prepareOrderMail(customerObject, orderObject);
@@ -90,9 +90,9 @@ public class OrderMailService extends EshopMailService {
 	 * Start the order mail sending process with an attachment
 	 * @param customerObject - for whom mail is being sent
 	 * @param orderObject - the intended order
-	 * @param fileFullPathname
-	 * @throws AddressException
-	 * @throws MessagingException
+	 * @param fileFullPathname - full file name
+	 * @throws AddressException addressException
+	 * @throws MessagingException messagingException
 	 */
 	public void sendOrderSummaryViaMailWithAttachement(Customer customerObject, Order orderObject, String fileFullPathname) throws AddressException, MessagingException  {
 		prepareOrderMail(customerObject, orderObject);

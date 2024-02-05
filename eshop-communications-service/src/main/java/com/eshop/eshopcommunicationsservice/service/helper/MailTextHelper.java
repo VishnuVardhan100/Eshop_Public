@@ -17,12 +17,12 @@ public class MailTextHelper {
 	private String text = null;
 	
 	/**
-	 * @param customerID
-	 * @param firstName
-	 * @param lastName
-	 * @param email
-	 * @param mobileNumber
-	 * @return
+	 * @param CustomerID customerID
+	 * @param FirstName firstName
+	 * @param LastName lastName
+	 * @param Email email
+	 * @param MobileNumber mobileNumber
+	 * @return text as string
 	 */
 	public String setCustomerCreationMailText(long customerID, String firstName, String lastName, String email, String mobileNumber, String subscription) {
 		text = "Customer Account has been created successfully with below information" + "\n\n\n";
@@ -37,9 +37,9 @@ public class MailTextHelper {
 	
 	/**
 	 * Set text message part for order mail
-	 * @param customerID
-	 * @param firstName
-	 * @param lastName
+	 * @param CustomerID customerID
+	 * @param FirstName firstName
+	 * @param LastName lastName
 	 * @return mail text
 	 */
 	public String setCustomerDeletedMailText(long customerID, String firstName, String lastName) {
@@ -73,9 +73,9 @@ public class MailTextHelper {
 
 	/**
 	 * Set text message part for order mail
-	 * @param customerID
-	 * @param firstName
-	 * @param lastName
+	 * @param CustomerID customerID
+	 * @param FirstName firstName
+	 * @param LastName lastName
 	 * @return mail text
 	 */
 	public String setCustomerPasswordResetMailText(long customerID, String firstName, String lastName) {

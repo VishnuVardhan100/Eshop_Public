@@ -12,6 +12,6 @@ import com.eshop.eshopcommunicationsservice.model.logistics.Order;
 public interface LogisticsInterface {
 
 	@GetMapping(value= "/orders/search/ordersobject", params= {"customerID", "orderID"})
-	public ResponseEntity<Order> retrieveOrderObjectByCustomerID(@RequestParam(name="customerID", required=true) long customerID, @RequestParam(name="orderID", required=true)long orderID)
+	ResponseEntity<Order> retrieveOrderObjectByCustomerID(@RequestParam(name="customerID", required=true) long customerID, @RequestParam(name="orderID", required=true) long orderID)
 		throws CustomerException;
 }
